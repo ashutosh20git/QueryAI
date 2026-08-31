@@ -6,7 +6,7 @@
 // offline and drop into any transport (`res.end(...)`, Effect `response.end`,
 // etc.).
 //
-// The visual language mirrors the OpenCode app: the design tokens are a curated
+// The visual language mirrors the QueryAI app: the design tokens are a curated
 // subset of the OC-2 semantic tokens in `packages/ui/src/styles/theme.css`, and
 // the wordmark is the same geometry as `packages/ui/src/components/logo.tsx`.
 // Keep this file in sync with those sources when the brand changes.
@@ -25,7 +25,7 @@ export function success(options?: CallbackPageOptions) {
     body: renderCard({
       status: "success",
       headline: "Authorization successful",
-      message: provider ? `OpenCode is now connected to ${escapeHtml(provider)}.` : "OpenCode is now authorized.",
+      message: provider ? `QueryAI is now connected to ${escapeHtml(provider)}.` : "QueryAI is now authorized.",
       footnote: "You can close this window.",
     }),
     script: options?.autoClose === false ? undefined : AUTO_CLOSE_SCRIPT,
@@ -40,10 +40,10 @@ export function error(detail: string, options?: CallbackPageOptions) {
       status: "error",
       headline: "Authorization failed",
       message: provider
-        ? `OpenCode couldn't finish connecting to ${escapeHtml(provider)}.`
-        : "OpenCode couldn't complete authorization.",
+        ? `QueryAI couldn't finish connecting to ${escapeHtml(provider)}.`
+        : "QueryAI couldn't complete authorization.",
       detail,
-      footnote: "Close this window and try again from OpenCode.",
+      footnote: "Close this window and try again from QueryAI.",
     }),
   })
 }
@@ -100,7 +100,7 @@ function renderDocument(input: { title: string; body: string; script?: string })
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex" />
-    <title>${escapeHtml(input.title)} · OpenCode</title>
+    <title>${escapeHtml(input.title)} · QueryAI</title>
     <style>${STYLES}</style>
   </head>
   <body>
@@ -116,8 +116,8 @@ function bootstrapScript(options: BootstrapOptions) {
 var TOKEN_URL=new URL(${scriptString(options.tokenPath)},window.location.origin).href;
 (function(){
   var card=document.getElementById("oc-card"),headline=document.getElementById("oc-headline"),message=document.getElementById("oc-message"),detail=document.getElementById("oc-detail"),footnote=document.getElementById("oc-footnote");
-  function fail(text){card.dataset.status="error";headline.textContent="Authorization failed";message.textContent=PROVIDER?("OpenCode couldn't finish connecting to "+PROVIDER+"."):"OpenCode couldn't complete authorization.";if(text){detail.textContent=text;detail.hidden=false}footnote.textContent="Close this window and try again from OpenCode."}
-  function ok(){card.dataset.status="success";headline.textContent="Authorization successful";message.textContent=PROVIDER?("OpenCode is now connected to "+PROVIDER+"."):"OpenCode is now authorized.";detail.hidden=true;footnote.textContent="You can close this window.";setTimeout(function(){try{window.close()}catch(e){}},2500)}
+  function fail(text){card.dataset.status="error";headline.textContent="Authorization failed";message.textContent=PROVIDER?("QueryAI couldn't finish connecting to "+PROVIDER+"."):"QueryAI couldn't complete authorization.";if(text){detail.textContent=text;detail.hidden=false}footnote.textContent="Close this window and try again from QueryAI."}
+  function ok(){card.dataset.status="success";headline.textContent="Authorization successful";message.textContent=PROVIDER?("QueryAI is now connected to "+PROVIDER+"."):"QueryAI is now authorized.";detail.hidden=true;footnote.textContent="You can close this window.";setTimeout(function(){try{window.close()}catch(e){}},2500)}
   try{
     var hash=new URLSearchParams((window.location.hash||"").slice(1));
     var search=new URLSearchParams(window.location.search||"");
@@ -249,24 +249,20 @@ const STYLES = `
   @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 `
 
-// OpenCode wordmark — same path geometry as packages/ui/src/components/logo.tsx (Logo).
-const WORDMARK = `<svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 234 42" fill="none" aria-label="OpenCode" role="img">
-        <path d="M18 30H6V18H18V30Z" fill="var(--oc-icon-weak)" />
-        <path d="M18 12H6V30H18V12ZM24 36H0V6H24V36Z" fill="var(--oc-icon-base)" />
-        <path d="M48 30H36V18H48V30Z" fill="var(--oc-icon-weak)" />
-        <path d="M36 30H48V12H36V30ZM54 36H36V42H30V6H54V36Z" fill="var(--oc-icon-base)" />
-        <path d="M84 24V30H66V24H84Z" fill="var(--oc-icon-weak)" />
-        <path d="M84 24H66V30H84V36H60V6H84V24ZM66 18H78V12H66V18Z" fill="var(--oc-icon-base)" />
-        <path d="M108 36H96V18H108V36Z" fill="var(--oc-icon-weak)" />
-        <path d="M108 12H96V36H90V6H108V12ZM114 36H108V12H114V36Z" fill="var(--oc-icon-base)" />
-        <path d="M144 30H126V18H144V30Z" fill="var(--oc-icon-weak)" />
-        <path d="M144 12H126V30H144V36H120V6H144V12Z" fill="var(--oc-icon-strong)" />
-        <path d="M168 30H156V18H168V30Z" fill="var(--oc-icon-weak)" />
-        <path d="M168 12H156V30H168V12ZM174 36H150V6H174V36Z" fill="var(--oc-icon-strong)" />
-        <path d="M198 30H186V18H198V30Z" fill="var(--oc-icon-weak)" />
-        <path d="M198 12H186V30H198V12ZM204 36H180V6H198V0H204V36Z" fill="var(--oc-icon-strong)" />
-        <path d="M234 24V30H216V24H234Z" fill="var(--oc-icon-weak)" />
-        <path d="M216 12V18H228V12H216ZM234 24H216V30H234V36H210V6H234V24Z" fill="var(--oc-icon-strong)" />
+// QueryAI wordmark — same path geometry as packages/ui/src/components/logo.tsx (Logo).
+const WORDMARK = `<svg class="wordmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 204 42" fill="none" aria-label="QueryAI" role="img">
+        <path d="M6 18H18V24H6V18ZM6 24H18V30H6V24Z" fill="var(--oc-icon-weak)" />
+        <path d="M0 6H24V12H0V6ZM0 12H6V18H0V12ZM18 12H24V18H18V12ZM0 18H6V24H0V18ZM18 18H24V24H18V18ZM0 24H6V30H0V24ZM18 24H24V30H18V24ZM0 30H24V36H0V30ZM18 36H24V42H18V36Z" fill="var(--oc-icon-base)" />
+        <path d="M36 18H48V24H36V18ZM36 24H48V30H36V24Z" fill="var(--oc-icon-weak)" />
+        <path d="M30 6H36V12H30V6ZM48 6H54V12H48V6ZM30 12H36V18H30V12ZM48 12H54V18H48V12ZM30 18H36V24H30V18ZM48 18H54V24H48V18ZM30 24H36V30H30V24ZM48 24H54V30H48V24ZM30 30H54V36H30V30Z" fill="var(--oc-icon-base)" />
+        <path d="M78 18H84V24H78V18ZM66 24H84V30H66V24Z" fill="var(--oc-icon-weak)" />
+        <path d="M60 6H84V12H60V6ZM60 12H66V18H60V12ZM60 18H78V24H60V18ZM60 24H66V30H60V24ZM60 30H84V36H60V30Z" fill="var(--oc-icon-base)" />
+        <path d="M96 24H102V30H96V24ZM108 24H114V30H108V24ZM96 30H108V36H96V30Z" fill="var(--oc-icon-weak)" />
+        <path d="M90 6H114V12H90V6ZM90 12H96V18H90V12ZM108 12H114V18H108V12ZM90 18H114V24H90V18ZM90 24H96V30H90V24ZM102 24H108V30H102V24ZM90 30H96V36H90V30ZM108 30H114V36H108V30Z" fill="var(--oc-icon-base)" />
+        <path d="M120 6H126V12H120V6ZM138 6H144V12H138V6ZM120 12H126V18H120V12ZM138 12H144V18H138V12ZM126 18H138V24H126V18ZM126 24H138V30H126V24ZM126 30H138V36H126V30Z" fill="var(--oc-icon-base)" />
+        <path d="M156 24H168V30H156V24ZM156 30H168V36H156V30Z" fill="var(--oc-icon-weak)" />
+        <path d="M150 6H174V12H150V6ZM150 12H156V18H150V12ZM168 12H174V18H168V12ZM150 18H174V24H150V18ZM150 24H156V30H150V24ZM168 24H174V30H168V24ZM150 30H156V36H150V30ZM168 30H174V36H168V30Z" fill="var(--oc-icon-strong)" />
+        <path d="M180 6H204V12H180V6ZM186 12H198V18H186V12ZM186 18H198V24H186V18ZM186 24H198V30H186V24ZM180 30H204V36H180V30Z" fill="var(--oc-icon-strong)" />
       </svg>`
 
 const ICON_CHECK = `<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="m8.5 12.5 2.4 2.4 4.6-5.4" /></svg>`

@@ -1,12 +1,12 @@
 import path from "path"
 import { describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { AgentV2 } from "@opencode-ai/core/agent"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { AbsolutePath } from "@opencode-ai/core/schema"
-import { SkillV2 } from "@opencode-ai/core/skill"
-import { SystemContext } from "@opencode-ai/core/system-context"
-import { SkillGuidance } from "@opencode-ai/core/skill/guidance"
+import { AgentV2 } from "@queryai/core/agent"
+import { AppNodeBuilder } from "@queryai/core/effect/app-node-builder"
+import { AbsolutePath } from "@queryai/core/schema"
+import { SkillV2 } from "@queryai/core/skill"
+import { SystemContext } from "@queryai/core/system-context"
+import { SkillGuidance } from "@queryai/core/skill/guidance"
 import { it } from "../lib/effect"
 
 const build = AgentV2.ID.make("build")

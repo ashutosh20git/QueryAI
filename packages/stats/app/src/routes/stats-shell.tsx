@@ -1,4 +1,4 @@
-import opencodeWordmarkDark from "../asset/logo-ornate-dark.svg"
+import queryaiWordmarkDark from "../asset/logo-ornate-dark.svg"
 import { query } from "@solidjs/router"
 import { createEffect, createMemo, createSignal, For, onCleanup, onMount, Show } from "solid-js"
 import { useI18n } from "../context/i18n"
@@ -13,7 +13,7 @@ export const githubLink = {
   fallbackStars: "195K",
 }
 export const themePreferences = ["dark", "light", "system"] as const
-export const themeStorageKey = "opencode:stats-theme"
+export const themeStorageKey = "queryai:stats-theme"
 export type ThemePreference = (typeof themePreferences)[number]
 
 const compactNumberFormatter = new Intl.NumberFormat("en", {
@@ -134,7 +134,7 @@ export function Header(props: { githubStars: string; links?: readonly HeaderLink
             <span>[{props.githubStars}]</span>
           </a>
           <a data-slot="header-button" data-variant="contrast" href="https://opencode.ai/">
-            <strong>{i18n.t("header.tryOpenCode")}</strong>
+            <strong>{i18n.t("header.tryQueryAI")}</strong>
           </a>
           <button
             data-slot="menu-button"
@@ -203,9 +203,9 @@ function DataWordmark() {
   )
 }
 
-function OpenCodeMark() {
+function QueryAIMark() {
   return (
-    <svg data-slot="opencode-mark" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <svg data-slot="queryai-mark" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
       <path d="M40 40H0V0H40V40Z" fill="var(--stats-logo-bg)" />
       <path d="M26 29H14V17H26V29Z" fill="var(--stats-logo-fill)" />
       <path d="M26 11H14V29H26V11ZM32 35H8V5H32V35Z" fill="var(--stats-logo-stroke)" />
@@ -253,7 +253,7 @@ export function Footer(props: {
       <Show when={bridge()}>{(link) => <SectionBridge label={link().label} href={link().href} />}</Show>
       <div data-slot="footer-grid">
         <a data-slot="footer-mark" href="https://opencode.ai" aria-label={i18n.t("footer.homeAria")}>
-          <OpenCodeMark />
+          <QueryAIMark />
         </a>
         <FooterColumn title={i18n.t("footer.modelData")} links={modelStats} localHref={localHref} />
         <FooterColumn title={i18n.t("footer.legal")} links={legal} localHref={localHref} />
@@ -434,7 +434,7 @@ function SubscribeModal(props: { onClose: () => void }) {
       <div data-slot="modal-scrim" aria-hidden="true" onClick={props.onClose} />
       <div data-slot="modal-panel">
         <div data-slot="modal-brand">
-          <img data-slot="modal-logo" src={opencodeWordmarkDark} alt="OpenCode" />
+          <img data-slot="modal-logo" src={queryaiWordmarkDark} alt="QueryAI" />
           <button
             data-slot="modal-close"
             type="button"

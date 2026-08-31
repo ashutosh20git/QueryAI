@@ -1,12 +1,12 @@
 {
-  "name": "@opencode-ai/desktop",
+  "name": "@queryai/desktop",
   "private": true,
   "version": "1.18.25",
   "type": "module",
   "license": "MIT",
   "homepage": "https://opencode.ai",
   "author": {
-    "name": "OpenCode",
+    "name": "QueryAI",
     "email": "hello@opencode.ai"
   },
   "scripts": {
@@ -36,8 +36,8 @@
   "devDependencies": {
     "@actions/artifact": "4.0.0",
     "@lydell/node-pty": "catalog:",
-    "@opencode-ai/app": "workspace:*",
-    "@opencode-ai/ui": "workspace:*",
+    "@queryai/app": "workspace:*",
+    "@queryai/ui": "workspace:*",
     "@sentry/solid": "catalog:",
     "@sentry/vite-plugin": "catalog:",
     "@solid-primitives/i18n": "2.2.1",

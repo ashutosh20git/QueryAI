@@ -1,6 +1,6 @@
-# OpenCode Desktop
+# QueryAI Desktop
 
-The OpenCode Desktop app, built with Electron.
+The QueryAI Desktop app, built with Electron.
 
 ## Development
 

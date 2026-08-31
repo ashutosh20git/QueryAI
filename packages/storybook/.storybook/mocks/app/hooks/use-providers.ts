@@ -1,8 +1,8 @@
 const model_id = "claude-3-7-sonnet"
 
 export const popularProviders = [
-  "opencode",
-  "opencode-go",
+  "queryai",
+  "queryai-go",
   "anthropic",
   "github-copilot",
   "openai",
@@ -25,8 +25,8 @@ const provider = {
 }
 
 const popular = [
-  { id: "opencode", name: "OpenCode Zen", models: {} },
-  { id: "opencode-go", name: "OpenCode Go", models: {} },
+  { id: "queryai", name: "QueryAI Zen", models: {} },
+  { id: "queryai-go", name: "QueryAI Go", models: {} },
   { id: "openai", name: "OpenAI", models: {} },
   provider,
   { id: "google", name: "Google", models: {} },

@@ -1,4 +1,4 @@
-import { ServerConnection, useServer, useSettings, useTabs } from "@opencode-ai/app"
+import { ServerConnection, useServer, useSettings, useTabs } from "@queryai/app"
 import { onMount } from "solid-js"
 
 export function DesktopFirstLaunchOnboarding(props: { initialUrl: string; onLoaded: () => void }) {

@@ -1,7 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import type { RetentionMetricRow } from "./home"
 
-process.env.SST_RESOURCE_App = JSON.stringify({ name: "opencode", stage: "test" })
+process.env.SST_RESOURCE_App = JSON.stringify({ name: "queryai", stage: "test" })
 process.env.SST_RESOURCE_StatsDatabase = JSON.stringify({ url: "mysql://localhost/stats" })
 
 const { buildRetentionEntries } = await import("./home")

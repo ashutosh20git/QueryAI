@@ -1,6 +1,6 @@
-import type { Message, Session, Part, SnapshotFileDiff, SessionStatus, Provider } from "@opencode-ai/sdk/v2"
+import type { Message, Session, Part, SnapshotFileDiff, SessionStatus, Provider } from "@queryai/sdk/v2"
 import type { FileDiffInfo } from "@opencode-ai/client/promise"
-import { createSimpleContext } from "@opencode-ai/ui/context"
+import { createSimpleContext } from "@queryai/ui/context"
 import { PreloadMultiFileDiffResult } from "@pierre/diffs/ssr"
 
 export type NormalizedProviderListResponse = {

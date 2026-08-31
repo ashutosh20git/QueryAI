@@ -1,16 +1,16 @@
-import { Binary } from "@opencode-ai/core/util/binary"
-import { retry } from "@opencode-ai/core/util/retry"
+import { Binary } from "@queryai/core/util/binary"
+import { retry } from "@queryai/core/util/retry"
 import type { OpenCodeEvent, SessionApi, SessionMessageInfo } from "@opencode-ai/client/promise"
 import type {
   Message,
-  OpencodeClient,
+  QueryAIClient,
   Part,
   PermissionRequest,
   QuestionRequest,
   Session,
   SessionStatus,
   Todo,
-} from "@opencode-ai/sdk/v2/client"
+} from "@queryai/sdk/v2/client"
 import type { FileDiffInfo } from "@opencode-ai/client/promise"
 import { batch } from "solid-js"
 import { createStore, produce, reconcile } from "solid-js/store"
@@ -186,7 +186,7 @@ function reconcileFetched<T extends { id: string }>(
 type ServerSessionOptions = { retry?: typeof retry; protocol?: Promise<"v1" | "v2"> }
 
 export function createServerSession(
-  client: OpencodeClient,
+  client: QueryAIClient,
   sessionApiOrOptions?: SessionApi | ServerSessionOptions,
   messageApi?: MessageApi,
   currentOptions?: ServerSessionOptions,

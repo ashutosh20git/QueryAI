@@ -1,18 +1,18 @@
 import path from "path"
 import { describe, expect } from "bun:test"
 import { Effect, Layer } from "effect"
-import { Catalog } from "@opencode-ai/core/catalog"
-import { Integration } from "@opencode-ai/core/integration"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { EventV2 } from "@opencode-ai/core/event"
-import { Flag } from "@opencode-ai/core/flag/flag"
-import { Location } from "@opencode-ai/core/location"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { ModelsDev } from "@opencode-ai/core/models-dev"
-import { ModelsDevPlugin } from "@opencode-ai/core/plugin/models-dev"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { AbsolutePath } from "@opencode-ai/core/schema"
+import { Catalog } from "@queryai/core/catalog"
+import { Integration } from "@queryai/core/integration"
+import { AppNodeBuilder } from "@queryai/core/effect/app-node-builder"
+import { LayerNode } from "@queryai/core/effect/layer-node"
+import { EventV2 } from "@queryai/core/event"
+import { Flag } from "@queryai/core/flag/flag"
+import { Location } from "@queryai/core/location"
+import { ModelV2 } from "@queryai/core/model"
+import { ModelsDev } from "@queryai/core/models-dev"
+import { ModelsDevPlugin } from "@queryai/core/plugin/models-dev"
+import { ProviderV2 } from "@queryai/core/provider"
+import { AbsolutePath } from "@queryai/core/schema"
 import { location } from "../fixture/location"
 import { testEffect } from "../lib/effect"
 import { catalogHost, host, integrationHost } from "./host"
@@ -128,11 +128,11 @@ describe("ModelsDevPlugin", () => {
     Effect.acquireUseRelease(
       Effect.sync(() => {
         const previous = {
-          path: Flag.OPENCODE_MODELS_PATH,
-          disabled: Flag.OPENCODE_DISABLE_MODELS_FETCH,
+          path: Flag.QUERYAI_MODELS_PATH,
+          disabled: Flag.QUERYAI_DISABLE_MODELS_FETCH,
         }
-        Flag.OPENCODE_MODELS_PATH = path.join(import.meta.dir, "fixtures", "models-dev.json")
-        Flag.OPENCODE_DISABLE_MODELS_FETCH = true
+        Flag.QUERYAI_MODELS_PATH = path.join(import.meta.dir, "fixtures", "models-dev.json")
+        Flag.QUERYAI_DISABLE_MODELS_FETCH = true
         return previous
       }),
       () =>
@@ -162,8 +162,8 @@ describe("ModelsDevPlugin", () => {
         }).pipe(Effect.provide(AppNodeBuilder.build(ModelsDev.node))),
       (previous) =>
         Effect.sync(() => {
-          Flag.OPENCODE_MODELS_PATH = previous.path
-          Flag.OPENCODE_DISABLE_MODELS_FETCH = previous.disabled
+          Flag.QUERYAI_MODELS_PATH = previous.path
+          Flag.QUERYAI_DISABLE_MODELS_FETCH = previous.disabled
         }),
     ),
   )

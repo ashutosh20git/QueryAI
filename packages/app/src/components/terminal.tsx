@@ -1,8 +1,8 @@
-import { withAlpha } from "@opencode-ai/ui/theme/color"
-import { useTheme } from "@opencode-ai/ui/theme/context"
-import { resolveThemeVariant } from "@opencode-ai/ui/theme/resolve"
-import { resolveThemeVariantV2 } from "@opencode-ai/ui/theme/v2/resolve"
-import type { HexColor, ResolvedV2Theme } from "@opencode-ai/ui/theme/types"
+import { withAlpha } from "@queryai/ui/theme/color"
+import { useTheme } from "@queryai/ui/theme/context"
+import { resolveThemeVariant } from "@queryai/ui/theme/resolve"
+import { resolveThemeVariantV2 } from "@queryai/ui/theme/v2/resolve"
+import type { HexColor, ResolvedV2Theme } from "@queryai/ui/theme/types"
 import { showToast } from "@/utils/toast"
 import type { FitAddon, Ghostty, Terminal as Term } from "ghostty-web"
 import { type ComponentProps, createEffect, createMemo, onCleanup, onMount, splitProps } from "solid-js"
@@ -180,7 +180,7 @@ export const Terminal = (props: TerminalProps) => {
   const directory = sdk().directory
   const url = sdk().url
   const auth = connection.http
-  const username = auth?.username ?? "opencode"
+  const username = auth?.username ?? "queryai"
   const password = auth?.password ?? ""
   const authToken = connection.type === "http" ? connection.authToken : false
   const sameOrigin = new URL(url, location.href).origin === location.origin
@@ -563,7 +563,7 @@ export const Terminal = (props: TerminalProps) => {
               { ptyID: id, directory },
               {
                 throwOnError: false,
-                headers: { "x-opencode-ticket": "1" },
+                headers: { "x-queryai-ticket": "1" },
               },
             )
             .catch((err: unknown) => {
@@ -580,7 +580,7 @@ export const Terminal = (props: TerminalProps) => {
         //   .api.pty.connectToken({
         //     ptyID: id,
         //     location: { directory },
-        //     "x-opencode-ticket": "1",
+        //     "x-queryai-ticket": "1",
         //   })
         //   .then((result) => result.data.ticket)
       }

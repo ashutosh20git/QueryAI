@@ -1,5 +1,5 @@
 {
-  "name": "@opencode-ai/function",
+  "name": "@queryai/function",
   "version": "1.18.25",
   "$schema": "https://json.schemastore.org/package.json",
   "private": true,

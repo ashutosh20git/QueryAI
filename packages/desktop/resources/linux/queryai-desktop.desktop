@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=QueryAI
+Exec=/opt/QueryAI/ai.queryai.desktop %U
+Terminal=false
+Type=Application
+Icon=ai.queryai.desktop
+StartupWMClass=ai.queryai.desktop
+NoDisplay=true
+Comment=Open source AI coding agent
+Categories=Development;

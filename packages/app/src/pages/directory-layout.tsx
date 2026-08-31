@@ -1,6 +1,6 @@
-import { DataProvider } from "@opencode-ai/session-ui/context"
+import { DataProvider } from "@queryai/session-ui/context"
 import { showToast } from "@/utils/toast"
-import { base64Encode } from "@opencode-ai/core/util/encode"
+import { base64Encode } from "@queryai/core/util/encode"
 import { useLocation, useNavigate, useParams } from "@solidjs/router"
 import { type Accessor, createEffect, createMemo, createResource, onCleanup, type ParentProps, Show } from "solid-js"
 import { useLanguage } from "@/context/language"

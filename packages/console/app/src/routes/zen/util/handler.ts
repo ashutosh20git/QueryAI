@@ -1,19 +1,19 @@
 import type { APIEvent } from "@solidjs/start/server"
-import { and, Database, eq, isNull, lt, or, sql } from "@opencode-ai/console-core/drizzle/index.js"
-import { KeyTable } from "@opencode-ai/console-core/schema/key.sql.js"
-import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@opencode-ai/console-core/schema/billing.sql.js"
-import { centsToMicroCents } from "@opencode-ai/console-core/util/price.js"
-import { getMonthlyBounds, getWeekBounds } from "@opencode-ai/console-core/util/date.js"
-import { Identifier } from "@opencode-ai/console-core/identifier.js"
-import { Billing } from "@opencode-ai/console-core/billing.js"
-import { Actor } from "@opencode-ai/console-core/actor.js"
-import { WorkspaceTable } from "@opencode-ai/console-core/schema/workspace.sql.js"
-import { ZenData } from "@opencode-ai/console-core/model.js"
-import { Subscription } from "@opencode-ai/console-core/subscription.js"
-import { BlackData } from "@opencode-ai/console-core/black.js"
-import { UserTable } from "@opencode-ai/console-core/schema/user.sql.js"
-import { ModelTable } from "@opencode-ai/console-core/schema/model.sql.js"
-import { ProviderTable } from "@opencode-ai/console-core/schema/provider.sql.js"
+import { and, Database, eq, isNull, lt, or, sql } from "@queryai/console-core/drizzle/index.js"
+import { KeyTable } from "@queryai/console-core/schema/key.sql.js"
+import { BillingTable, LiteTable, SubscriptionTable, UsageTable } from "@queryai/console-core/schema/billing.sql.js"
+import { centsToMicroCents } from "@queryai/console-core/util/price.js"
+import { getMonthlyBounds, getWeekBounds } from "@queryai/console-core/util/date.js"
+import { Identifier } from "@queryai/console-core/identifier.js"
+import { Billing } from "@queryai/console-core/billing.js"
+import { Actor } from "@queryai/console-core/actor.js"
+import { WorkspaceTable } from "@queryai/console-core/schema/workspace.sql.js"
+import { ZenData } from "@queryai/console-core/model.js"
+import { Subscription } from "@queryai/console-core/subscription.js"
+import { BlackData } from "@queryai/console-core/black.js"
+import { UserTable } from "@queryai/console-core/schema/user.sql.js"
+import { ModelTable } from "@queryai/console-core/schema/model.sql.js"
+import { ProviderTable } from "@queryai/console-core/schema/provider.sql.js"
 import { logger } from "./logger"
 import {
   AuthError,
@@ -37,15 +37,15 @@ import { createRateLimiter as createIpRateLimiter } from "./ipRateLimiter"
 import { createRateLimiter as createKeyRateLimiter } from "./keyRateLimiter"
 import { createTrialLimiter } from "./trialLimiter"
 import { createStickyTracker } from "./stickyProviderTracker"
-import { LiteData } from "@opencode-ai/console-core/lite.js"
-import { Resource } from "@opencode-ai/console-resource"
+import { LiteData } from "@queryai/console-core/lite.js"
+import { Resource } from "@queryai/console-resource"
 import { i18n, type Key } from "~/i18n"
 import { localeFromRequest } from "~/lib/language"
 import { createModelTpmLimiter } from "./modelTpmLimiter"
 import { createModelTpsLimiter } from "./modelTpsLimiter"
 import { createProviderBudgetTracker } from "./providerBudgetTracker"
 import { accumulateUsage, HOT_WORKSPACES } from "./usageBatcher"
-import { Workspace } from "@opencode-ai/console-core/workspace.js"
+import { Workspace } from "@queryai/console-core/workspace.js"
 import { countryFromRequest, isModelCountryRestricted } from "~/lib/request-country"
 import { isPeakPricing } from "./pricing"
 import { prepareRequestBody } from "./requestBody"
@@ -99,10 +99,10 @@ export async function handler(
     const ip = rawIp.includes(":") ? rawIp.split(":").slice(0, 4).join(":") : rawIp
     const rawZenApiKey = opts.parseApiKey(input.request.headers)
     const zenApiKey = rawZenApiKey === "public" ? undefined : rawZenApiKey
-    const sessionId = input.request.headers.get("x-opencode-session") ?? ""
-    const requestId = input.request.headers.get("x-opencode-request") ?? ""
-    const ocClient = input.request.headers.get("x-opencode-client") ?? ""
-    const projectId = input.request.headers.get("x-opencode-project") ?? ""
+    const sessionId = input.request.headers.get("x-queryai-session") ?? ""
+    const requestId = input.request.headers.get("x-queryai-request") ?? ""
+    const ocClient = input.request.headers.get("x-queryai-client") ?? ""
+    const projectId = input.request.headers.get("x-queryai-project") ?? ""
     const userAgent = input.request.headers.get("user-agent") ?? ""
     logger.metric({
       session: sessionId,
@@ -240,10 +240,10 @@ export async function handler(
           headers.delete("host")
           headers.delete("content-length")
           if (!isNewInference) {
-            headers.delete("x-opencode-session")
-            headers.delete("x-opencode-project")
-            headers.delete("x-opencode-client")
-            headers.delete("x-opencode-request")
+            headers.delete("x-queryai-session")
+            headers.delete("x-queryai-project")
+            headers.delete("x-queryai-client")
+            headers.delete("x-queryai-request")
             headers.delete("x-zen-model")
           }
           return headers
@@ -258,8 +258,8 @@ export async function handler(
       logger.metric({ is_stream: isStream })
 
       if (isNewInference) {
-        const resEndpointId = res.headers.get("x-opencode-endpoint-id")
-        const resEndpointModelId = res.headers.get("x-opencode-upstream-model-id")
+        const resEndpointId = res.headers.get("x-queryai-endpoint-id")
+        const resEndpointModelId = res.headers.get("x-queryai-upstream-model-id")
         if (resEndpointId && resEndpointModelId)
           logger.metric({
             provider: resEndpointId,

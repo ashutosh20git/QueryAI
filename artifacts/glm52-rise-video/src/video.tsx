@@ -25,7 +25,7 @@ const glmColor = segments.find((s) => s.hero)!.color
 
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v))
 
-// the correct opencode "DATA" wordmark (from stats.opencode.ai header)
+// the correct queryai "DATA" wordmark (from stats.opencode.ai header)
 function DataWordmark({ height = 30, color = c.ink }: { height?: number; color?: string }) {
   return (
     <svg width={(height * 66) / 20} height={height} viewBox="0 0 66 20" fill="none" style={{ color }}>

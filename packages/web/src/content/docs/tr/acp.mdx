@@ -1,9 +1,9 @@
 ---
 title: ACP Desteği
-description: opencode'u ACP uyumlu herhangi bir editörde kullanın.
+description: queryai'u ACP uyumlu herhangi bir editörde kullanın.
 ---
 
-opencode, [Agent Client Protocol](https://agentclientprotocol.com) veya (ACP) dosyalarını destekleyerek onu doğrudan uyumlu editörlerde ve IDE'lerde kullanmanızı sağlar.
+queryai, [Agent Client Protocol](https://agentclientprotocol.com) veya (ACP) dosyalarını destekleyerek onu doğrudan uyumlu editörlerde ve IDE'lerde kullanmanızı sağlar.
 
 :::tip
 ACP'yi destekleyen editörlerin ve araçların listesi için [ACP progress report](https://zed.dev/blog/acp-progress-report#available-now)'e bakın.
@@ -15,9 +15,9 @@ ACP, kod editörleri ile AI kodlama ajanları arasındaki iletişimi standartla�
 
 ## Yapılandırma
 
-opencode'u ACP aracılığıyla kullanmak için düzenleyicinizi `opencode acp` komutunu çalıştıracak şekilde yapılandırın.
+queryai'u ACP aracılığıyla kullanmak için düzenleyicinizi `queryai acp` komutunu çalıştıracak şekilde yapılandırın.
 
-Komut, opencode'u, editörünüzle stdio aracılığıyla JSON-RPC üzerinden iletişim kuran ACP uyumlu bir alt süreç olarak başlatır.
+Komut, queryai'u, editörünüzle stdio aracılığıyla JSON-RPC üzerinden iletişim kuran ACP uyumlu bir alt süreç olarak başlatır.
 
 Aşağıda ACP'yi destekleyen popüler düzenleyicilere ilişkin örnekler verilmiştir.
 
@@ -25,16 +25,16 @@ Aşağıda ACP'yi destekleyen popüler düzenleyicilere ilişkin örnekler veril
 
 ### Zed
 
-Komut Paleti’nde `zed: acp registry` komutunu çalıştırarak OpenCode’u [Zed ACP Kayıt Defteri](https://zed.dev/docs/ai/external-agents#registry) üzerinden yükleyin.
+Komut Paleti’nde `zed: acp registry` komutunu çalıştırarak QueryAI’u [Zed ACP Kayıt Defteri](https://zed.dev/docs/ai/external-agents#registry) üzerinden yükleyin.
 
-Bunun yerine özel bir OpenCode çalıştırılabilir dosyası kullanmak için [Zed](https://zed.dev) yapılandırmanıza (`~/.config/zed/settings.json`) ekleyin:
+Bunun yerine özel bir QueryAI çalıştırılabilir dosyası kullanmak için [Zed](https://zed.dev) yapılandırmanıza (`~/.config/zed/settings.json`) ekleyin:
 
 ```json title="~/.config/zed/settings.json"
 {
   "agent_servers": {
-    "OpenCode": {
+    "QueryAI": {
       "type": "custom",
-      "command": "opencode",
+      "command": "queryai",
       "args": ["acp"]
     }
   }
@@ -54,9 +54,9 @@ Açmak için **Komut Paleti**'ndeki `agent: new thread` eylemini kullanın.
         {
           "agent": {
             "custom": {
-              "name": "OpenCode",
+              "name": "QueryAI",
               "command": {
-                "command": "opencode",
+                "command": "queryai",
                 "args": ["acp"]
               }
             }
@@ -77,15 +77,15 @@ Açmak için **Komut Paleti**'ndeki `agent: new thread` eylemini kullanın.
 ```json title="acp.json"
 {
   "agent_servers": {
-    "OpenCode": {
-      "command": "/absolute/path/bin/opencode",
+    "QueryAI": {
+      "command": "/absolute/path/bin/queryai",
       "args": ["acp"]
     }
   }
 }
 ```
 
-Açmak için AI Chat agent seçicisindeki yeni 'OpenCode' ajanını kullanın.
+Açmak için AI Chat agent seçicisindeki yeni 'QueryAI' ajanını kullanın.
 
 ---
 
@@ -96,8 +96,8 @@ Açmak için AI Chat agent seçicisindeki yeni 'OpenCode' ajanını kullanın.
 ```lua
 {
   acp_providers = {
-    ["opencode"] = {
-      command = "opencode",
+    ["queryai"] = {
+      command = "queryai",
       args = { "acp" }
     }
   }
@@ -109,11 +109,11 @@ Ortam değişkenlerini iletmeniz gerekiyor:
 ```lua {6-8}
 {
   acp_providers = {
-    ["opencode"] = {
-      command = "opencode",
+    ["queryai"] = {
+      command = "queryai",
       args = { "acp" },
       env = {
-        OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY")
+        QUERYAI_API_KEY = os.getenv("QUERYAI_API_KEY")
       }
     }
   }
@@ -124,14 +124,14 @@ Ortam değişkenlerini iletmeniz gerekiyor:
 
 ### CodeCompanion.nvim
 
-opencode'u [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim)'de ACP ajanı olarak kullanmak için Neovim yapılandırmanıza aşağıdakileri ekleyin:
+queryai'u [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim)'de ACP ajanı olarak kullanmak için Neovim yapılandırmanıza aşağıdakileri ekleyin:
 
 ```lua
 require("codecompanion").setup({
   interactions = {
     chat = {
       adapter = {
-        name = "opencode",
+        name = "queryai",
         model = "claude-sonnet-4",
       },
     },
@@ -139,13 +139,13 @@ require("codecompanion").setup({
 })
 ```
 
-Bu yapılandırma, CodeCompanion'ı opencode'u sohbet için ACP ajanı olarak kullanacak şekilde ayarlar.
+Bu yapılandırma, CodeCompanion'ı queryai'u sohbet için ACP ajanı olarak kullanacak şekilde ayarlar.
 
-Ortam değişkenlerini (`OPENCODE_API_KEY` gibi) iletmeniz gerekiyorsa, tüm ayrıntılar için CodeCompanion.nvim belgelerindeki [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key)'ye bakın.
+Ortam değişkenlerini (`QUERYAI_API_KEY` gibi) iletmeniz gerekiyorsa, tüm ayrıntılar için CodeCompanion.nvim belgelerindeki [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key)'ye bakın.
 
 ## Destek
 
-opencode, terminalde olduğu gibi ACP aracılığıyla aynı şekilde çalışır. Tüm özellikler desteklenir:
+queryai, terminalde olduğu gibi ACP aracılığıyla aynı şekilde çalışır. Tüm özellikler desteklenir:
 
 :::note
 `/undo` ve `/redo` gibi bazı yerleşik slash komutları şu anda desteklenmemektedir.
@@ -153,7 +153,7 @@ opencode, terminalde olduğu gibi ACP aracılığıyla aynı şekilde çalışı
 
 - Yerleşik araçlar (dosya işlemleri, terminal komutları vb.)
 - Özel araçlar ve slash komutları
-- opencode yapılandırmanızda yapılandırılmış MCP sunucuları
+- queryai yapılandırmanızda yapılandırılmış MCP sunucuları
 - `AGENTS.md`'dan projeye özel kurallar
 - Özel biçimlendiriciler ve linter'lar
 - Aracılar ve izin sistemi

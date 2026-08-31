@@ -7,11 +7,11 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenCode Go er et lavkostnadsabonnement til **$10/måned** som gir deg pålitelig tilgang til populære åpne kodemodeller.
+QueryAI Go er et lavkostnadsabonnement til **$10/måned** som gir deg pålitelig tilgang til populære åpne kodemodeller.
 
-Go fungerer som enhver annen leverandør i OpenCode. Du abonnerer på OpenCode Go og
+Go fungerer som enhver annen leverandør i QueryAI. Du abonnerer på QueryAI Go og
 får din API-nøkkel. Det er **helt valgfritt**, og du trenger ikke å bruke det for å
-bruke OpenCode.
+bruke QueryAI.
 
 Det er først og fremst utviklet for internasjonale brukere og gir stabil global tilgang.
 
@@ -27,7 +27,7 @@ Imidlertid kan det være vanskelig å få pålitelig tilgang med lav forsinkelse
 varierer i kvalitet og tilgjengelighet.
 
 :::tip
-Vi testet en utvalgt gruppe modeller og leverandører som fungerer godt med OpenCode.
+Vi testet en utvalgt gruppe modeller og leverandører som fungerer godt med QueryAI.
 :::
 
 For å fikse dette, gjorde vi et par ting:
@@ -39,22 +39,22 @@ For å fikse dette, gjorde vi et par ting:
 3. Til slutt utførte vi ytelsestester på kombinasjonen av modell og leverandør, og kom frem
    til en liste som vi trygt kan anbefale.
 
-OpenCode Go gir deg tilgang til disse modellene for **$10/måned**.
+QueryAI Go gir deg tilgang til disse modellene for **$10/måned**.
 
 ---
 
 ## Hvordan det fungerer
 
-OpenCode Go fungerer som enhver annen leverandør i OpenCode.
+QueryAI Go fungerer som enhver annen leverandør i QueryAI.
 
-1. Du logger inn på **<a href={console}>OpenCode Zen</a>**, abonnerer på Go, og
+1. Du logger inn på **<a href={console}>QueryAI Zen</a>**, abonnerer på Go, og
    kopierer din API-nøkkel.
-2. Du kjører kommandoen `/connect` i TUI-en, velger `OpenCode Go`, og limer inn
+2. Du kjører kommandoen `/connect` i TUI-en, velger `QueryAI Go`, og limer inn
    din API-nøkkel.
 3. Kjør `/models` i TUI-en for å se listen over modeller som er tilgjengelige gjennom Go.
 
 :::note
-Kun ett medlem per arbeidsområde kan abonnere på OpenCode Go.
+Kun ett medlem per arbeidsområde kan abonnere på QueryAI Go.
 :::
 
 Den nåværende listen over modeller inkluderer:
@@ -91,7 +91,7 @@ Listen over modeller kan endres etter hvert som vi tester og legger til nye.
 
 ## Bruksgrenser
 
-OpenCode Go inkluderer følgende grenser:
+QueryAI Go inkluderer følgende grenser:
 
 - **5-timers grense** — $12 i bruk
 - **Ukentlig grense** — $30 i bruk
@@ -259,9 +259,9 @@ Du kan også få tilgang til Go-modeller gjennom følgende API-endepunkter.
 | Hy4 preview                  | hy4-preview                  | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 | Hy3                          | hy3                          | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 
-[Modell-ID-en](/docs/config/#models) i din OpenCode-konfigurasjon
-bruker formatet `opencode-go/<model-id>`. For eksempel, for Kimi K3, vil du
-bruke `opencode-go/kimi-k3` i konfigurasjonen din.
+[Modell-ID-en](/docs/config/#models) i din QueryAI-konfigurasjon
+bruker formatet `queryai-go/<model-id>`. For eksempel, for Kimi K3, vil du
+bruke `queryai-go/kimi-k3` i konfigurasjonen din.
 
 ---
 
@@ -314,9 +314,9 @@ https://opencode.ai/zen/go/v1/models
 
 ## Mål
 
-Vi opprettet OpenCode Go for å:
+Vi opprettet QueryAI Go for å:
 
 1. Gjøre AI-koding **tilgjengelig** for flere mennesker med et lavkostnadsabonnement.
 2. Gi **pålitelig** tilgang til de beste åpne kodemodellene.
 3. Kuratere modeller som er **testet og ytelsesmålt** for bruk av kodeagenter.
-4. Ha **ingen innelåsing** ved å la deg bruke en hvilken som helst annen leverandør med OpenCode også.
+4. Ha **ingen innelåsing** ved å la deg bruke en hvilken som helst annen leverandør med QueryAI også.

@@ -95,7 +95,7 @@ body {
 }
 
 @supports (background: -webkit-named-image(i)) {
-  [data-page="opencode"] {
+  [data-page="queryai"] {
     border-top: 1px solid var(--color-border-weak);
   }
 }

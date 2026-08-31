@@ -2,7 +2,7 @@ import { describe, expect, test } from "bun:test"
 import { isAllowedAuthorizationRedirect } from "./auth-redirect"
 
 describe("authorization redirect validation", () => {
-  test("allows registered OpenCode callbacks", () => {
+  test("allows registered QueryAI callbacks", () => {
     expect(isAllowedAuthorizationRedirect("app", "https://opencode.ai/auth/callback")).toBe(true)
     expect(isAllowedAuthorizationRedirect("app", "https://dev.opencode.ai/auth/callback")).toBe(true)
     expect(isAllowedAuthorizationRedirect("app", "http://localhost:3000/auth/callback")).toBe(true)

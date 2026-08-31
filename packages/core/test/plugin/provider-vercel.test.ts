@@ -1,12 +1,12 @@
-import { AISDK } from "@opencode-ai/core/aisdk"
+import { AISDK } from "@queryai/core/aisdk"
 import { describe, expect } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@opencode-ai/core/catalog"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { PluginV2 } from "@opencode-ai/core/plugin"
-import { PluginHost } from "@opencode-ai/core/plugin/host"
-import { VercelPlugin } from "@opencode-ai/core/plugin/provider/vercel"
-import { ProviderV2 } from "@opencode-ai/core/provider"
+import { Catalog } from "@queryai/core/catalog"
+import { ModelV2 } from "@queryai/core/model"
+import { PluginV2 } from "@queryai/core/plugin"
+import { PluginHost } from "@queryai/core/plugin/host"
+import { VercelPlugin } from "@queryai/core/plugin/provider/vercel"
+import { ProviderV2 } from "@queryai/core/provider"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
 
@@ -33,7 +33,7 @@ describe("VercelPlugin", () => {
       expect((yield* catalog.provider.get(ProviderV2.ID.make("vercel")))?.request.headers).toEqual({
         Existing: "1",
         "http-referer": "https://opencode.ai/",
-        "x-title": "opencode",
+        "x-title": "queryai",
       })
     }),
   )

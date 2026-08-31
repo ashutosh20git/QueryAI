@@ -2,18 +2,18 @@ import { action, useParams, useAction, useSubmission, json, query, createAsync }
 import { createStore } from "solid-js/store"
 import { createMemo, createSignal, For, Show } from "solid-js"
 import { Modal } from "~/component/modal"
-import { Billing } from "@opencode-ai/console-core/billing.js"
-import { Database, eq, and, gte, isNull, sql } from "@opencode-ai/console-core/drizzle/index.js"
-import { BillingTable, LiteTable, UsageTable } from "@opencode-ai/console-core/schema/billing.sql.js"
-import { KeyTable } from "@opencode-ai/console-core/schema/key.sql.js"
-import { WorkspaceTable } from "@opencode-ai/console-core/schema/workspace.sql.js"
-import { Actor } from "@opencode-ai/console-core/actor.js"
-import { Workspace } from "@opencode-ai/console-core/workspace.js"
-import { Subscription } from "@opencode-ai/console-core/subscription.js"
-import { LiteData } from "@opencode-ai/console-core/lite.js"
-import { ZenData } from "@opencode-ai/console-core/model.js"
-import { getMonthlyBounds, getWeekBounds } from "@opencode-ai/console-core/util/date.js"
-import { centsToMicroCents } from "@opencode-ai/console-core/util/price.js"
+import { Billing } from "@queryai/console-core/billing.js"
+import { Database, eq, and, gte, isNull, sql } from "@queryai/console-core/drizzle/index.js"
+import { BillingTable, LiteTable, UsageTable } from "@queryai/console-core/schema/billing.sql.js"
+import { KeyTable } from "@queryai/console-core/schema/key.sql.js"
+import { WorkspaceTable } from "@queryai/console-core/schema/workspace.sql.js"
+import { Actor } from "@queryai/console-core/actor.js"
+import { Workspace } from "@queryai/console-core/workspace.js"
+import { Subscription } from "@queryai/console-core/subscription.js"
+import { LiteData } from "@queryai/console-core/lite.js"
+import { ZenData } from "@queryai/console-core/model.js"
+import { getMonthlyBounds, getWeekBounds } from "@queryai/console-core/util/date.js"
+import { centsToMicroCents } from "@queryai/console-core/util/price.js"
 import { withActor } from "~/context/auth.withActor"
 import { queryBillingInfo } from "../../common"
 import styles from "./lite-section.module.css"
@@ -561,7 +561,7 @@ export function LiteSection(props: { lite: LiteSubscription | undefined }) {
             </div>
             <div data-slot="beta-notice">
               {i18n.t("workspace.lite.subscription.selectProvider")}{" "}
-              <a href={language.route("/docs/providers/#opencode-go")} target="_blank" rel="noopener noreferrer">
+              <a href={language.route("/docs/providers/#queryai-go")} target="_blank" rel="noopener noreferrer">
                 {i18n.t("common.learnMore")}
               </a>
               .

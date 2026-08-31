@@ -7,11 +7,11 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenCode Go ist ein kostengünstiges Abonnement für **10 $/Monat**, das dir zuverlässigen Zugriff auf beliebte offene Coding-Modelle bietet.
+QueryAI Go ist ein kostengünstiges Abonnement für **10 $/Monat**, das dir zuverlässigen Zugriff auf beliebte offene Coding-Modelle bietet.
 
-Go funktioniert wie jeder andere Provider in OpenCode. Du abonnierst OpenCode Go und
+Go funktioniert wie jeder andere Provider in QueryAI. Du abonnierst QueryAI Go und
 erhältst deinen API-Key. Es ist **völlig optional** und du musst es nicht nutzen, um
-OpenCode zu verwenden.
+QueryAI zu verwenden.
 
 Es wurde in erster Linie für internationale Nutzer entwickelt und bietet einen stabilen weltweiten Zugriff.
 
@@ -24,7 +24,7 @@ Offene Modelle sind richtig gut geworden. Sie erreichen bei Coding-Aufgaben mitt
 Allerdings kann es schwierig sein, zuverlässigen Zugriff mit geringer Latenz auf sie zu erhalten. Provider variieren in Qualität und Verfügbarkeit.
 
 :::tip
-Wir haben eine ausgewählte Gruppe von Modellen und Providern getestet, die gut mit OpenCode funktionieren.
+Wir haben eine ausgewählte Gruppe von Modellen und Providern getestet, die gut mit QueryAI funktionieren.
 :::
 
 Um dies zu beheben, haben wir einige Dinge getan:
@@ -33,20 +33,20 @@ Um dies zu beheben, haben wir einige Dinge getan:
 2. Anschließend haben wir mit einigen Providern zusammengearbeitet, um sicherzustellen, dass diese korrekt bereitgestellt werden.
 3. Zuletzt haben wir die Kombination aus Modell und Provider einem Benchmark unterzogen und eine Liste erstellt, die wir mit gutem Gewissen empfehlen können.
 
-OpenCode Go bietet dir Zugriff auf diese Modelle für **10 $/Monat**.
+QueryAI Go bietet dir Zugriff auf diese Modelle für **10 $/Monat**.
 
 ---
 
 ## Wie es funktioniert
 
-OpenCode Go funktioniert wie jeder andere Provider in OpenCode.
+QueryAI Go funktioniert wie jeder andere Provider in QueryAI.
 
-1. Du meldest dich bei **<a href={console}>OpenCode Zen</a>** an, abonnierst Go und kopierst deinen API-Key.
-2. Du führst den Befehl `/connect` in der TUI aus, wählst `OpenCode Go` und fügst deinen API-Key ein.
+1. Du meldest dich bei **<a href={console}>QueryAI Zen</a>** an, abonnierst Go und kopierst deinen API-Key.
+2. Du führst den Befehl `/connect` in der TUI aus, wählst `QueryAI Go` und fügst deinen API-Key ein.
 3. Führe `/models` in der TUI aus, um die Liste der über Go verfügbaren Modelle zu sehen.
 
 :::note
-Nur ein Mitglied pro Workspace kann OpenCode Go abonnieren.
+Nur ein Mitglied pro Workspace kann QueryAI Go abonnieren.
 :::
 
 Die aktuelle Liste der Modelle umfasst:
@@ -83,7 +83,7 @@ Die Liste der Modelle kann sich ändern, während wir neue testen und hinzufüge
 
 ## Nutzungslimits
 
-OpenCode Go beinhaltet die folgenden Limits:
+QueryAI Go beinhaltet die folgenden Limits:
 
 - **5-Stunden-Limit** — 12 $ Nutzung
 - **Wöchentliches Limit** — 30 $ Nutzung
@@ -249,7 +249,7 @@ Du kannst auf die Go-Modelle auch über die folgenden API-Endpunkte zugreifen.
 | Hy4 preview                  | hy4-preview                  | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 | Hy3                          | hy3                          | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 
-Die [Modell-ID](/docs/config/#models) in deiner OpenCode Config verwendet das Format `opencode-go/<model-id>`. Für Kimi K3 würdest du beispielsweise `opencode-go/kimi-k3` in deiner Config verwenden.
+Die [Modell-ID](/docs/config/#models) in deiner QueryAI Config verwendet das Format `queryai-go/<model-id>`. Für Kimi K3 würdest du beispielsweise `queryai-go/kimi-k3` in deiner Config verwenden.
 
 ---
 
@@ -302,9 +302,9 @@ https://opencode.ai/zen/go/v1/models
 
 ## Ziele
 
-Wir haben OpenCode Go entwickelt, um:
+Wir haben QueryAI Go entwickelt, um:
 
 1. AI Coding durch ein kostengünstiges Abonnement für mehr Menschen **zugänglich** zu machen.
 2. **Zuverlässigen** Zugriff auf die besten offenen Coding-Modelle zu bieten.
 3. Modelle zu kuratieren, die für den Einsatz als Coding Agent **getestet und einem Benchmark unterzogen** wurden.
-4. **Keinen Lock-in-Effekt** zu haben, indem wir dir ermöglichen, auch jeden anderen Provider mit OpenCode zu nutzen.
+4. **Keinen Lock-in-Effekt** zu haben, indem wir dir ermöglichen, auch jeden anderen Provider mit QueryAI zu nutzen.

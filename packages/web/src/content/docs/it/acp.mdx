@@ -1,9 +1,9 @@
 ---
 title: Supporto ACP
-description: Usa OpenCode in qualunque editor compatibile con ACP.
+description: Usa QueryAI in qualunque editor compatibile con ACP.
 ---
 
-OpenCode supporta [Agent Client Protocol](https://agentclientprotocol.com) (ACP), permettendoti di usarlo direttamente in editor e IDE compatibili.
+QueryAI supporta [Agent Client Protocol](https://agentclientprotocol.com) (ACP), permettendoti di usarlo direttamente in editor e IDE compatibili.
 
 :::tip
 Per una lista di editor e tool che supportano ACP, vedi l'[ACP progress report](https://zed.dev/blog/acp-progress-report#available-now).
@@ -15,9 +15,9 @@ ACP e è un protocollo aperto che standardizza la comunicazione tra editor di co
 
 ## Configurazione
 
-Per usare OpenCode via ACP, configura l'editor in modo che esegua il comando `opencode acp`.
+Per usare QueryAI via ACP, configura l'editor in modo che esegua il comando `queryai acp`.
 
-Il comando avvia OpenCode come sottoprocesso compatibile con ACP che comunica con l'editor via JSON-RPC su stdio.
+Il comando avvia QueryAI come sottoprocesso compatibile con ACP che comunica con l'editor via JSON-RPC su stdio.
 
 Qui sotto trovi esempi per editor popolari che supportano ACP.
 
@@ -25,16 +25,16 @@ Qui sotto trovi esempi per editor popolari che supportano ACP.
 
 ### Zed
 
-Installa OpenCode dal [registro ACP di Zed](https://zed.dev/docs/ai/external-agents#registry) eseguendo `zed: acp registry` nella palette dei comandi.
+Installa QueryAI dal [registro ACP di Zed](https://zed.dev/docs/ai/external-agents#registry) eseguendo `zed: acp registry` nella palette dei comandi.
 
-Per usare invece un eseguibile OpenCode personalizzato, aggiungilo alla configurazione di [Zed](https://zed.dev) (`~/.config/zed/settings.json`):
+Per usare invece un eseguibile QueryAI personalizzato, aggiungilo alla configurazione di [Zed](https://zed.dev) (`~/.config/zed/settings.json`):
 
 ```json title="~/.config/zed/settings.json"
 {
   "agent_servers": {
-    "OpenCode": {
+    "QueryAI": {
       "type": "custom",
-      "command": "opencode",
+      "command": "queryai",
       "args": ["acp"]
     }
   }
@@ -54,9 +54,9 @@ Puoi anche assegnare una scorciatoia da tastiera modificando `keymap.json`:
         {
           "agent": {
             "custom": {
-              "name": "OpenCode",
+              "name": "QueryAI",
               "command": {
-                "command": "opencode",
+                "command": "queryai",
                 "args": ["acp"]
               }
             }
@@ -77,15 +77,15 @@ Aggiungi al tuo acp.json per [JetBrains IDE](https://www.jetbrains.com/) secondo
 ```json title="acp.json"
 {
   "agent_servers": {
-    "OpenCode": {
-      "command": "/absolute/path/bin/opencode",
+    "QueryAI": {
+      "command": "/absolute/path/bin/queryai",
       "args": ["acp"]
     }
   }
 }
 ```
 
-Per aprirlo, seleziona il nuovo agente 'OpenCode' nel selettore agenti di AI Chat.
+Per aprirlo, seleziona il nuovo agente 'QueryAI' nel selettore agenti di AI Chat.
 
 ---
 
@@ -96,8 +96,8 @@ Aggiungi alla configurazione di [Avante.nvim](https://github.com/yetone/avante.n
 ```lua
 {
   acp_providers = {
-    ["opencode"] = {
-      command = "opencode",
+    ["queryai"] = {
+      command = "queryai",
       args = { "acp" }
     }
   }
@@ -109,11 +109,11 @@ Se devi passare variabili d'ambiente:
 ```lua {6-8}
 {
   acp_providers = {
-    ["opencode"] = {
-      command = "opencode",
+    ["queryai"] = {
+      command = "queryai",
       args = { "acp" },
       env = {
-        OPENCODE_API_KEY = os.getenv("OPENCODE_API_KEY")
+        QUERYAI_API_KEY = os.getenv("QUERYAI_API_KEY")
       }
     }
   }
@@ -124,14 +124,14 @@ Se devi passare variabili d'ambiente:
 
 ### CodeCompanion.nvim
 
-Per usare OpenCode come agente ACP in [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), aggiungi quanto segue alla config di Neovim:
+Per usare QueryAI come agente ACP in [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim), aggiungi quanto segue alla config di Neovim:
 
 ```lua
 require("codecompanion").setup({
   interactions = {
     chat = {
       adapter = {
-        name = "opencode",
+        name = "queryai",
         model = "claude-sonnet-4",
       },
     },
@@ -139,20 +139,20 @@ require("codecompanion").setup({
 })
 ```
 
-Questa config imposta CodeCompanion per usare OpenCode come agente ACP per la chat.
+Questa config imposta CodeCompanion per usare QueryAI come agente ACP per la chat.
 
-Se devi passare variabili d'ambiente (come `OPENCODE_API_KEY`), vedi [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) nella documentazione di CodeCompanion.nvim.
+Se devi passare variabili d'ambiente (come `QUERYAI_API_KEY`), vedi [Configuring Adapters: Environment Variables](https://codecompanion.olimorris.dev/getting-started#setting-an-api-key) nella documentazione di CodeCompanion.nvim.
 
 ## Supporto
 
-OpenCode funziona via ACP come nel terminale. Tutte le funzionalita sono supportate:
+QueryAI funziona via ACP come nel terminale. Tutte le funzionalita sono supportate:
 :::note
 Alcuni comandi slash integrati come `/undo` e `/redo` non sono attualmente supportati.
 :::
 
 - Strumenti integrati (operazioni sui file, comandi da terminale, ecc.)
 - Strumenti personalizzati e comandi slash
-- Server MCP configurati nella tua configurazione OpenCode
+- Server MCP configurati nella tua configurazione QueryAI
 - Regole specifiche del progetto da `AGENTS.md`
 - Formatter e linter personalizzati
 - Sistema di agenti e permessi

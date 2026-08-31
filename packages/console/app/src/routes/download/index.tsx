@@ -147,7 +147,7 @@ export default function Download() {
               </button>
               <button data-component="cli-row" onClick={handleCopyClick("paru -S opencode")}>
                 <code>
-                  paru -S <strong>opencode</strong>
+                  paru -S <strong>queryai</strong>
                 </code>
                 <CopyStatus />
               </button>
@@ -161,7 +161,7 @@ export default function Download() {
             <div data-component="section-content">
               <button data-component="cli-row" onClick={handleCopyClick("brew install --cask opencode-desktop")}>
                 <code>
-                  brew install --cask <strong>opencode-desktop</strong>
+                  brew install --cask <strong>queryai-desktop</strong>
                 </code>
                 <CopyStatus />
               </button>

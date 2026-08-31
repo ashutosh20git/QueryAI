@@ -2,21 +2,21 @@ import fs from "fs/promises"
 import path from "path"
 import { describe, expect } from "bun:test"
 import { DateTime, Effect, Equal, Hash, Schema } from "effect"
-import { Tool } from "@opencode-ai/core/tool/tool"
-import { define } from "@opencode-ai/plugin/v2/effect"
-import { AgentV2 } from "@opencode-ai/core/agent"
-import { Catalog } from "@opencode-ai/core/catalog"
-import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
-import { LayerNode } from "@opencode-ai/core/effect/layer-node"
-import { LocationServiceMap } from "@opencode-ai/core/location-services"
-import { Location } from "@opencode-ai/core/location"
-import { PluginV2 } from "@opencode-ai/core/plugin"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { ProjectV2 } from "@opencode-ai/core/project"
-import { ProviderV2 } from "@opencode-ai/core/provider"
-import { AbsolutePath } from "@opencode-ai/core/schema"
-import { SessionV2 } from "@opencode-ai/core/session"
-import { SessionRunnerModel } from "@opencode-ai/core/session/runner/model"
+import { Tool } from "@queryai/core/tool/tool"
+import { define } from "@queryai/plugin/v2/effect"
+import { AgentV2 } from "@queryai/core/agent"
+import { Catalog } from "@queryai/core/catalog"
+import { AppNodeBuilder } from "@queryai/core/effect/app-node-builder"
+import { LayerNode } from "@queryai/core/effect/layer-node"
+import { LocationServiceMap } from "@queryai/core/location-services"
+import { Location } from "@queryai/core/location"
+import { PluginV2 } from "@queryai/core/plugin"
+import { ModelV2 } from "@queryai/core/model"
+import { ProjectV2 } from "@queryai/core/project"
+import { ProviderV2 } from "@queryai/core/provider"
+import { AbsolutePath } from "@queryai/core/schema"
+import { SessionV2 } from "@queryai/core/session"
+import { SessionRunnerModel } from "@queryai/core/session/runner/model"
 import { tmpdir } from "./fixture/tmpdir"
 import { testEffect } from "./lib/effect"
 import { toolDefinitions } from "./lib/tool"
@@ -78,7 +78,7 @@ describe("LocationServiceMap", () => {
           })
           yield* Effect.promise(() =>
             fs.writeFile(
-              path.join(blocked.path, "opencode.json"),
+              path.join(blocked.path, "queryai.json"),
               JSON.stringify({
                 experimental: { policies: [{ effect: "deny", action: "provider.use", resource: "test" }] },
               }),
@@ -150,7 +150,7 @@ describe("LocationServiceMap", () => {
           const location = Location.Ref.make({ directory: AbsolutePath.make(dir.path) })
           yield* Effect.promise(() =>
             fs.writeFile(
-              path.join(dir.path, "opencode.json"),
+              path.join(dir.path, "queryai.json"),
               JSON.stringify({
                 providers: {
                   unavailable: {

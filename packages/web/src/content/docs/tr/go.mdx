@@ -7,9 +7,9 @@ import config from "../../../../config.mjs"
 export const console = config.console
 export const email = `mailto:${config.email}`
 
-OpenCode Go, popüler açık kodlama modellerine güvenilir erişim sağlayan düşük maliyetli **aylık 10$ aboneliğidir**.
+QueryAI Go, popüler açık kodlama modellerine güvenilir erişim sağlayan düşük maliyetli **aylık 10$ aboneliğidir**.
 
-Go, OpenCode'daki diğer sağlayıcılar gibi çalışır. OpenCode Go'ya abone olur ve API anahtarınızı alırsınız. Bu **tamamen isteğe bağlıdır** ve OpenCode'u kullanmak için bunu kullanmanıza gerek yoktur.
+Go, QueryAI'daki diğer sağlayıcılar gibi çalışır. QueryAI Go'ya abone olur ve API anahtarınızı alırsınız. Bu **tamamen isteğe bağlıdır** ve QueryAI'u kullanmak için bunu kullanmanıza gerek yoktur.
 
 Öncelikle uluslararası kullanıcılar için tasarlanmıştır ve dünya genelinde istikrarlı erişim sağlar.
 
@@ -22,7 +22,7 @@ Açık modeller gerçekten çok iyi hale geldi. Artık kodlama görevleri için 
 Ancak, bu modellere güvenilir, düşük gecikmeli erişim sağlamak zor olabilir. Sağlayıcılar kalite ve erişilebilirlik açısından farklılık gösterir.
 
 :::tip
-OpenCode ile iyi çalışan seçili bir model ve sağlayıcı grubunu test ettik.
+QueryAI ile iyi çalışan seçili bir model ve sağlayıcı grubunu test ettik.
 :::
 
 Bunu çözmek için birkaç şey yaptık:
@@ -31,20 +31,20 @@ Bunu çözmek için birkaç şey yaptık:
 2. Ardından, bunların doğru şekilde sunulduğundan emin olmak için birkaç sağlayıcıyla birlikte çalıştık.
 3. Son olarak, model/sağlayıcı kombinasyonunu kıyasladık (benchmark) ve gönül rahatlığıyla önerebileceğimiz bir liste oluşturduk.
 
-OpenCode Go, bu modellere **aylık 10$** karşılığında erişmenizi sağlar.
+QueryAI Go, bu modellere **aylık 10$** karşılığında erişmenizi sağlar.
 
 ---
 
 ## Nasıl çalışır?
 
-OpenCode Go, OpenCode'daki diğer sağlayıcılar gibi çalışır.
+QueryAI Go, QueryAI'daki diğer sağlayıcılar gibi çalışır.
 
-1. **<a href={console}>OpenCode Zen</a>**'e giriş yapın, Go'ya abone olun ve API anahtarınızı kopyalayın.
-2. TUI'de `/connect` komutunu çalıştırın, `OpenCode Go`yu seçin ve API anahtarınızı yapıştırın.
+1. **<a href={console}>QueryAI Zen</a>**'e giriş yapın, Go'ya abone olun ve API anahtarınızı kopyalayın.
+2. TUI'de `/connect` komutunu çalıştırın, `QueryAI Go`yu seçin ve API anahtarınızı yapıştırın.
 3. Go üzerinden kullanabileceğiniz modellerin listesini görmek için TUI'de `/models` komutunu çalıştırın.
 
 :::note
-Her çalışma alanından yalnızca bir üye OpenCode Go'ya abone olabilir.
+Her çalışma alanından yalnızca bir üye QueryAI Go'ya abone olabilir.
 :::
 
 Mevcut model listesi şunları içerir:
@@ -81,7 +81,7 @@ Test edip yenilerini ekledikçe model listesi değişebilir.
 
 ## Kullanım limitleri
 
-OpenCode Go aşağıdaki limitleri içerir:
+QueryAI Go aşağıdaki limitleri içerir:
 
 - **5 saatlik limit** — 12$ kullanım
 - **Haftalık limit** — 30$ kullanım
@@ -247,7 +247,7 @@ Go modellerine aşağıdaki API uç noktaları aracılığıyla da erişebilirsi
 | Hy4 preview                  | hy4-preview                  | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 | Hy3                          | hy3                          | `https://opencode.ai/zen/go/v1/chat/completions` | `@ai-sdk/openai-compatible` |
 
-OpenCode yapılandırmanızdaki [model id](/docs/config/#models) formatı `opencode-go/<model-id>` şeklindedir. Örneğin, Kimi K3 için yapılandırmanızda `opencode-go/kimi-k3` kullanmalısınız.
+QueryAI yapılandırmanızdaki [model id](/docs/config/#models) formatı `queryai-go/<model-id>` şeklindedir. Örneğin, Kimi K3 için yapılandırmanızda `queryai-go/kimi-k3` kullanmalısınız.
 
 ---
 
@@ -300,9 +300,9 @@ https://opencode.ai/zen/go/v1/models
 
 ## Hedefler
 
-OpenCode Go'yu şu amaçlarla oluşturduk:
+QueryAI Go'yu şu amaçlarla oluşturduk:
 
 1. Düşük maliyetli bir abonelik ile yapay zeka destekli kodlamayı daha fazla kişi için **erişilebilir** kılmak.
 2. En iyi açık kodlama modellerine **güvenilir** erişim sağlamak.
 3. Kodlama aracısı (agent) kullanımı için **test edilmiş ve kıyaslanmış** modelleri bir araya getirmek.
-4. OpenCode ile diğer sağlayıcıları da kullanmanıza olanak tanıyarak **kilitlenme (vendor lock-in) olmamasını** sağlamak.
+4. QueryAI ile diğer sağlayıcıları da kullanmanıza olanak tanıyarak **kilitlenme (vendor lock-in) olmamasını** sağlamak.

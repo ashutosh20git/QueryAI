@@ -1,12 +1,12 @@
-import { AISDK } from "@opencode-ai/core/aisdk"
+import { AISDK } from "@queryai/core/aisdk"
 import { describe, expect, mock } from "bun:test"
 import { Effect } from "effect"
-import { Catalog } from "@opencode-ai/core/catalog"
-import { ModelV2 } from "@opencode-ai/core/model"
-import { PluginV2 } from "@opencode-ai/core/plugin"
-import { PluginHost } from "@opencode-ai/core/plugin/host"
-import { GoogleVertexPlugin } from "@opencode-ai/core/plugin/provider/google-vertex"
-import { ProviderV2 } from "@opencode-ai/core/provider"
+import { Catalog } from "@queryai/core/catalog"
+import { ModelV2 } from "@queryai/core/model"
+import { PluginV2 } from "@queryai/core/plugin"
+import { PluginHost } from "@queryai/core/plugin/host"
+import { GoogleVertexPlugin } from "@queryai/core/plugin/provider/google-vertex"
+import { ProviderV2 } from "@queryai/core/provider"
 import type { LanguageModelV3 } from "@ai-sdk/provider"
 import { testEffect } from "../lib/effect"
 import { PluginTestLayer } from "./fixture"
@@ -91,7 +91,7 @@ describe("GoogleVertexPlugin", () => {
     Effect.gen(function* () {
       const catalog = yield* Catalog.Service
       yield* catalog.transform((catalog) =>
-        catalog.provider.update(ProviderV2.ID.opencode, (provider) => {
+        catalog.provider.update(ProviderV2.ID.queryai, (provider) => {
           provider.api = {
             type: "aisdk",
             package: "@ai-sdk/openai-compatible",
@@ -101,7 +101,7 @@ describe("GoogleVertexPlugin", () => {
       )
       yield* addPlugin()
 
-      const provider = required(yield* catalog.provider.get(ProviderV2.ID.opencode))
+      const provider = required(yield* catalog.provider.get(ProviderV2.ID.queryai))
       expect(provider.request.body).toEqual({})
     }),
   )
