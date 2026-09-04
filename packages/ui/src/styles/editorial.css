@@ -1,0 +1,182 @@
+/**
+ * Editorial Warm — typography and shape.
+ *
+ * Colour lives in `theme/themes/editorial.json`, which is resolved to custom
+ * properties at runtime and written into an unlayered `<style>` element. This
+ * file carries the parts of the design that are not colour: the type stack and
+ * the "rules, not cards" shape language (2px radius ceiling, hairline rings in
+ * place of shadows).
+ *
+ * It is imported unlayered on purpose — the runtime theme `<style>` is
+ * unlayered too, so a layered rule here would silently lose to it.
+ */
+
+html[data-theme="editorial"] {
+  /* ── Type ───────────────────────────────────────────────────────────────
+     Display for the masthead and session titles, a serif text face for body
+     copy (agent transcripts read like prose, so they are set like prose), and
+     one mono for code, paths, labels and status. Every stack keeps a real
+     local fallback so the app stays legible with no network. */
+  --font-family-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-family-sans: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-family-text: "Newsreader", Georgia, "Times New Roman", serif;
+  --v2-font-family-sans: "Newsreader", Georgia, "Times New Roman", serif;
+  --font-family-mono:
+    "Spline Sans Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
+    monospace;
+
+  /* ── Shape ──────────────────────────────────────────────────────────────
+     Radius 2px at most, and no soft shadows anywhere. When a block needs
+     separating: space first, then a line, and only then a box. */
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 2px;
+
+  --shadow-xs: 0 0 0 1px var(--v2-border-border-muted);
+  --shadow-md: 0 0 0 1px var(--v2-border-border-base);
+  --shadow-lg: 0 0 0 1px var(--v2-border-border-strong);
+}
+
+/* Mono, uppercase, widely tracked — the section label of the design. */
+html[data-theme="editorial"] .editorial-label {
+  font-family: var(--font-family-mono);
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--v2-text-text-faint);
+}
+
+/**
+ * Radius ceiling.
+ *
+ * The tokens above cover everything that resolves `--radius-*`, but a fair
+ * amount of the app hardcodes 4px/6px/10px — in the v2 component stylesheets and
+ * in arbitrary Tailwind utilities (`rounded-[6px]` and friends). Flatten those
+ * to the 2px ceiling here rather than editing every call site.
+ */
+html[data-theme="editorial"] [data-component$="-v2"],
+html[data-theme="editorial"] [data-component$="-v2"] [data-slot],
+html[data-theme="editorial"] [data-slot^="dialog-"],
+html[data-theme="editorial"] [data-slot^="menu-v2-"],
+html[data-theme="editorial"] [data-slot^="select-v2-"],
+html[data-theme="editorial"] [data-slot^="project-avatar-"],
+html[data-theme="editorial"] [class*="rounded-["] {
+  border-radius: 2px;
+}
+
+/* Put back the shapes that are meant to be round. */
+html[data-theme="editorial"] [data-slot^="radio-v2-item-"],
+html[data-theme="editorial"] [data-slot="project-avatar-unread-dot"] {
+  border-radius: 9999px;
+}
+
+/**
+ * Inputs — ruled, not filled.
+ *
+ * The design draws every field as a hairline box on the page colour: no tint,
+ * no gradient, no inner shadow. The rule is the whole control, and it is the
+ * rule that reacts — strong on hover, accent on focus.
+ */
+html[data-theme="editorial"]
+  :is(
+    [data-component="text-input-v2"],
+    [data-component="textarea-v2"],
+    [data-component="inline-input-v2"],
+    [data-component="select-v2"]
+  ) {
+  background: transparent;
+  border: 1px solid var(--v2-border-border-base);
+  box-shadow: none;
+  outline-color: transparent;
+}
+
+html[data-theme="editorial"]
+  :is(
+    [data-component="text-input-v2"],
+    [data-component="textarea-v2"],
+    [data-component="inline-input-v2"],
+    [data-component="select-v2"]
+  ):where(:hover):not([data-disabled], [data-invalid]):not(:focus-within) {
+  background: transparent;
+  border-color: var(--v2-border-border-strong);
+}
+
+html[data-theme="editorial"]
+  :is(
+    [data-component="text-input-v2"],
+    [data-component="textarea-v2"],
+    [data-component="inline-input-v2"],
+    [data-component="select-v2"]
+  ):where(:focus-within):not([data-disabled], [data-invalid]) {
+  border-color: var(--v2-border-border-focus);
+  outline-color: transparent;
+  box-shadow: none;
+}
+
+/* Session search on the home screen — same rule, its own markup. */
+html[data-theme="editorial"] [data-component="home-session-search"] > label {
+  background: transparent;
+  border: 1px solid var(--v2-border-border-base);
+  transition:
+    border-color 120ms ease-in-out,
+    background-color 120ms ease-in-out;
+}
+
+html[data-theme="editorial"] [data-component="home-session-search"] > label:hover {
+  background: transparent;
+  border-color: var(--v2-border-border-strong);
+}
+
+html[data-theme="editorial"] [data-component="home-session-search"] > label:focus-within {
+  background: transparent;
+  border-color: var(--v2-border-border-focus);
+}
+
+/**
+ * Selected rows carry a 2px accent rule on the leading edge rather than a
+ * washed-out pill — the selection marker used throughout the design.
+ */
+html[data-theme="editorial"] [data-component="home-session-search-row"] {
+  border-inline-start: 2px solid transparent;
+  padding-inline-start: 16px;
+}
+
+html[data-theme="editorial"] [data-component="home-session-search-row"]:hover,
+html[data-theme="editorial"] [data-component="home-session-search-row"]:focus-visible,
+html[data-theme="editorial"] [data-component="home-session-search-row"][aria-selected="true"] {
+  border-inline-start-color: var(--v2-text-text-accent);
+  background: var(--v2-background-bg-layer-01);
+}
+
+/**
+ * Prompt composer.
+ *
+ * The artboard draws it as the heaviest rule on the page — a ruled box on the
+ * page colour, no lift — with a solid accent send key in the corner.
+ */
+html[data-theme="editorial"] [data-component="prompt-input-v2"] {
+  background: var(--v2-background-bg-base);
+  border: 1px solid var(--v2-border-border-strong);
+  box-shadow: none;
+  transition: border-color 120ms ease-in-out;
+}
+
+html[data-theme="editorial"] [data-component="prompt-input-v2"]:focus-within {
+  border-color: var(--v2-border-border-focus);
+}
+
+/**
+ * The send key paints itself from `--v2-background-bg-contrast` and a light
+ * sheen, both through an inline gradient. Redefining those two on the button
+ * itself repaints it solid accent — no `!important` needed, because the inline
+ * style resolves the custom properties here.
+ */
+html[data-theme="editorial"] [data-action="prompt-submit"]:not(:disabled) {
+  --v2-background-bg-contrast: var(--v2-background-bg-accent);
+  --v2-alpha-light-20: transparent;
+  color: var(--v2-text-text-contrast);
+  box-shadow: none;
+}

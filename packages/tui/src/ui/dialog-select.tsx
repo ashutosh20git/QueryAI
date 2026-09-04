@@ -9,7 +9,7 @@ import {
 import type { Binding } from "@opentui/keymap"
 import { useTheme, selectedForeground } from "../context/theme"
 import { entries, filter, flatMap, groupBy, pipe } from "remeda"
-import { batch, createEffect, createMemo, createSignal, For, Show, type JSX, on, onCleanup } from "solid-js"
+import { batch, createEffect, createMemo, createSignal, For, Show, type JSX, on, onCleanup, onMount } from "solid-js"
 import { createStore } from "solid-js/store"
 import { useTerminalDimensions } from "@opentui/solid"
 import * as fuzzysort from "fuzzysort"
@@ -92,6 +92,14 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
     filter: "",
     input: "keyboard" as "keyboard" | "mouse",
   })
+  // The filter sits at the foot of the dialog, so the dialog itself sits at the
+  // foot of the terminal — otherwise the field lands mid-screen. A select with
+  // no filter has nothing to anchor and stays centred.
+  onMount(() => {
+    if (props.renderFilter === false) return
+    dialog.setPlacement("bottom")
+  })
+
   const [focusedAction, setFocusedAction] = createSignal<number>()
   const actionFocused = createMemo(() => focusedAction() !== undefined)
   let selection: { value: T; category?: string } | undefined
@@ -210,7 +218,10 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
   })
 
   const dimensions = useTerminalDimensions()
-  const height = createMemo(() => Math.min(rows(), Math.floor(dimensions().height / 2) - 6))
+  // The filter sits in a bordered box, so the chrome allowance is 8 rows rather
+  // than 6 — the dialog keeps its overall footprint. Never let it reach zero on
+  // a very short terminal.
+  const height = createMemo(() => Math.max(1, Math.min(rows(), Math.floor(dimensions().height / 2) - 8)))
 
   const selected = createMemo(() => flat()[store.selected])
 
@@ -567,34 +578,6 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
             esc
           </text>
         </box>
-        <Show when={props.renderFilter !== false}>
-          <box paddingTop={1}>
-            <input
-              onInput={(e) => {
-                if (props.locked) return
-                batch(() => {
-                  setStore("filter", e)
-                  props.onFilter?.(e)
-                })
-              }}
-              focusedBackgroundColor={theme.backgroundPanel}
-              cursorColor={theme.primary}
-              cursorStyle={tuiConfig.cursor}
-              focusedTextColor={theme.textMuted}
-              ref={(r) => {
-                input = r
-                input.traits = { status: "FILTER" }
-                setTimeout(() => {
-                  if (!input) return
-                  if (input.isDestroyed) return
-                  input.focus()
-                }, 1)
-              }}
-              placeholder={props.placeholder ?? "Search"}
-              placeholderColor={theme.textMuted}
-            />
-          </box>
-        </Show>
       </box>
       <box flexGrow={1} flexShrink={1}>
         <Show
@@ -714,6 +697,45 @@ export function DialogSelect<T>(props: DialogSelectProps<T>) {
           </scrollbox>
         </Show>
       </box>
+      <Show when={props.renderFilter !== false}>
+        <box paddingLeft={4} paddingRight={4} flexShrink={0}>
+          {/* A hairline box carries the field rather than a fill: the rule takes
+                the accent while the filter holds focus, and drops back to the
+                subtle tone once focus moves down into the list. */}
+          <box
+            border
+            borderStyle="single"
+            borderColor={actionFocused() ? theme.borderSubtle : theme.primary}
+            paddingLeft={1}
+            paddingRight={1}
+          >
+            <input
+              onInput={(e) => {
+                if (props.locked) return
+                batch(() => {
+                  setStore("filter", e)
+                  props.onFilter?.(e)
+                })
+              }}
+              focusedBackgroundColor={theme.background}
+              cursorColor={theme.primary}
+              cursorStyle={tuiConfig.cursor}
+              focusedTextColor={theme.text}
+              ref={(r) => {
+                input = r
+                input.traits = { status: "FILTER" }
+                setTimeout(() => {
+                  if (!input) return
+                  if (input.isDestroyed) return
+                  input.focus()
+                }, 1)
+              }}
+              placeholder={props.placeholder ?? "Search"}
+              placeholderColor={theme.textMuted}
+            />
+          </box>
+        </box>
+      </Show>
       <Show when={props.footer || visibleActions().length} fallback={<box flexShrink={0} />}>
         <box paddingRight={2} paddingLeft={4} flexDirection="row" justifyContent="space-between" flexShrink={0}>
           <box flexDirection="row" gap={2}>

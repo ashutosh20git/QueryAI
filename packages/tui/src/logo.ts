@@ -1,4 +1,6 @@
 export const logo = {
+  /** Letters of the editorial wordmark, spaced out by `component/logo.tsx`. */
+  wordmark: "QueryAI",
   left: [
     "                        ",
     "█▀▀█ █__█ █▀▀▀ █▀▀█ █__█",

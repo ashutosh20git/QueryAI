@@ -4,6 +4,7 @@ import { createMemo, Match, Show, Switch } from "solid-js"
 import { abbreviateHome } from "../../runtime"
 import { useTuiPaths } from "../../context/runtime"
 import { useHomeSessionDestination } from "../../routes/home/session-destination"
+import { useTheme } from "../../context/theme"
 
 const id = "internal:home-footer"
 
@@ -51,6 +52,21 @@ function Mcp(props: { api: TuiPluginApi }) {
   )
 }
 
+/** Light/dark toggle: click it, or hit the `theme_switch_mode` keybind. */
+function Appearance(props: { api: TuiPluginApi }) {
+  const theme = () => props.api.theme.current
+  const { mode, setMode } = useTheme()
+  const toggle = () => setMode(mode() === "dark" ? "light" : "dark")
+
+  return (
+    <box flexShrink={0} flexDirection="row" onMouseDown={toggle}>
+      <text fg={mode() === "light" ? theme().primary : theme().textMuted}>☀ Light</text>
+      <text fg={theme().borderSubtle}> / </text>
+      <text fg={mode() === "dark" ? theme().primary : theme().textMuted}>☾ Dark</text>
+    </box>
+  )
+}
+
 function Version(props: { api: TuiPluginApi }) {
   const theme = () => props.api.theme.current
 
@@ -76,6 +92,7 @@ function View(props: { api: TuiPluginApi }) {
       <Directory api={props.api} />
       <Mcp api={props.api} />
       <box flexGrow={1} />
+      <Appearance api={props.api} />
       <Version api={props.api} />
     </box>
   )

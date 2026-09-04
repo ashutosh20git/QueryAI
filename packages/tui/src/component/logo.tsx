@@ -1,61 +1,33 @@
-import { RGBA, TextAttributes } from "@opentui/core"
-import { For, type JSX } from "solid-js"
-import { tint, useTheme } from "../context/theme"
+import { TextAttributes } from "@opentui/core"
+import { For } from "solid-js"
+import { useTheme } from "../context/theme"
 import { logo } from "../logo"
+
+// Editorial wordmark: the letters are spaced out and sat on a thin accent rule,
+// the way the masthead is set in the design. `logo.wordmark` stays the source of
+// truth for the letters so the ASCII block mark and this one cannot drift.
+const WORDMARK = Array.from(logo.wordmark)
 
 export function Logo() {
   const { theme } = useTheme()
 
-  const renderLine = (line: string, fg: RGBA, bold: boolean): JSX.Element[] => {
-    const shadow = tint(theme.background, fg, 0.25)
-    const attrs = bold ? TextAttributes.BOLD : undefined
-    return Array.from(line).map((char) => {
-      if (char === "_") {
-        return (
-          <text fg={fg} bg={shadow} attributes={attrs} selectable={false}>
-            {" "}
-          </text>
-        )
-      }
-      if (char === "^") {
-        return (
-          <text fg={fg} bg={shadow} attributes={attrs} selectable={false}>
-            ▀
-          </text>
-        )
-      }
-      if (char === "~") {
-        return (
-          <text fg={shadow} attributes={attrs} selectable={false}>
-            ▀
-          </text>
-        )
-      }
-      if (char === ",") {
-        return (
-          <text fg={shadow} attributes={attrs} selectable={false}>
-            ▄
-          </text>
-        )
-      }
-      return (
-        <text fg={fg} attributes={attrs} selectable={false}>
-          {char}
-        </text>
-      )
-    })
-  }
+  // One space between letters, so the rule below is drawn to the same width.
+  const width = () => Math.max(0, WORDMARK.length * 2 - 1)
 
   return (
-    <box>
-      <For each={logo.left}>
-        {(line, index) => (
-          <box flexDirection="row" gap={1}>
-            <box flexDirection="row">{renderLine(line, theme.textMuted, false)}</box>
-            <box flexDirection="row">{renderLine(logo.right[index()], theme.text, true)}</box>
-          </box>
-        )}
-      </For>
+    <box alignItems="center" gap={0}>
+      <box flexDirection="row" gap={1}>
+        <For each={WORDMARK}>
+          {(char) => (
+            <text fg={theme.text} attributes={TextAttributes.BOLD} selectable={false}>
+              {char}
+            </text>
+          )}
+        </For>
+      </box>
+      <text fg={theme.primary} selectable={false}>
+        {"─".repeat(width())}
+      </text>
     </box>
   )
 }

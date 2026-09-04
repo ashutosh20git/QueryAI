@@ -41,6 +41,14 @@ const icons = {
     viewBox: "0 0 16 16",
     body: `<path d="M14 14L10.3454 10.3454M6.88889 11.7778C9.58889 11.7778 11.7778 9.58889 11.7778 6.88889C11.7778 4.18889 9.58889 2 6.88889 2C4.18889 2 2 4.18889 2 6.88889C2 9.58889 4.18889 11.7778 6.88889 11.7778Z" stroke="currentColor"/>`,
   },
+  sun: {
+    viewBox: "0 0 16 16",
+    body: `<circle cx="8" cy="8" r="2.9" stroke="currentColor"/><path d="M8 1.4V3M8 13V14.6M1.4 8H3M13 8H14.6M3.33 3.33L4.46 4.46M11.54 11.54L12.67 12.67M12.67 3.33L11.54 4.46M4.46 11.54L3.33 12.67" stroke="currentColor" stroke-linecap="round"/>`,
+  },
+  moon: {
+    viewBox: "0 0 16 16",
+    body: `<path d="M13.4 9.66C12.79 9.9 12.12 10.03 11.43 10.03C8.48 10.03 6.09 7.64 6.09 4.69C6.09 3.75 6.33 2.87 6.76 2.11C4.16 2.71 2.22 5.04 2.22 7.82C2.22 11.06 4.85 13.69 8.09 13.69C10.5 13.69 12.57 12.23 13.4 9.66Z" stroke="currentColor" stroke-linejoin="round"/>`,
+  },
   menu: {
     viewBox: "0 0 16 16",
     body: `<path d="M2 8H14M2 4.664H14M2 11.336H14" stroke="currentColor"/>`,

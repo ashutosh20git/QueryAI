@@ -76,7 +76,7 @@ export const Definitions = {
 
   editor_open: keybind("<leader>e", "Open external editor"),
   theme_list: keybind("<leader>t", "List available themes"),
-  theme_switch_mode: keybind("none", "Switch between light and dark theme mode"),
+  theme_switch_mode: keybind("<leader>d", "Switch between light and dark theme mode"),
   theme_mode_lock: keybind("none", "Lock or unlock theme mode"),
   sidebar_toggle: keybind("<leader>b", "Toggle sidebar"),
   scrollbar_toggle: keybind("none", "Toggle session scrollbar"),

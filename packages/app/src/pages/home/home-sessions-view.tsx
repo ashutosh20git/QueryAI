@@ -79,10 +79,9 @@ export function HomeSessionsView(props: HomeSessionsViewProps) {
       aria-label={props.language.t("sidebar.project.recentSessions")}
     >
       <div class="sticky top-0 z-30 shrink-0 bg-v2-background-bg-base pb-3 pt-6 lg:pt-12" onWheel={props.onWheel}>
-        <HomeSessionSearch {...props} />
         <Suspense>
           <Show when={props.groups().length > 0 && props.canCreateSession()}>
-            <div class="pointer-events-none absolute right-0 top-[84px] z-20 flex lg:top-[108px]">
+            <div class="pointer-events-none absolute right-0 top-[48px] z-20 flex lg:top-[72px]">
               <ButtonV2
                 data-action="home-new-session"
                 variant="ghost-muted"
@@ -97,14 +96,15 @@ export function HomeSessionsView(props: HomeSessionsViewProps) {
           </Show>
         </Suspense>
       </div>
-      <div class="pointer-events-none sticky top-[84px] z-40 h-0 -mr-3 lg:top-[108px]">
+      <div class="pointer-events-none sticky top-[48px] z-40 h-0 -mr-3 lg:top-[72px]">
         <div
           ref={props.onSetThumbTrack}
           data-component="home-session-scroll-track"
-          class="relative ml-auto h-[calc(100cqh-84px)] w-3 lg:h-[calc(100cqh-108px)]"
+          class="relative ml-auto h-[calc(100cqh-48px)] w-3 lg:h-[calc(100cqh-72px)]"
         />
       </div>
-      <div class="-mr-3 min-h-[calc(100cqh-72px)] lg:min-h-[calc(100cqh-96px)]">
+      {/* Viewport less the sticky header above and the sticky search bar below. */}
+      <div class="-mr-3 min-h-[calc(100cqh-108px)] lg:min-h-[calc(100cqh-156px)]">
         <Suspense
           fallback={
             <div class="pt-3">
@@ -142,6 +142,9 @@ export function HomeSessionsView(props: HomeSessionsViewProps) {
             </div>
           </Show>
         </Suspense>
+      </div>
+      <div class="sticky bottom-0 z-50 shrink-0 bg-v2-background-bg-base pb-6 pt-3 lg:pb-12">
+        <HomeSessionSearch {...props} />
       </div>
     </section>
   )
@@ -212,10 +215,10 @@ function HomeSessionSearch(props: HomeSessionsViewProps) {
               absolute flex flex-col overflow-hidden rounded-[12px]
               bg-v2-background-bg-base shadow-[var(--v2-elevation-floating)]
             `}
-            style={{ top: "-6px", left: "-6px", width: "calc(100% + 12px)" }}
+            style={{ bottom: "-6px", left: "-6px", width: "calc(100% + 12px)" }}
           >
-            <div class="flex flex-col pt-9">
-              <div id={HOME_SESSION_SEARCH_RESULTS_ID} role="listbox" class="flex flex-col gap-4 pt-4">
+            <div class="flex flex-col pb-9">
+              <div id={HOME_SESSION_SEARCH_RESULTS_ID} role="listbox" class="flex flex-col gap-4 pb-4">
                 <Show
                   when={!props.searchLoading()}
                   fallback={
@@ -402,8 +405,8 @@ function HomeSessionGroupHeader(props: {
     <div
       ref={props.onSetRef}
       class={`
-        pointer-events-none sticky top-[84px] flex h-7 min-w-0 items-center justify-between
-        bg-v2-background-bg-base pl-3 lg:top-[108px]
+        pointer-events-none sticky top-[48px] flex h-7 min-w-0 items-center justify-between
+        bg-v2-background-bg-base pl-3 lg:top-[72px]
       `}
       classList={{ "home-session-group-header z-[5]": !!props.elevated, "z-10": !props.elevated }}
     >

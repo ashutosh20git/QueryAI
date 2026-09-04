@@ -1,0 +1,72 @@
+/**
+ * Editorial switch: a hairline track, a square thumb, no fill and no shadow.
+ * The thumb sits under the sun in light and slides to the moon in dark, so the
+ * lit icon is always the mode you are in.
+ */
+
+[data-component="theme-mode-toggle"] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--v2-icon-icon-base);
+  -webkit-app-region: no-drag;
+  app-region: no-drag;
+}
+
+[data-component="theme-mode-toggle"]:focus-visible {
+  outline: 1px solid var(--v2-border-border-focus);
+  outline-offset: 1px;
+}
+
+[data-slot="theme-mode-toggle-track"] {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 22px);
+  align-items: center;
+  justify-items: center;
+  height: 20px;
+  border: 1px solid var(--v2-border-border-base);
+  border-radius: 2px;
+}
+
+[data-slot="theme-mode-toggle-thumb"] {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 22px;
+  background: var(--v2-background-bg-layer-02);
+  transition: transform 120ms ease-out;
+}
+
+[data-component="theme-mode-toggle"][aria-checked="true"] [data-slot="theme-mode-toggle-thumb"] {
+  transform: translateX(22px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-slot="theme-mode-toggle-thumb"] {
+    transition: none;
+  }
+}
+
+[data-slot="theme-mode-toggle-icon"] {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--v2-icon-icon-muted);
+}
+
+[data-component="theme-mode-toggle"][aria-checked="false"] [data-slot="theme-mode-toggle-icon"][data-mode="light"],
+[data-component="theme-mode-toggle"][aria-checked="true"] [data-slot="theme-mode-toggle-icon"][data-mode="dark"] {
+  color: var(--v2-icon-icon-accent);
+}
+
+[data-component="theme-mode-toggle"]:hover [data-slot="theme-mode-toggle-track"] {
+  border-color: var(--v2-border-border-strong);
+}

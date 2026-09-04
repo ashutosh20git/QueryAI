@@ -51,3 +51,7 @@
 
 @import "./utilities.css" layer(utilities);
 @import "./animations.css" layer(utilities);
+
+/* Unlayered on purpose: it must win over the runtime theme <style>, which is
+   itself unlayered. See the file header. */
+@import "./editorial.css";

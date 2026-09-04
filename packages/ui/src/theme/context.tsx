@@ -55,6 +55,7 @@ const names: Record<string, string> = {
   cobalt2: "Cobalt2",
   cursor: "Cursor",
   dracula: "Dracula",
+  editorial: "Editorial Warm",
   everforest: "Everforest",
   flexoki: "Flexoki",
   github: "GitHub",
@@ -130,12 +131,22 @@ function getSystemMode(): "light" | "dark" {
   return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
 }
 
+function pickChrome(tokens: Record<string, string>, isDark: boolean) {
+  const value = tokens["v2-background-bg-deep"]
+  if (typeof value === "string" && value.startsWith("#")) return value
+  return isDark ? "#080808" : "#fafafa"
+}
+
 function applyThemeCss(theme: DesktopTheme, themeId: string, mode: "light" | "dark") {
   const isDark = mode === "dark"
   const variant = isDark ? theme.dark : theme.light
   const tokens = resolveThemeVariant(variant, isDark)
   const css = themeToCss(tokens)
-  const v2 = themeV2ToCss(resolveThemeVariantV2(variant, isDark))
+  const v2Tokens = resolveThemeVariantV2(variant, isDark)
+  const v2 = themeV2ToCss(v2Tokens)
+  // Paint the chrome (html background, mobile status bar) in the theme's own
+  // deepest surface rather than a hardcoded grey, so warm themes stay warm.
+  const chrome = pickChrome(v2Tokens, isDark)
 
   if (themeId !== "oc-2") {
     write(isDark ? STORAGE_KEYS.THEME_CSS_DARK : STORAGE_KEYS.THEME_CSS_LIGHT, `${css}\n  ${v2}`)
@@ -152,11 +163,11 @@ function applyThemeCss(theme: DesktopTheme, themeId: string, mode: "light" | "da
   ensureThemeStyleElement().textContent = fullCss
   document.documentElement.dataset.theme = themeId
   document.documentElement.dataset.colorScheme = mode
-  document.documentElement.style.backgroundColor = isDark ? "#080808" : "#fafafa"
+  document.documentElement.style.backgroundColor = chrome
 
   // Update theme-color meta tag to match light/dark mode
   const meta = document.querySelector('meta[name="theme-color"]')
-  if (meta) meta.setAttribute("content", isDark ? "#080808" : "#fafafa")
+  if (meta) meta.setAttribute("content", chrome)
 }
 
 function cacheThemeVariants(theme: DesktopTheme, themeId: string) {

@@ -346,8 +346,15 @@ export const { use: useSettings, provider: SettingsProvider } = createSimpleCont
     createEffect(() => {
       if (typeof document === "undefined") return
       const root = document.documentElement
-      root.style.setProperty("--font-family-mono", monoFontFamily(store.appearance?.mono))
-      root.style.setProperty("--font-family-sans", sansFontFamily(store.appearance?.sans))
+      // Only pin a font when the user actually chose one. An inline style would
+      // otherwise beat the active theme's own stack (Editorial Warm sets a
+      // serif text face and a different mono) with the generic fallback.
+      const set = (name: string, font: string | undefined, resolve: (value: string | undefined) => string) => {
+        if (font?.trim()) root.style.setProperty(name, resolve(font))
+        else root.style.removeProperty(name)
+      }
+      set("--font-family-mono", store.appearance?.mono, monoFontFamily)
+      set("--font-family-sans", store.appearance?.sans, sansFontFamily)
     })
 
     createEffect(() => {

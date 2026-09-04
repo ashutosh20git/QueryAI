@@ -8,9 +8,12 @@ import { Flag } from "@queryai/core/flag/flag"
 import { useBindings, useQueryAIModeStack } from "../keymap"
 import { useClipboard } from "../context/clipboard"
 
+export type DialogPlacement = "center" | "bottom"
+
 export function Dialog(
   props: ParentProps<{
     size?: "medium" | "large" | "xlarge"
+    placement?: DialogPlacement
     onClose: () => void
   }>,
 ) {
@@ -40,9 +43,10 @@ export function Dialog(
       width={dimensions().width}
       height={dimensions().height}
       alignItems="center"
+      justifyContent={props.placement === "bottom" ? "flex-end" : "flex-start"}
       position="absolute"
       zIndex={3000}
-      paddingTop={dimensions().height / 4}
+      paddingTop={props.placement === "bottom" ? 0 : dimensions().height / 4}
       left={0}
       top={0}
       backgroundColor={RGBA.fromInts(0, 0, 0, 150)}
@@ -73,6 +77,7 @@ function init() {
       onClose?: () => void
     }[],
     size: "medium" as "medium" | "large" | "xlarge",
+    placement: "center" as DialogPlacement,
   })
 
   const renderer = useRenderer()
@@ -143,6 +148,7 @@ function init() {
       }
       batch(() => {
         setStore("size", "medium")
+        setStore("placement", "center")
         setStore("stack", [])
       })
       refocus()
@@ -156,6 +162,7 @@ function init() {
         if (item.onClose) item.onClose()
       }
       setStore("size", "medium")
+      setStore("placement", "center")
       setStore("stack", [
         {
           element: input,
@@ -171,6 +178,12 @@ function init() {
     },
     setSize(size: "medium" | "large" | "xlarge") {
       setStore("size", size)
+    },
+    get placement() {
+      return store.placement
+    },
+    setPlacement(placement: DialogPlacement) {
+      setStore("placement", placement)
     },
   }
 }
@@ -213,7 +226,7 @@ export function DialogProvider(props: ParentProps) {
         onMouseUp={!Flag.QUERYAI_EXPERIMENTAL_DISABLE_COPY_ON_SELECT ? copySelection : undefined}
       >
         <Show when={value.stack.length}>
-          <Dialog onClose={() => value.clear()} size={value.size}>
+          <Dialog onClose={() => value.clear()} size={value.size} placement={value.placement}>
             {value.stack.at(-1)!.element}
           </Dialog>
         </Show>
