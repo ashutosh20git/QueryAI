@@ -76,8 +76,11 @@ const providerLayer = (flags: Partial<RuntimeFlags.Info> = {}) =>
 
 const list = Provider.use.list()
 
+const zen = (providers: Record<string, { models: Record<string, { cost: { input: number } }> }>) =>
+  providers[ProviderV2.ID.make("queryai")]
+
 const paid = (providers: Record<string, { models: Record<string, { cost: { input: number } }> }>) => {
-  const item = providers[ProviderV2.ID.make("queryai")]
+  const item = zen(providers)
   expect(item).toBeDefined()
   return Object.values(item.models).filter((model) => model.cost.input > 0).length
 }
@@ -2064,55 +2067,167 @@ it.instance(
   }),
 )
 
-it.effect("queryai loader keeps paid models when config apiKey is present", () =>
+const listProvidersIn = (directory: string) =>
+  Provider.use
+    .list()
+    .pipe(provideInstanceEffect(directory))
+    .pipe(Effect.provide(instanceStoreLayer), Effect.provide(AppNodeBuilder.build(CrossSpawnSpawner.node)))
+
+it.effect("queryai loader stays unloaded without a credential", () =>
   Effect.gen(function* () {
     const noneDir = yield* tmpdirScoped()
     const keyedDir = yield* tmpdirScoped({
       config: { provider: { queryai: { options: { apiKey: "test-key" } } } },
     })
 
-    const listIn = (directory: string) =>
-      Provider.use
-        .list()
-        .pipe(provideInstanceEffect(directory))
-        .pipe(Effect.provide(instanceStoreLayer), Effect.provide(AppNodeBuilder.build(CrossSpawnSpawner.node)))
-
-    const none = paid(yield* listIn(noneDir))
-    const keyedCount = paid(yield* listIn(keyedDir))
-
-    expect(none).toBe(0)
-    expect(keyedCount).toBeGreaterThan(0)
+    expect(zen(yield* listProvidersIn(noneDir))).toBeUndefined()
+    expect(paid(yield* listProvidersIn(keyedDir))).toBeGreaterThan(0)
   }).pipe(provideMultiInstance),
 )
 
-it.effect("queryai loader keeps paid models when auth exists", () =>
+it.effect("queryai loader ignores an empty config declaration", () =>
   Effect.gen(function* () {
-    const noneDir = yield* tmpdirScoped()
-    const keyedDir = yield* tmpdirScoped()
+    const bareDir = yield* tmpdirScoped({ config: { provider: { queryai: {} } } })
 
-    const listIn = (directory: string) =>
-      Provider.use
-        .list()
-        .pipe(provideInstanceEffect(directory))
-        .pipe(Effect.provide(instanceStoreLayer), Effect.provide(AppNodeBuilder.build(CrossSpawnSpawner.node)))
+    expect(zen(yield* listProvidersIn(bareDir))).toBeUndefined()
+  }).pipe(provideMultiInstance),
+)
 
-    const none = paid(yield* listIn(noneDir))
+it.effect("queryai loader accepts the pre-rename env var", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped()
+    yield* setProcessEnv("OPENCODE_API_KEY", "legacy-key")
 
+    expect(paid(yield* listProvidersIn(legacyDir))).toBeGreaterThan(0)
+  }).pipe(provideMultiInstance),
+)
+
+const withStoredAuth = (contents: Record<string, unknown>) =>
+  Effect.gen(function* () {
     const authPath = path.join(Global.Path.data, "auth.json")
     const original = yield* Effect.promise(() => Filesystem.readText(authPath).catch(() => undefined))
-
     yield* Effect.acquireRelease(
-      Effect.promise(() => Filesystem.write(authPath, JSON.stringify({ queryai: { type: "api", key: "test-key" } }))),
+      Effect.promise(() => Filesystem.write(authPath, JSON.stringify(contents))),
       () =>
         Effect.promise(async () => {
           if (original !== undefined) await Filesystem.write(authPath, original)
           else await unlink(authPath).catch(() => undefined)
         }),
     )
+  })
 
-    const keyedCount = paid(yield* listIn(keyedDir))
+it.effect("queryai loader keeps paid models when auth exists", () =>
+  Effect.gen(function* () {
+    const noneDir = yield* tmpdirScoped()
+    const keyedDir = yield* tmpdirScoped()
 
-    expect(none).toBe(0)
-    expect(keyedCount).toBeGreaterThan(0)
+    expect(zen(yield* listProvidersIn(noneDir))).toBeUndefined()
+
+    yield* withStoredAuth({ queryai: { type: "api", key: "test-key" } })
+
+    expect(paid(yield* listProvidersIn(keyedDir))).toBeGreaterThan(0)
   }).pipe(provideMultiInstance),
+)
+
+it.effect("queryai loader accepts a credential stored under the pre-rename id", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped()
+
+    yield* withStoredAuth({ opencode: { type: "api", key: "legacy-key" } })
+
+    expect(paid(yield* listProvidersIn(legacyDir))).toBeGreaterThan(0)
+  }).pipe(provideMultiInstance),
+)
+
+it.effect("queryai loader moves a pre-rename credential onto the current id", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped()
+    const authPath = path.join(Global.Path.data, "auth.json")
+
+    yield* withStoredAuth({ opencode: { type: "api", key: "legacy-key" } })
+    yield* listProvidersIn(legacyDir)
+
+    const stored = JSON.parse(yield* Effect.promise(() => Filesystem.readText(authPath)))
+    expect(stored["queryai"]).toEqual({ type: "api", key: "legacy-key" })
+    expect(stored["opencode"]).toBeUndefined()
+  }).pipe(provideMultiInstance),
+)
+
+it.effect("queryai loader leaves a pre-rename credential alone when the current id is taken", () =>
+  Effect.gen(function* () {
+    const keyedDir = yield* tmpdirScoped()
+    const authPath = path.join(Global.Path.data, "auth.json")
+
+    yield* withStoredAuth({
+      opencode: { type: "api", key: "legacy-key" },
+      queryai: { type: "api", key: "current-key" },
+    })
+    yield* listProvidersIn(keyedDir)
+
+    const stored = JSON.parse(yield* Effect.promise(() => Filesystem.readText(authPath)))
+    expect(stored["queryai"]).toEqual({ type: "api", key: "current-key" })
+    expect(stored["opencode"]).toEqual({ type: "api", key: "legacy-key" })
+  }).pipe(provideMultiInstance),
+)
+
+it.effect("config declared under the pre-rename id loads as queryai", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped({
+      config: { provider: { opencode: { options: { apiKey: "test-key" } } } },
+    })
+
+    const providers = yield* listProvidersIn(legacyDir)
+    expect(paid(providers)).toBeGreaterThan(0)
+    expect(providers[ProviderV2.ID.make("opencode")]).toBeUndefined()
+  }).pipe(provideMultiInstance),
+)
+
+it.effect("an allowlist written before the rename still names this provider", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped({
+      config: {
+        enabled_providers: ["opencode"],
+        provider: { queryai: { options: { apiKey: "test-key" } } },
+      },
+    })
+
+    // Without the rename fold the allowlist matches nothing and the install ends
+    // up with no providers at all.
+    expect(paid(yield* listProvidersIn(legacyDir))).toBeGreaterThan(0)
+  }).pipe(provideMultiInstance),
+)
+
+it.effect("a denylist written before the rename still disables this provider", () =>
+  Effect.gen(function* () {
+    const legacyDir = yield* tmpdirScoped({
+      config: {
+        disabled_providers: ["opencode"],
+        provider: { queryai: { options: { apiKey: "test-key" } } },
+      },
+    })
+
+    expect(zen(yield* listProvidersIn(legacyDir))).toBeUndefined()
+  }).pipe(provideMultiInstance),
+  20_000,
+)
+
+it.instance("parseModel resolves a pre-rename provider id", () =>
+  Effect.sync(() => {
+    expect(Provider.parseModel("opencode/claude-sonnet-4-6")).toEqual({
+      providerID: ProviderV2.ID.make("queryai"),
+      modelID: ModelV2.ID.make("claude-sonnet-4-6"),
+    })
+    expect(Provider.parseModel("anthropic/claude-sonnet-4-5").providerID).toBe(ProviderV2.ID.anthropic)
+  }),
+)
+
+it.instance("getModel resolves a pre-rename provider id", () =>
+  Effect.gen(function* () {
+    yield* set("QUERYAI_API_KEY", "test-key")
+    const model = yield* Provider.use.getModel(
+      ProviderV2.ID.make("opencode"),
+      ModelV2.ID.make("claude-sonnet-4-6"),
+    )
+    expect(String(model.providerID)).toBe("queryai")
+  }),
 )

@@ -1,0 +1,17 @@
+{
+  "name": "@queryai/share-worker",
+  "type": "module",
+  "license": "MIT",
+  "version": "1.18.25",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsgo --noEmit",
+    "tail": "wrangler tail"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20260101.0",
+    "wrangler": "4.42.0"
+  }
+}

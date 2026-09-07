@@ -15,6 +15,28 @@ import { InstallationChannel, InstallationVersion } from "@queryai/core/installa
 import { NpmConfig } from "@queryai/core/npm-config"
 import { InstallationEvent } from "@queryai/schema/installation-event"
 
+/**
+ * Where this build looks for its own updates. Every package name, tap and
+ * release feed lives here rather than being spelled out at each call site,
+ * because getting one of them wrong means upgrading a user onto somebody else's
+ * program - which is exactly what happened while these still said "opencode".
+ *
+ * A fork must change all of these together, and `QUERYAI_RELEASE_REPO` /
+ * `QUERYAI_NPM_PACKAGE` let a private build point elsewhere without a patch.
+ */
+export const Release = {
+  /** npm package name, also used to recognise an npm-installed copy. */
+  npm: process.env["QUERYAI_NPM_PACKAGE"] || "queryai",
+  /** GitHub `owner/repo` whose releases are the source of truth for versions. */
+  repo: process.env["QUERYAI_RELEASE_REPO"] || "ashutosh20git/QueryAI",
+  brewFormula: "queryai",
+  brewTap: "ashutosh20git/tap/queryai",
+  chocoPackage: "queryai",
+  scoopManifest: "queryai",
+  /** Shell installer. Empty until one is published; `curl` upgrades are skipped while it is. */
+  installScript: process.env["QUERYAI_INSTALL_URL"] || "",
+} as const
+
 export type Method = "curl" | "npm" | "yarn" | "pnpm" | "bun" | "brew" | "scoop" | "choco" | "unknown"
 
 export type ReleaseType = "patch" | "minor" | "major"
@@ -123,11 +145,11 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
     )
 
     const getBrewFormula = Effect.fnUntraced(function* () {
-      const tapFormula = yield* text(["brew", "list", "--formula", "anomalyco/tap/opencode"])
-      if (tapFormula.includes("opencode")) return "anomalyco/tap/opencode"
-      const coreFormula = yield* text(["brew", "list", "--formula", "opencode"])
-      if (coreFormula.includes("opencode")) return "opencode"
-      return "opencode"
+      const tapFormula = yield* text(["brew", "list", "--formula", Release.brewTap])
+      if (tapFormula.includes(Release.brewFormula)) return Release.brewTap
+      const coreFormula = yield* text(["brew", "list", "--formula", Release.brewFormula])
+      if (coreFormula.includes(Release.brewFormula)) return Release.brewFormula
+      return Release.brewTap
     })
 
     const upgradeFailure = (method: Method, result?: { code: number; stdout: string; stderr: string }) => {
@@ -144,7 +166,14 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
 
     const upgradeCurl = Effect.fnUntraced(
       function* (target: string) {
-        const response = yield* httpOk.execute(HttpClientRequest.get("https://opencode.ai/install"))
+        // No installer is published yet. Doing nothing is the only safe answer:
+        // the alternative is piping an unknown script into a shell.
+        if (!Release.installScript) {
+          return yield* new UpgradeFailedError({
+            stderr: "No install script is configured for this build. Upgrade with your package manager instead.",
+          })
+        }
+        const response = yield* httpOk.execute(HttpClientRequest.get(Release.installScript))
         const body = yield* response.text
         const bodyBytes = new TextEncoder().encode(body)
         const shell = yield* upgradeScriptShell()
@@ -197,7 +226,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
         for (const check of checks) {
           const output = yield* check.command()
           const installedName =
-            check.name === "brew" || check.name === "choco" || check.name === "scoop" ? "queryai" : "opencode-ai"
+            check.name === "brew" || check.name === "choco" || check.name === "scoop" ? "queryai" : Release.npm
           if (output.includes(installedName)) {
             return check.name
           }
@@ -216,7 +245,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
             return info.formulae[0].versions.stable
           }
           const response = yield* httpOk.execute(
-            HttpClientRequest.get("https://formulae.brew.sh/api/formula/opencode.json").pipe(
+            HttpClientRequest.get(`https://formulae.brew.sh/api/formula/${Release.brewFormula}.json`).pipe(
               HttpClientRequest.acceptJson,
             ),
           )
@@ -227,7 +256,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
         if (detectedMethod === "npm" || detectedMethod === "bun" || detectedMethod === "pnpm") {
           const response = yield* httpOk.execute(
             HttpClientRequest.get(
-              `${yield* NpmConfig.registry(process.cwd())}/opencode-ai/${InstallationChannel}`,
+              `${yield* NpmConfig.registry(process.cwd())}/${Release.npm}/${InstallationChannel}`,
             ).pipe(HttpClientRequest.acceptJson),
           )
           const data = yield* HttpClientResponse.schemaBodyJson(NpmPackage)(response)
@@ -237,7 +266,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
         if (detectedMethod === "choco") {
           const response = yield* httpOk.execute(
             HttpClientRequest.get(
-              "https://community.chocolatey.org/api/v2/Packages?$filter=Id%20eq%20%27opencode%27%20and%20IsLatestVersion&$select=Version",
+              `https://community.chocolatey.org/api/v2/Packages?$filter=Id%20eq%20%27${Release.chocoPackage}%27%20and%20IsLatestVersion&$select=Version`,
             ).pipe(HttpClientRequest.setHeaders({ Accept: "application/json;odata=verbose" })),
           )
           const data = yield* HttpClientResponse.schemaBodyJson(ChocoPackage)(response)
@@ -247,7 +276,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
         if (detectedMethod === "scoop") {
           const response = yield* httpOk.execute(
             HttpClientRequest.get(
-              "https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/opencode.json",
+              `https://raw.githubusercontent.com/ScoopInstaller/Main/master/bucket/${Release.scoopManifest}.json`,
             ).pipe(HttpClientRequest.setHeaders({ Accept: "application/json" })),
           )
           const data = yield* HttpClientResponse.schemaBodyJson(ScoopManifest)(response)
@@ -255,7 +284,7 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
         }
 
         const response = yield* httpOk.execute(
-          HttpClientRequest.get("https://api.github.com/repos/anomalyco/opencode/releases/latest").pipe(
+          HttpClientRequest.get(`https://api.github.com/repos/${Release.repo}/releases/latest`).pipe(
             HttpClientRequest.acceptJson,
           ),
         )
@@ -269,13 +298,13 @@ const layer: Layer.Layer<Service, never, HttpClient.HttpClient | AppProcess.Serv
             upgradeResult = yield* upgradeCurl(target)
             break
           case "npm":
-            upgradeResult = yield* run(["npm", "install", "-g", `opencode-ai@${target}`])
+            upgradeResult = yield* run(["npm", "install", "-g", `${Release.npm}@${target}`])
             break
           case "pnpm":
-            upgradeResult = yield* run(["pnpm", "install", "-g", `opencode-ai@${target}`])
+            upgradeResult = yield* run(["pnpm", "install", "-g", `${Release.npm}@${target}`])
             break
           case "bun":
-            upgradeResult = yield* run(["bun", "install", "-g", `opencode-ai@${target}`])
+            upgradeResult = yield* run(["bun", "install", "-g", `${Release.npm}@${target}`])
             break
           case "brew": {
             const formula = yield* getBrewFormula()

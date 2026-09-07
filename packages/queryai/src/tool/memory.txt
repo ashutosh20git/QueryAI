@@ -1,0 +1,25 @@
+Store and retrieve durable facts about this user across sessions.
+
+Memory persists after the conversation ends, so it is for things that stay true, not for the state of the current task. Use the todo tool for task state.
+
+Actions:
+
+- `remember` - save a fact. Requires `text`. Write one self-contained fact per call, phrased so it makes sense months from now with no surrounding conversation ("prefers pnpm over npm in this repo", not "yes, use that one"). Set `scope` to `project` (default) for things true of this codebase, or `user` for things true of the person everywhere - their name, preferred style, how they like to be addressed.
+- `search` - look up memories relevant to a query. Recent memories are already injected into your context automatically; use this when you need something older or more specific.
+- `list` - show what is currently stored. Optionally filter by `scope`.
+- `forget` - delete a memory by `id`. Ids come from `search` or `list`.
+
+When to remember something:
+
+- The user tells you to ("remember that...", "from now on...", "always...").
+- The user corrects a preference or a convention that will apply again later.
+- You discover a durable fact about the project's setup that was expensive to learn and is not written down in the repo.
+
+When not to:
+
+- Anything already in the repo, AGENTS.md, or CLAUDE.md - those are read every session anyway.
+- Secrets, credentials, tokens, or personal data the user did not ask you to keep.
+- Task state, current file contents, or anything that will be stale next week.
+- Facts you inferred but are not confident about.
+
+Do not announce every write. Save the fact and continue with the task.

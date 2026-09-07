@@ -52,7 +52,7 @@ const bootstrapFixture = Effect.gen(function* () {
     Bun.write(
       path.join(dir, "queryai.json"),
       JSON.stringify({
-        $schema: "https://opencode.ai/config.json",
+        $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
         plugin: [pathToFileURL(pluginFile).href],
       }),
     ),

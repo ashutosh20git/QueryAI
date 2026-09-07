@@ -74,7 +74,7 @@ describe("plugin.workspace", () => {
           path.join(dir, "queryai.json"),
           JSON.stringify(
             {
-              $schema: "https://opencode.ai/config.json",
+              $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
               plugin: [pathToFileURL(file).href],
             },
             null,

@@ -35,7 +35,7 @@ You can customize the base URL for any provider by setting the `baseURL` option.
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -54,7 +54,7 @@ You can hide specific models from the `/models` picker for a provider using the 
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "blacklist": ["claude-opus-4-20250514"]
@@ -67,7 +67,7 @@ The inverse `whitelist` option hides every model except the ones listed.
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "whitelist": ["claude-sonnet-4-20250514"]
@@ -235,7 +235,7 @@ To use Amazon Bedrock with QueryAI:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -264,7 +264,7 @@ To use Amazon Bedrock with QueryAI:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -313,7 +313,7 @@ For custom inference profiles, use the model and provider name in the key and se
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       // ...
@@ -376,7 +376,7 @@ You can configure queryai to use local models through [Atomic Chat](https://atom
 
 ```json title="queryai.json" "atomic-chat" {5, 6, 8, 10-14}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "atomic-chat": {
       "npm": "@ai-sdk/openai-compatible",
@@ -475,7 +475,7 @@ Model discovery requires Azure control-plane permissions, which are separate fro
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "azure": {
       "models": {
@@ -642,7 +642,7 @@ Cloudflare AI Gateway lets you access models from OpenAI, Anthropic, Workers AI,
 
    ```json title="queryai.json"
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "cloudflare-ai-gateway": {
          "models": {
@@ -1000,7 +1000,7 @@ to only use your own GitLab-hosted instance, add the following to your
 
 ```json
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "small_model": "gitlab/duo-chat-haiku-4-5",
   "share": "disabled"
 }
@@ -1064,7 +1064,7 @@ Customize through `queryai.json`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "gitlab": {
       "options": {
@@ -1095,7 +1095,7 @@ To access GitLab tools (merge requests, issues, pipelines, CI/CD, etc.):
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "plugin": ["queryai-gitlab-plugin"]
 }
 ```
@@ -1305,7 +1305,7 @@ Here's [Helicone's Model Directory](https://helicone.ai/models), you'll need thi
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1333,7 +1333,7 @@ Helicone supports custom headers for features like caching, user tracking, and s
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1387,7 +1387,7 @@ You can configure queryai to use local models through [llama.cpp's](https://gith
 
 ```json title="queryai.json" "llama.cpp" {5, 6, 8, 10-15}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1454,7 +1454,7 @@ You can configure queryai to use local models through LM Studio.
 
 ```json title="queryai.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1595,7 +1595,7 @@ You can also use NVIDIA models locally via [NVIDIA NIM](https://docs.nvidia.com/
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "nvidia": {
       "options": {
@@ -1653,7 +1653,7 @@ Ollama can automatically configure itself for QueryAI. See the [Ollama integrati
 
 ```json title="queryai.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1819,7 +1819,7 @@ QueryAI Zen is a list of tested and verified models provided by the QueryAI team
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1834,7 +1834,7 @@ QueryAI Zen is a list of tested and verified models provided by the QueryAI team
 
    ```json title="queryai.json"
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1883,7 +1883,7 @@ QueryAI Zen is a list of tested and verified models provided by the QueryAI team
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "llmgateway": {
          "models": {
@@ -1898,7 +1898,7 @@ QueryAI Zen is a list of tested and verified models provided by the QueryAI team
 
    ```json title="queryai.json"
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "llmgateway": {
          "models": {
@@ -1955,7 +1955,7 @@ If your organization runs a Poolside deployment, configure it as a custom OpenAI
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "poolside-deployment": {
       "npm": "@ai-sdk/openai-compatible",
@@ -2254,7 +2254,7 @@ The model catalog is provided automatically. A minimal `queryai.json` is all tha
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "model": "snowflake-cortex/claude-sonnet-4-6",
   "small_model": "snowflake-cortex/claude-haiku-4-5"
 }
@@ -2347,7 +2347,7 @@ You can also customize models through your queryai config. Here's an example of 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "vercel": {
       "models": {
@@ -2481,7 +2481,7 @@ QueryAI refreshes the OAuth access token automatically. Any Grok or X Premium pl
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "zenmux": {
          "models": {
@@ -2549,7 +2549,7 @@ You can use any OpenAI-compatible provider with queryai. Most modern AI provider
 
    ```json title="queryai.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://opencode.ai/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -2587,7 +2587,7 @@ Here's an example setting the `apiKey`, `headers`, and model `limit` options.
 
 ```json title="queryai.json" {9,11,17-20}
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",

@@ -1,6 +1,7 @@
 import { LayerNode } from "@queryai/core/effect/layer-node"
 import os from "os"
 import { ConfigV1 } from "@queryai/core/v1/config/config"
+import { ConfigProviderV1 } from "@queryai/core/v1/config/provider"
 import fuzzysort from "fuzzysort"
 import { Config } from "@/config/config"
 import { mapValues, mergeDeep, omit, pickBy, sortBy } from "remeda"
@@ -152,6 +153,7 @@ type CustomLoader = (provider: Info) => Effect.Effect<{
 
 type CustomDep = {
   auth: (id: string) => Effect.Effect<Auth.Info | undefined>
+  migrateAuth: (from: string, to: string) => Effect.Effect<void>
   config: () => Effect.Effect<ConfigV1.Info>
   env: () => Effect.Effect<Record<string, string | undefined>>
   get: (key: string) => Effect.Effect<string | undefined>
@@ -171,6 +173,61 @@ function selectBedrockMantleLanguageModel(sdk: BundledSDK, modelID: string) {
   return sdk.responses?.(modelID) ?? sdk.languageModel(modelID)
 }
 
+function describesProvider(provider: ConfigProviderV1.Info): boolean {
+  if (Object.keys(provider.models ?? {}).length > 0) return true
+  if (Object.keys(provider.options ?? {}).length > 0) return true
+  if (provider.env?.length) return true
+  return Boolean(provider.api || provider.npm)
+}
+
+/**
+ * The catalog is aliased away from the pre-rename ids before it reaches here
+ * (see `ModelsDev.alias`), so a current credential is stored under `queryai` /
+ * `QUERYAI_API_KEY`. An install that authenticated before the rename still holds
+ * one under the old id and env var, which the generic env and auth loaders no
+ * longer look at - so check for it here rather than silently dropping a working
+ * account. A stored credential is moved onto the current id as we go; an env var
+ * is not ours to rewrite, so that one is handed over as an option every run.
+ */
+const LEGACY_ZEN_ENV = "OPENCODE_API_KEY"
+const LEGACY_ZEN_ID: Record<string, string> = {
+  queryai: "opencode",
+  "queryai-go": "opencode-go",
+}
+
+function zen(dep: CustomDep): CustomLoader {
+  return Effect.fnUntraced(function* (input: Info) {
+    const env = yield* dep.env()
+    const cfg = yield* dep.config()
+    const legacyID = LEGACY_ZEN_ID[input.id]
+    // Credentialed like every other provider. Upstream also accepted an
+    // anonymous sentinel key that unlocked the zero-cost models without an
+    // account; that path is gone, so the provider only loads against a real
+    // credential and an unauthenticated install simply does not see it.
+    const current =
+      input.env.some((item) => env[item]) ||
+      Boolean(yield* dep.auth(input.id)) ||
+      Boolean(cfg.provider?.[input.id]?.options?.apiKey) ||
+      Boolean(legacyID && cfg.provider?.[legacyID]?.options?.apiKey)
+
+    let legacy: string | undefined
+    if (!current && legacyID) {
+      const stored = yield* dep.auth(legacyID)
+      legacy = env[LEGACY_ZEN_ENV] ?? (stored?.type === "api" ? stored.key : undefined)
+      // The env and auth passes have already run by now, so this run still needs
+      // the key in hand; from the next one on it is an ordinary credential.
+      yield* dep.migrateAuth(legacyID, input.id)
+    }
+
+    if (!current && !legacy) return { autoload: false }
+
+    return {
+      autoload: Object.keys(input.models).length > 0,
+      options: legacy ? { apiKey: legacy } : {},
+    }
+  })
+}
+
 function custom(dep: CustomDep): Record<string, CustomLoader> {
   return {
     anthropic: () =>
@@ -182,29 +239,8 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           },
         },
       }),
-    queryai: Effect.fnUntraced(function* (input: Info) {
-      const env = yield* dep.env()
-      const hasKey = iife(() => {
-        if (input.env.some((item) => env[item])) return true
-        return false
-      })
-      const ok =
-        hasKey ||
-        Boolean(yield* dep.auth(input.id)) ||
-        Boolean((yield* dep.config()).provider?.["queryai"]?.options?.apiKey)
-
-      if (!ok) {
-        for (const [key, value] of Object.entries(input.models)) {
-          if (value.cost.input === 0) continue
-          delete input.models[key]
-        }
-      }
-
-      return {
-        autoload: Object.keys(input.models).length > 0,
-        options: ok ? {} : { apiKey: "public" },
-      }
-    }),
+    queryai: zen(dep),
+    "queryai-go": zen(dep),
     openai: () =>
       Effect.succeed({
         autoload: false,
@@ -1415,6 +1451,18 @@ const layer = Layer.effect(
         } = {}
         const dep = {
           auth: (id: string) => auth.get(id).pipe(Effect.orDie),
+          // Best effort: a credential store we cannot write to is not a reason to
+          // fail provider init, and an injected credential set is never ours to
+          // materialize on disk.
+          migrateAuth: (from: string, to: string) =>
+            Effect.gen(function* () {
+              if (yield* env.get("QUERYAI_AUTH_CONTENT")) return
+              const existing = yield* auth.get(from)
+              if (!existing) return
+              if (yield* auth.get(to)) return
+              yield* auth.set(to, existing)
+              yield* auth.remove(from)
+            }).pipe(Effect.ignore),
           config: () => config.get(),
           env: () => env.all(),
           get: (key: string) => env.get(key),
@@ -1437,9 +1485,25 @@ const layer = Layer.effect(
         const plugins = yield* plugin.list()
 
         // now read config providers - includes any modifications from plugin config() hook
-        const configProviders = Object.entries(cfg.provider ?? {})
-        const disabled = new Set(cfg.disabled_providers ?? [])
-        const enabled = cfg.enabled_providers ? new Set(cfg.enabled_providers) : null
+        // A config block written before the rename still names the old provider id.
+        // Fold those onto the current id so the whole config path - options, models,
+        // blacklist, whitelist, variants - lands on the provider that exists, unless
+        // the file also declares the current id, which wins as the explicit one.
+        const configProviders = Object.entries(cfg.provider ?? {}).flatMap(
+          ([id, provider]): [string, ConfigProviderV1.Info][] => {
+            const next = ModelsDev.aliasID(id)
+            if (next !== id && cfg.provider?.[next]) return []
+            return [[next, provider]]
+          },
+        )
+        const configByProvider = new Map(configProviders)
+        // Both lists name providers, so they take the same rename fold as the
+        // provider block above - otherwise an allowlist written before the rename
+        // matches nothing and leaves the install with no providers at all.
+        const disabled = new Set((cfg.disabled_providers ?? []).map((id) => ModelsDev.aliasID(id)))
+        const enabled = cfg.enabled_providers
+          ? new Set(cfg.enabled_providers.map((id) => ModelsDev.aliasID(id)))
+          : null
 
         function isProviderAllowed(providerID: ProviderV2.ID): boolean {
           if (enabled && !enabled.has(providerID)) return false
@@ -1622,6 +1686,10 @@ const layer = Layer.effect(
           mergeProvider(providerID, patch)
         }
 
+        // Built-in providers whose loader found no credential at all. Tracked so the
+        // config pass below cannot resurrect them from an empty declaration.
+        const declined = new Set<string>()
+
         for (const [id, fn] of Object.entries(custom(dep))) {
           const providerID = ProviderV2.ID.make(id)
           if (disabled.has(providerID)) continue
@@ -1637,12 +1705,21 @@ const layer = Layer.effect(
             const opts = result.options ?? {}
             const patch: Partial<Info> = providers[providerID] ? { options: opts } : { source: "custom", options: opts }
             mergeProvider(providerID, patch)
+            continue
           }
+          if (!providers[providerID]) declined.add(providerID)
         }
 
         // load config - re-apply with updated data
         for (const [id, provider] of configProviders) {
           const providerID = ProviderV2.ID.make(id)
+          // A config block is an explicit opt-in, but an empty one supplies no
+          // credential of its own. Re-adding a built-in provider whose loader just
+          // declined for want of one only defers the failure to the first request,
+          // so skip it. Blocks that actually configure something - models, options,
+          // a custom endpoint or package - still load, which is how key-less local
+          // providers are declared.
+          if (!providers[providerID] && declined.has(providerID) && !describesProvider(provider)) continue
           const partial: Partial<Info> = { source: "config" }
           if (provider.env) partial.env = provider.env
           if (provider.name) partial.name = provider.name
@@ -1671,7 +1748,7 @@ const layer = Layer.effect(
             continue
           }
 
-          const configProvider = cfg.provider?.[providerID]
+          const configProvider = configByProvider.get(providerID)
 
           for (const [modelID, model] of Object.entries(provider.models)) {
             model.api.id = model.api.id ?? model.id ?? modelID
@@ -1862,10 +1939,13 @@ const layer = Layer.effect(
     }
 
     const getProvider = Effect.fn("Provider.getProvider")((providerID: ProviderV2.ID) =>
-      InstanceState.use(state, (s) => s.providers[providerID]),
+      InstanceState.use(state, (s) => s.providers[ProviderV2.ID.make(ModelsDev.aliasID(providerID))]),
     )
 
     const getModel = Effect.fn("Provider.getModel")(function* (providerID: ProviderV2.ID, modelID: ModelV2.ID) {
+      // Sessions, state files and API callers can all hand back a provider id that
+      // was persisted before the rename.
+      providerID = ProviderV2.ID.make(ModelsDev.aliasID(providerID))
       const s = yield* InstanceState.get(state)
       const provider = s.providers[providerID]
       if (!provider) {
@@ -2013,7 +2093,12 @@ const layer = Layer.effect(
             if (!isRecord(item)) return []
             if (typeof item.providerID !== "string") return []
             if (typeof item.modelID !== "string") return []
-            return [{ providerID: ProviderV2.ID.make(item.providerID), modelID: ModelV2.ID.make(item.modelID) }]
+            return [
+              {
+                providerID: ProviderV2.ID.make(ModelsDev.aliasID(item.providerID)),
+                modelID: ModelV2.ID.make(item.modelID),
+              },
+            ]
           })
         }),
         Effect.catch(() => Effect.succeed([] as { providerID: ProviderV2.ID; modelID: ModelV2.ID }[])),
@@ -2025,7 +2110,7 @@ const layer = Layer.effect(
         return { providerID: entry.providerID, modelID: entry.modelID }
       }
 
-      const configured = Object.keys(cfg.provider ?? {})
+      const configured = Object.keys(cfg.provider ?? {}).map((id) => ModelsDev.aliasID(id))
       const provider = Object.values(s.providers).find((p) => configured.length === 0 || configured.includes(p.id))
       if (!provider) return yield* new NoProvidersError()
       const [model] = sort(Object.values(provider.models))
@@ -2054,7 +2139,7 @@ export function sort<T extends { id: string }>(models: T[]) {
 export function parseModel(model: string) {
   const [providerID, ...rest] = model.split("/")
   return {
-    providerID: ProviderV2.ID.make(providerID),
+    providerID: ProviderV2.ID.make(ModelsDev.aliasID(providerID)),
     modelID: ModelV2.ID.make(rest.join("/")),
   }
 }

@@ -22,6 +22,25 @@ import { EventV2 } from "@queryai/core/event"
 
 const disabled = process.env["QUERYAI_DISABLE_SHARE"] === "true" || process.env["QUERYAI_DISABLE_SHARE"] === "1"
 
+/**
+ * Sharing publishes a conversation to a server, so there is deliberately no
+ * default server. Point this at one you run - `packages/share-worker` deploys to
+ * your own Cloudflare account in a couple of commands - and until you do, the
+ * commands say so instead of quietly uploading to somebody else's host.
+ */
+export class ShareNotConfiguredError extends Schema.TaggedErrorClass<ShareNotConfiguredError>()(
+  "ShareNotConfiguredError",
+  {},
+) {
+  override get message() {
+    return [
+      "Sharing is not configured, so there is nowhere to publish this session.",
+      'Set "share_url" in your config (or QUERYAI_SHARE_URL) to a share server you run.',
+      "packages/share-worker in this repo deploys one to your own Cloudflare account for free.",
+    ].join(" ")
+  }
+}
+
 export type Api = {
   create: string
   sync: (shareID: string) => string
@@ -207,8 +226,13 @@ const layer = Layer.effect(
       const headers: Record<string, string> = {}
       const active = yield* account.active()
       if (Option.isNone(active) || !active.value.active_org_id) {
-        const baseUrl = (yield* cfg.get()).enterprise?.url ?? "https://opncd.ai"
-        return { headers, api: legacyApi, baseUrl } satisfies Req
+        const config = yield* cfg.get()
+        // `enterprise.url` did the same job before this had a name of its own,
+        // so a config that set it keeps working.
+        const baseUrl =
+          config.share_url ?? config.enterprise?.url ?? process.env["QUERYAI_SHARE_URL"] ?? undefined
+        if (!baseUrl) return yield* new ShareNotConfiguredError()
+        return { headers, api: legacyApi, baseUrl: baseUrl.replace(/\/+$/, "") } satisfies Req
       }
 
       const token = yield* account.token(active.value.id)

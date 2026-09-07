@@ -101,15 +101,33 @@ describe("ShareNext", () => {
     ),
   )
 
-  it.live("request uses default URL when no enterprise config", () =>
+  it.live("share_url is the way to name your own server", () =>
+    provideTmpdirInstance(
+      () =>
+        ShareNext.Service.use((svc) =>
+          Effect.gen(function* () {
+            const req = yield* svc.request()
+
+            expect(req.baseUrl).toBe("https://queryai-share.example.workers.dev")
+            expect(req.api.create).toBe("/api/share")
+            expect(req.headers).toEqual({})
+          }),
+        ).pipe(Effect.provide(requestLayer(none))),
+      // A trailing slash is the obvious way to write it and must not produce
+      // "https://host//api/share".
+      { config: { share_url: "https://queryai-share.example.workers.dev/" } },
+    ),
+  )
+
+  it.live("with no server configured, sharing refuses instead of picking one", () =>
     provideTmpdirInstance(() =>
       ShareNext.Service.use((svc) =>
         Effect.gen(function* () {
-          const req = yield* svc.request()
+          const exit = yield* Effect.exit(svc.request())
 
-          expect(req.baseUrl).toBe("https://opncd.ai")
-          expect(req.api.create).toBe("/api/share")
-          expect(req.headers).toEqual({})
+          // Publishing a conversation to a host the user never named is the one
+          // outcome this must never have.
+          expect(exit._tag).toBe("Failure")
         }),
       ).pipe(Effect.provide(requestLayer(none))),
     ),

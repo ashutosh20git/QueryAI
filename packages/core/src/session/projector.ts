@@ -283,6 +283,13 @@ const layer = Layer.effectDiscard(
           const previous = usage(row.data)
           if (previous) yield* applyUsage(db, event.data.sessionID, previous, -1)
         }
+        // Parts are reachable only through their message, so they go with it -
+        // otherwise a removed message leaves rows nothing will ever read or clean.
+        yield* db
+          .delete(PartTable)
+          .where(and(eq(PartTable.message_id, event.data.messageID), eq(PartTable.session_id, event.data.sessionID)))
+          .run()
+          .pipe(Effect.orDie)
         yield* db
           .delete(MessageTable)
           .where(and(eq(MessageTable.id, event.data.messageID), eq(MessageTable.session_id, event.data.sessionID)))

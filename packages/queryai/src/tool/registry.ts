@@ -12,6 +12,7 @@ import { ReadTool } from "./read"
 import { TaskTool } from "./task"
 import { Database } from "@queryai/core/database/database"
 import { TodoWriteTool } from "./todo"
+import { MemoryTool } from "./memory"
 import { WebFetchTool } from "./webfetch"
 import { WriteTool } from "./write"
 import { InvalidTool } from "./invalid"
@@ -40,6 +41,7 @@ import { InstanceState } from "@/effect/instance-state"
 import { EffectBridge } from "@/effect/bridge"
 import { Question } from "../question"
 import { Todo } from "../session/todo"
+import { Memory } from "@/memory/memory"
 import { LSP } from "@/lsp/lsp"
 import { Instruction } from "../session/instruction"
 import { FSUtil } from "@queryai/core/fs-util"
@@ -103,6 +105,8 @@ const layer = Layer.effect(
     const read = yield* ReadTool
     const question = yield* QuestionTool
     const todo = yield* TodoWriteTool
+    const memorytool = yield* MemoryTool
+    const memory = yield* Memory.Service
     const lsptool = yield* LspTool
     const plan = yield* PlanExitTool
     const webfetch = yield* WebFetchTool
@@ -204,6 +208,11 @@ const layer = Layer.effect(
         }
 
         yield* config.get()
+        // Only advertise memory when a store resolved - a tool that can only
+        // report "not configured" is worse than no tool at all. With the local
+        // backend that is the normal case, so this is really about the user
+        // having turned memory off, or having asked for mem0 without a key.
+        const memoryEnabled = yield* memory.enabled()
         const questionEnabled = ["app", "cli", "desktop"].includes(flags.client) || flags.enableQuestionTool
 
         const tool = yield* Effect.all({
@@ -217,6 +226,7 @@ const layer = Layer.effect(
           task: Tool.init(task),
           fetch: Tool.init(webfetch),
           todo: Tool.init(todo),
+          memory: Tool.init(memorytool),
           search: Tool.init(websearch),
           skill: Tool.init(skilltool),
           patch: Tool.init(patchtool),
@@ -240,6 +250,7 @@ const layer = Layer.effect(
             tool.task,
             tool.fetch,
             tool.todo,
+            ...(memoryEnabled ? [tool.memory] : []),
             tool.search,
             tool.skill,
             tool.patch,
@@ -447,6 +458,7 @@ export const node = LayerNode.make({
     Truncate.node,
     RuntimeFlags.node,
     MCP.node,
+    Memory.node,
     Database.node,
     Ripgrep.node,
   ],

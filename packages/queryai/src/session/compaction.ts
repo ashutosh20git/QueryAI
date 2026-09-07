@@ -1,5 +1,6 @@
 import { LayerNode } from "@queryai/core/effect/layer-node"
 import { SessionV1 } from "@queryai/core/v1/session"
+import { NamedError } from "@queryai/core/util/error"
 import { ConfigV1 } from "@queryai/core/v1/config/config"
 import { Session } from "./session"
 import { SessionID, MessageID, PartID } from "./schema"
@@ -364,88 +365,130 @@ const layer = Layer.effect(
       const prior = completedCompactions(history)
       const hidden = new Set(prior.flatMap((item) => [item.userIndex, item.assistantIndex]))
       const previousSummary = prior.at(-1)?.summary
-      const selected = yield* select({
-        messages: history.filter((_, index) => !hidden.has(index)),
-        cfg,
-        model,
-      })
       // Allow plugins to inject context or replace compaction prompt.
       const compacting = yield* plugin.trigger(
         "experimental.session.compacting",
         { sessionID: input.sessionID },
         { context: [], prompt: undefined },
       )
-      const msgs = structuredClone(selected.head)
-      yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
-      const conversation = msgs.map(serialize).filter(Boolean).join("\n\n")
-      const nextPrompt =
-        compacting.prompt ??
-        [
-          buildPrompt({
-            previousSummary,
-            context: [conversation],
-          }),
-          ...compacting.context,
-        ]
-          .filter(Boolean)
-          .join("\n\n")
+      /**
+       * How much history fits is a property of the model that will read it, so
+       * the payload is rebuilt whenever compaction moves to a fallback. Reusing
+       * the first model's selection would hand a smaller window more than it can
+       * take and report the whole compaction as an overflow the original model
+       * would have absorbed.
+       */
+      const build = Effect.fn("SessionCompaction.build")(function* (active: Provider.Model) {
+        const selected = yield* select({
+          messages: history.filter((_, index) => !hidden.has(index)),
+          cfg,
+          model: active,
+        })
+        const msgs = structuredClone(selected.head)
+        yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
+        const conversation = msgs.map(serialize).filter(Boolean).join("\n\n")
+        const nextPrompt =
+          compacting.prompt ??
+          [
+            buildPrompt({
+              previousSummary,
+              context: [conversation],
+            }),
+            ...compacting.context,
+          ]
+            .filter(Boolean)
+            .join("\n\n")
+        return { selected, conversation, nextPrompt }
+      })
+      let payload = yield* build(model)
       const ctx = yield* InstanceState.context
-      const msg: SessionV1.Assistant = {
-        id: MessageID.ascending(),
-        role: "assistant",
-        parentID: input.parentID,
-        sessionID: input.sessionID,
-        mode: "compaction",
-        agent: "compaction",
-        variant: userMessage.model.variant,
-        summary: true,
-        path: {
-          cwd: ctx.directory,
-          root: ctx.worktree,
-        },
-        cost: 0,
-        tokens: {
-          output: 0,
-          input: 0,
-          reasoning: 0,
-          cache: { read: 0, write: 0 },
-        },
-        modelID: model.id,
-        providerID: model.providerID,
-        time: {
-          created: Date.now(),
-        },
-      }
-      yield* session.updateMessage(msg)
-      const processor = yield* processors.create({
-        assistantMessage: msg,
-        sessionID: input.sessionID,
-        model,
-      })
-      const result = yield* processor.process({
-        user: userMessage,
-        agent,
-        sessionID: input.sessionID,
-        tools: {},
-        system: [],
-        messages: [
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: [
-                  nextPrompt,
-                  ...(compacting.prompt ? ["The following is the conversation history:", conversation] : []),
-                ]
-                  .filter(Boolean)
-                  .join("\n\n"),
-              },
-            ],
+      const attempt = Effect.fn("SessionCompaction.attempt")(function* (active: Provider.Model) {
+        const msg: SessionV1.Assistant = {
+          id: MessageID.ascending(),
+          role: "assistant",
+          parentID: input.parentID,
+          sessionID: input.sessionID,
+          mode: "compaction",
+          agent: "compaction",
+          variant: userMessage.model.variant,
+          summary: true,
+          path: {
+            cwd: ctx.directory,
+            root: ctx.worktree,
           },
-        ],
-        model,
+          cost: 0,
+          tokens: {
+            output: 0,
+            input: 0,
+            reasoning: 0,
+            cache: { read: 0, write: 0 },
+          },
+          modelID: active.id,
+          providerID: active.providerID,
+          time: {
+            created: Date.now(),
+          },
+        }
+        yield* session.updateMessage(msg)
+        const handle = yield* processors.create({
+          assistantMessage: msg,
+          sessionID: input.sessionID,
+          model: active,
+        })
+        const outcome = yield* handle.process({
+          user: userMessage,
+          agent,
+          sessionID: input.sessionID,
+          tools: {},
+          system: [],
+          messages: [
+            {
+              role: "user",
+              content: [
+                {
+                  type: "text",
+                  text: [
+                    payload.nextPrompt,
+                    ...(compacting.prompt ? ["The following is the conversation history:", payload.conversation] : []),
+                  ]
+                    .filter(Boolean)
+                    .join("\n\n"),
+                },
+              ],
+            },
+          ],
+          model: active,
+        })
+        return { handle, outcome }
       })
+
+      // Compaction is what rescues a session that has outgrown its window, so a
+      // rate-limited model here must not strand it - walk the same fallback chain
+      // the main loop uses rather than reporting the summary as failed.
+      let active = model
+      let run = yield* attempt(active)
+      while (run.outcome === "fallback" && run.handle.fallback) {
+        const switched = yield* provider
+          .getModel(run.handle.fallback.providerID, run.handle.fallback.modelID)
+          .pipe(Effect.catch(() => Effect.succeed(undefined)))
+        if (!switched) break
+        active = switched
+        payload = yield* build(active)
+        run = yield* attempt(active)
+      }
+      const processor = run.handle
+      const result = run.outcome
+
+      if (result === "fallback") {
+        // The chain ran out mid-compaction. Report it as a failed summary rather
+        // than letting an empty one through as if it had worked.
+        processor.message.error = new NamedError.Unknown({
+          message: "Every available model was rate limited while compacting the session",
+        }).toObject()
+        processor.message.finish = "error"
+        yield* session.updateMessage(processor.message)
+        return "stop"
+      }
 
       if (result === "compact") {
         processor.message.error = new SessionV1.ContextOverflowError({
@@ -458,10 +501,10 @@ const layer = Layer.effect(
         return "stop"
       }
 
-      if (compactionPart && selected.tail_start_id && compactionPart.tail_start_id !== selected.tail_start_id) {
+      if (compactionPart && payload.selected.tail_start_id && compactionPart.tail_start_id !== payload.selected.tail_start_id) {
         yield* session.updatePart({
           ...compactionPart,
-          tail_start_id: selected.tail_start_id,
+          tail_start_id: payload.selected.tail_start_id,
         })
       }
 

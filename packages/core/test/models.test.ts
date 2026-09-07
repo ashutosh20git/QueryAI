@@ -69,6 +69,28 @@ const fixture2: Record<string, ModelsDev.Provider> = {
   },
 }
 
+const legacyFixture: Record<string, ModelsDev.Provider> = {
+  opencode: {
+    id: "opencode",
+    name: "OpenCode Zen",
+    env: ["OPENCODE_API_KEY"],
+    npm: "@ai-sdk/openai-compatible",
+    api: "https://opencode.ai/zen/v1",
+    models: {
+      "zen-1": {
+        id: "zen-1",
+        name: "Zen One",
+        release_date: "2026-03-01",
+        attachment: false,
+        reasoning: false,
+        temperature: true,
+        tool_call: true,
+        limit: { context: 128000, output: 8192 },
+      },
+    },
+  },
+}
+
 interface MockState {
   body: string
   status: number
@@ -285,6 +307,61 @@ describe("ModelsDev Service", () => {
       // retryTransient retries 5xx, so calls may be > 1.
       const final = yield* Ref.get(state)
       expect(final.calls.length).toBeGreaterThanOrEqual(1)
+    }),
+  )
+
+  it.live("get() aliases the pre-rename built-in provider", () =>
+    Effect.gen(function* () {
+      yield* writeCache(legacyFixture)
+      const state = yield* Ref.make(initialState)
+      const result = yield* provided(
+        state,
+        ModelsDev.Service.use((s) => s.get()),
+      )
+      expect(Object.keys(result)).toEqual(["queryai"])
+      expect(result["queryai"]).toMatchObject({
+        id: "queryai",
+        name: "QueryAI Zen",
+        env: ["QUERYAI_API_KEY"],
+        api: "https://opencode.ai/zen/v1",
+      })
+      expect(result["queryai"].models).toEqual(legacyFixture["opencode"].models)
+    }),
+  )
+})
+
+describe("ModelsDev.alias", () => {
+  it.effect("renames the pre-rename ids and their env var", () =>
+    Effect.sync(() => {
+      const result = ModelsDev.alias({
+        ...legacyFixture,
+        "opencode-go": { ...legacyFixture["opencode"], id: "opencode-go", name: "OpenCode Go" },
+      })
+      expect(Object.keys(result).sort()).toEqual(["queryai", "queryai-go"])
+      expect(result["queryai-go"]).toMatchObject({ id: "queryai-go", name: "QueryAI Go", env: ["QUERYAI_API_KEY"] })
+    }),
+  )
+
+  it.effect("leaves a catalog that already ships the current ids untouched", () =>
+    Effect.sync(() => {
+      const current = { ...legacyFixture["opencode"], id: "queryai", name: "QueryAI Zen", env: ["QUERYAI_API_KEY"] }
+      const catalog = { opencode: legacyFixture["opencode"], queryai: current }
+      expect(ModelsDev.alias(catalog)).toEqual(catalog)
+    }),
+  )
+
+  it.effect("passes unrelated providers through", () =>
+    Effect.sync(() => {
+      expect(ModelsDev.alias(fixture)).toEqual(fixture)
+    }),
+  )
+
+  it.effect("aliasID resolves persisted ids forward and leaves others alone", () =>
+    Effect.sync(() => {
+      expect(ModelsDev.aliasID("opencode")).toBe("queryai")
+      expect(ModelsDev.aliasID("opencode-go")).toBe("queryai-go")
+      expect(ModelsDev.aliasID("queryai")).toBe("queryai")
+      expect(ModelsDev.aliasID("anthropic")).toBe("anthropic")
     }),
   )
 })

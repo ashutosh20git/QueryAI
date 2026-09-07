@@ -19,6 +19,16 @@ import { ConfigSkillsV1 } from "./skills"
 
 export type Layout = ConfigLayoutV1.Layout
 
+/**
+ * The `$schema` written into generated config files and quoted in the docs.
+ *
+ * Generated from `Info` below by `packages/core/script/schema.ts` and published
+ * to this repository's `schema` branch, so the file editors validate against is
+ * this project's own - a schema owned by anyone else would reject every key we
+ * add and accept keys we do not have.
+ */
+export const SCHEMA_URL = "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json"
+
 export const WellKnown = Schema.Struct({
   config: Schema.optional(Schema.Json),
   remote_config: Schema.optional(Schema.Json),
@@ -57,6 +67,10 @@ export const Info = Schema.Struct({
   share: Schema.optional(Schema.Literals(["manual", "auto", "disabled"])).annotate({
     description:
       "Control sharing behavior:'manual' allows manual sharing via commands, 'auto' enables automatic sharing, 'disabled' disables all sharing",
+  }),
+  share_url: Schema.optional(Schema.String).annotate({
+    description:
+      "Base URL of the share server that receives shared sessions. There is no default: until you point this at a server you run, sharing is off. See packages/share-worker for one you can deploy to your own Cloudflare account. Falls back to the QUERYAI_SHARE_URL environment variable.",
   }),
   autoshare: Schema.optional(Schema.Boolean).annotate({
     description: "@deprecated Use 'share' field instead. Share newly created sessions automatically",
@@ -163,6 +177,55 @@ export const Info = Schema.Struct({
       }),
       reserved: Schema.optional(NonNegativeInt).annotate({
         description: "Token buffer for compaction. Leaves enough window to avoid overflow during compaction.",
+      }),
+    }),
+  ),
+  fallback: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean).annotate({
+        description: "Switch to another model when the current one is rate limited or out of quota (default: true)",
+      }),
+      models: Schema.optional(Schema.Array(Schema.String)).annotate({
+        description:
+          "Ordered fallback chain as \"provider/model\" entries. When set it is used verbatim; otherwise every model you hold a credential for is ranked by capability.",
+      }),
+      max_switches: Schema.optional(NonNegativeInt).annotate({
+        description: "Maximum number of model switches within one session before giving up (default: 3)",
+      }),
+      max_cost: Schema.optional(Schema.Number).annotate({
+        description:
+          "Most a fallback model may cost per million output tokens. Defaults to the price of the model the turn started on, so a switch never moves you onto something pricier than you chose; 0 keeps the session on free models only. Ignored when \"models\" is set.",
+      }),
+    }),
+  ),
+  memory: Schema.optional(
+    Schema.Struct({
+      enabled: Schema.optional(Schema.Boolean).annotate({
+        description: "Enable persistent memory (default: true)",
+      }),
+      backend: Schema.optional(Schema.Literals(["auto", "local", "mem0"])).annotate({
+        description:
+          "Where memories are kept. \"local\" stores them on this machine and needs no account; \"mem0\" requires an API key and syncs across devices; \"auto\" (default) uses mem0 when a key is configured and local otherwise.",
+      }),
+      api_key: Schema.optional(Schema.String).annotate({
+        description: "mem0 API key. Falls back to the MEM0_API_KEY environment variable.",
+      }),
+      base_url: Schema.optional(Schema.String).annotate({
+        description: "mem0 API base URL. Point this at a self-hosted mem0 server to keep memories in your own infrastructure.",
+      }),
+      auto_capture: Schema.optional(Schema.Boolean).annotate({
+        description:
+          "Send each completed user turn to mem0 for automatic fact extraction (default: false). When off, memories are only written when the agent calls the memory tool.",
+      }),
+      limit: Schema.optional(NonNegativeInt).annotate({
+        description: "Maximum number of memories injected into the system prompt (default: 8)",
+      }),
+      max_chars: Schema.optional(NonNegativeInt).annotate({
+        description: "Character budget for the injected memory block (default: 4000)",
+      }),
+      project_scope: Schema.optional(Schema.Boolean).annotate({
+        description:
+          "Restrict recall to memories written in this project, plus ones explicitly saved with user scope (default: true)",
       }),
     }),
   ),

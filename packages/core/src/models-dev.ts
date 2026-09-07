@@ -131,6 +131,54 @@ export const Provider = Schema.Struct({
 
 export type Provider = Schema.Schema.Type<typeof Provider>
 
+/**
+ * Where the model catalog is fetched from. `<source>/api.json` must serve the
+ * models.dev schema.
+ *
+ * This is a mirror in our own repository, refreshed daily by
+ * `.github/workflows/catalog.yml`, so a QueryAI install depends on no other
+ * project's uptime. The data itself is models.dev's open catalog. Point
+ * `QUERYAI_MODELS_URL` at your own host to take over completely, or set
+ * `QUERYAI_DISABLE_MODELS_FETCH` to run offline from the build-time snapshot.
+ */
+export const DEFAULT_SOURCE = "https://raw.githubusercontent.com/ashutosh20git/QueryAI/catalog"
+
+/**
+ * The shared catalog still publishes the built-in provider under its pre-rename
+ * ids and env var. Alias them here, at the single boundary every consumer reads
+ * from - the provider loader, `queryai auth login`, the `/provider` list, the v2
+ * catalog and integration plugins - so the id a credential is stored under is
+ * the id that is looked up. A catalog that already ships the QueryAI entries
+ * passes through untouched.
+ */
+const ALIASES: Record<string, Pick<Provider, "id" | "name" | "env">> = {
+  opencode: { id: "queryai", name: "QueryAI Zen", env: ["QUERYAI_API_KEY"] },
+  "opencode-go": { id: "queryai-go", name: "QueryAI Go", env: ["QUERYAI_API_KEY"] },
+}
+
+/**
+ * The current id for a provider id that may have been persisted before the
+ * rename - a model pinned in config, a recently used model, the provider a
+ * stored session ran on. Unlike `alias`, this has no catalog to defer to, so a
+ * pre-rename id always resolves forward.
+ */
+export function aliasID(id: string): string {
+  return ALIASES[id]?.id ?? id
+}
+
+export function alias(catalog: Record<string, Provider>): Record<string, Provider> {
+  const result: Record<string, Provider> = {}
+  for (const [id, provider] of Object.entries(catalog)) {
+    const next = ALIASES[id]
+    if (!next || catalog[next.id]) {
+      result[id] = provider
+      continue
+    }
+    result[next.id] = { ...provider, ...next }
+  }
+  return result
+}
+
 export const Event = ModelsDev.Event
 
 declare const QUERYAI_MODELS_DEV: Record<string, Provider> | undefined
@@ -157,10 +205,10 @@ const layer = Layer.effect(
       ),
     )
 
-    const source = Flag.QUERYAI_MODELS_URL || "https://models.opencode.ai"
+    const source = Flag.QUERYAI_MODELS_URL || DEFAULT_SOURCE
     const filepath = path.join(
       Global.Path.cache,
-      source === "https://models.opencode.ai" ? "models.json" : `models-${Hash.fast(source)}.json`,
+      source === DEFAULT_SOURCE ? "models.json" : `models-${Hash.fast(source)}.json`,
     )
     const ttl = Duration.minutes(5)
     const lockKey = `models-dev:${filepath}`
@@ -222,7 +270,7 @@ const layer = Layer.effect(
         }),
       )
       return JSON.parse(text) as Record<string, Provider>
-    }).pipe(Effect.withSpan("ModelsDev.populate"), Effect.orDie)
+    }).pipe(Effect.map(alias), Effect.withSpan("ModelsDev.populate"), Effect.orDie)
 
     const [cachedGet, invalidate] = yield* Effect.cachedInvalidateWithTTL(populate, Duration.infinity)
 

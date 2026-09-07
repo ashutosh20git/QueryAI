@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/wrangler/config-schema.json",
+  "name": "queryai-share",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-01-01",
+  "observability": { "enabled": true },
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "queryai-share"
+    }
+  ]
+  // Serving this from your own domain instead of *.workers.dev? Add:
+  //   "routes": [{ "pattern": "share.example.com", "custom_domain": true }],
+  //   "vars": { "PUBLIC_URL": "https://share.example.com" }
+  // PUBLIC_URL only affects the link handed back to the CLI; without it the
+  // worker uses whatever origin the request arrived on.
+}

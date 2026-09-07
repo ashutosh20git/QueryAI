@@ -51,6 +51,9 @@ import { EventV2Bridge } from "@/event-v2-bridge"
 import { Database } from "@queryai/core/database/database"
 import { ModelV2 } from "@queryai/core/model"
 import { ProviderV2 } from "@queryai/core/provider"
+import { ModelsDev } from "@queryai/core/models-dev"
+import { Memory } from "@/memory/memory"
+import { SessionFallback } from "./fallback"
 import { eq } from "drizzle-orm"
 import { SessionTable } from "@queryai/core/session/sql"
 import { SessionReminders } from "./reminders"
@@ -136,6 +139,8 @@ const layer = Layer.effect(
     const revert = yield* SessionRevert.Service
     const summary = yield* SessionSummary.Service
     const sys = yield* SystemPrompt.Service
+    const memory = yield* Memory.Service
+    const fallback = yield* SessionFallback.Service
     const llm = yield* LLM.Service
     const events = yield* EventV2Bridge.Service
     const flags = yield* RuntimeFlags.Service
@@ -620,7 +625,10 @@ const layer = Layer.effect(
         .pipe(Effect.orDie)
       if (current?.model) {
         return {
-          providerID: ProviderV2.ID.make(current.model.providerID),
+          // A session started before the provider rename still records the old id;
+          // resolve it forward so the message we are about to write carries the
+          // current one.
+          providerID: ProviderV2.ID.make(ModelsDev.aliasID(current.model.providerID)),
           modelID: ModelV2.ID.make(current.model.id),
           ...(current.model.variant && current.model.variant !== "default" ? { variant: current.model.variant } : {}),
         }
@@ -628,7 +636,10 @@ const layer = Layer.effect(
       const match = yield* sessions
         .findMessage(sessionID, (m) => m.info.role === "user" && !!m.info.model)
         .pipe(Effect.orDie)
-      if (Option.isSome(match) && match.value.info.role === "user") return match.value.info.model
+      if (Option.isSome(match) && match.value.info.role === "user") {
+        const model = match.value.info.model
+        return { ...model, providerID: ProviderV2.ID.make(ModelsDev.aliasID(model.providerID)) }
+      }
       return yield* provider.defaultModel().pipe(Effect.orDie)
     })
 
@@ -1083,6 +1094,9 @@ const layer = Layer.effect(
         const ctx = yield* InstanceState.context
         let structured: unknown
         let step = 0
+        // Tracked separately from `step` because a model fallback rewinds the
+        // step counter, and the title should still be generated only once.
+        let titled = false
         const session = yield* sessions.get(sessionID).pipe(Effect.orDie)
 
         while (true) {
@@ -1130,13 +1144,23 @@ const layer = Layer.effect(
           }
 
           step++
-          if (step === 1)
+          if (!titled) {
+            titled = true
             yield* title({
               session,
               modelID: lastUser.model.modelID,
               providerID: lastUser.model.providerID,
               history: msgs,
             }).pipe(Effect.ignore, Effect.forkIn(scope))
+          }
+
+          // A model this session already burned through stays skipped, so later
+          // turns don't spend a failed request rediscovering the same dead key.
+          const preferred = yield* fallback.resolve({
+            sessionID,
+            preferred: { providerID: lastUser.model.providerID, modelID: lastUser.model.modelID },
+          })
+          if (!SessionFallback.same(preferred, lastUser.model)) lastUser.model = preferred
 
           const model = yield* getModel(lastUser.model.providerID, lastUser.model.modelID, sessionID)
           const task = tasks.pop()
@@ -1254,11 +1278,19 @@ const layer = Layer.effect(
 
             yield* plugin.trigger("experimental.chat.messages.transform", {}, { messages: msgs })
 
-            const [skills, env, instructions, mcpInstructions, modelMsgs] = yield* Effect.all([
+            const userText = (lastUserMsg?.parts ?? [])
+              .flatMap((part) => (part.type === "text" && !part.synthetic ? [part.text] : []))
+              .join("\n")
+              .slice(0, 2000)
+            // Recall keys off what the user just asked. Only the first step of a turn
+            // needs it - later steps reuse the same system prompt.
+            const recallQuery = step === 1 ? userText : ""
+            const [skills, env, instructions, mcpInstructions, memories, modelMsgs] = yield* Effect.all([
               sys.skills(agent),
               sys.environment(model),
               instruction.system().pipe(Effect.orDie),
               sys.mcp(agent, session.permission),
+              recallQuery ? memory.recall({ query: recallQuery, agent: agent.name }) : Effect.succeed(undefined),
               MessageV2.toModelMessagesEffect(msgs, model),
             ])
             const system = [
@@ -1266,6 +1298,7 @@ const layer = Layer.effect(
               ...instructions,
               ...(mcpInstructions ? [mcpInstructions] : []),
               ...(skills ? [skills] : []),
+              ...(memories ? [memories] : []),
             ]
             const format = lastUser.format ?? { type: "text" as const }
             if (format.type === "json_schema") system.push(STRUCTURED_OUTPUT_SYSTEM_PROMPT)
@@ -1285,10 +1318,46 @@ const layer = Layer.effect(
               toolChoice: format.type === "json_schema" ? "required" : undefined,
             })
 
+            /**
+             * Auto-capture belongs to a turn that actually answered, so it hangs
+             * off the assistant message being finished rather than off how the
+             * loop exited - the ordinary completed turn never reaches a "stop"
+             * result at all. Fire-and-forget: extraction can be a network round
+             * trip on someone else's schedule, and a turn that already answered
+             * the user must not wait on it.
+             */
+            const captureTurn = Effect.fn("SessionPrompt.captureTurn")(function* () {
+              if (!userText) return
+              const assistantText = yield* sessions
+                .findMessage(sessionID, (msg) => msg.info.id === handle.message.id)
+                .pipe(
+                  Effect.map((found) =>
+                    Option.isSome(found)
+                      ? found.value.parts
+                          .flatMap((part) => (part.type === "text" && !part.synthetic ? [part.text] : []))
+                          .join("\n")
+                          .slice(0, 4000)
+                      : "",
+                  ),
+                  Effect.orElseSucceed(() => ""),
+                )
+              yield* memory
+                .capture({
+                  messages: [
+                    { role: "user" as const, content: userText },
+                    ...(assistantText ? [{ role: "assistant" as const, content: assistantText }] : []),
+                  ],
+                  agent: agent.name,
+                  sessionID,
+                })
+                .pipe(Effect.forkIn(scope))
+            })
+
             if (structured !== undefined) {
               handle.message.structured = structured
               handle.message.finish = handle.message.finish ?? "stop"
               yield* sessions.updateMessage(handle.message)
+              yield* captureTurn()
               return "break" as const
             }
 
@@ -1314,8 +1383,25 @@ const layer = Layer.effect(
                 yield* sessions.updateMessage(handle.message)
                 return "break" as const
               }
+              // Nothing above claimed the turn, so it answered: this is the one
+              // exit that is a completed user turn.
+              yield* captureTurn()
             }
 
+            if (result === "fallback") {
+              const next = handle.fallback
+              if (!next) return "break" as const
+              // The switch is not the user's step - re-run the same step on the
+              // new model rather than charging this attempt against the budget.
+              step--
+              // A variant is tuned to the model that declared it and means nothing
+              // on the replacement, so it is dropped along with the model.
+              lastUser.model = next
+              return "continue" as const
+            }
+
+            // Blocked or errored. Nothing here is a fact worth keeping, so the
+            // turn ends without touching memory.
             if (result === "stop") return "break" as const
             if (result === "compact") {
               yield* compaction.create({
@@ -1621,6 +1707,8 @@ export const node = LayerNode.make({
     SessionRevert.node,
     SessionSummary.node,
     SystemPrompt.node,
+    Memory.node,
+    SessionFallback.node,
     LLM.node,
     EventV2Bridge.node,
     RuntimeFlags.node,

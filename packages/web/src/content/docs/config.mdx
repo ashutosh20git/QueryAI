@@ -13,7 +13,7 @@ QueryAI supports both **JSON** and **JSONC** (JSON with Comments) formats.
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
   "server": {
@@ -253,7 +253,7 @@ All managed preference keys appear in the resolved config and cannot be overridd
 
 ## Schema
 
-The server/runtime config schema is defined in [**`opencode.ai/config.json`**](https://opencode.ai/config.json).
+The server/runtime config schema is defined in [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json).
 
 TUI config uses [**`opencode.ai/tui.json`**](https://opencode.ai/tui.json).
 
@@ -303,7 +303,7 @@ You can configure server settings for the `queryai serve` and `queryai web` comm
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -332,7 +332,7 @@ You can configure the shell used for the interactive terminal using the `shell` 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "shell": "pwsh"
 }
 ```
@@ -347,7 +347,7 @@ You can manage the tools an LLM can use through the `tools` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -365,7 +365,7 @@ You can configure the providers and models you want to use in your QueryAI confi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
@@ -378,7 +378,7 @@ Provider options can include `timeout`, `chunkTimeout`, and `setCacheKey`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -405,7 +405,7 @@ Use the `experimental.policies` option to allow or deny QueryAI actions on confi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "experimental": {
     "policies": [
       {
@@ -430,7 +430,7 @@ Configure image attachment limits with the `attachment.image` option:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "attachment": {
     "image": {
       "auto_resize": true,
@@ -461,7 +461,7 @@ Amazon Bedrock supports AWS-specific configuration:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -507,7 +507,7 @@ You can configure specialized agents for specific tasks through the `agent` opti
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -533,7 +533,7 @@ You can set the default agent using the `default_agent` option. This determines 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "default_agent": "plan"
 }
 ```
@@ -550,7 +550,7 @@ You can control how deeply subagents can invoke other subagents using the `subag
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "subagent_depth": 2
 }
 ```
@@ -565,7 +565,7 @@ You can configure the [share](/docs/share) feature through the `share` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "share": "manual"
 }
 ```
@@ -586,7 +586,7 @@ You can configure custom commands for repetitive tasks through the `command` opt
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -633,7 +633,7 @@ For large repositories or projects with many submodules, the snapshot system can
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "snapshot": false
 }
 ```
@@ -648,7 +648,7 @@ QueryAI will automatically download any new updates when it starts up. You can d
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "autoupdate": false
 }
 ```
@@ -664,7 +664,7 @@ You can enable and configure code formatters through the `formatter` option. Omi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "formatter": true
 }
 ```
@@ -673,7 +673,7 @@ Use an object to keep built-ins enabled while configuring overrides or custom fo
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -699,7 +699,7 @@ You can enable and configure LSP servers through the `lsp` option. Omit it to ke
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "lsp": true
 }
 ```
@@ -708,7 +708,7 @@ Use an object to keep built-ins enabled while configuring overrides or custom LS
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "lsp": {
     "typescript": {
       "disabled": true
@@ -729,7 +729,7 @@ For example, to ensure that the `edit` and `bash` tools require user approval:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -747,7 +747,7 @@ You can control context compaction behavior through the `compaction` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "compaction": {
     "auto": true,
     "prune": false,
@@ -762,13 +762,136 @@ You can control context compaction behavior through the `compaction` option.
 
 ---
 
+### Fallback
+
+When a model is rate limited or its key is out of quota, QueryAI hands the turn
+to another model instead of failing the session. The switch happens mid-session:
+the step that was about to fail is re-run on the replacement, and the model that
+ran out stays skipped for the rest of that session.
+
+```json title="queryai.json"
+{
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "fallback": {
+    "enabled": true,
+    "max_switches": 3
+  }
+}
+```
+
+- `enabled` - Switch models on rate limits and quota errors (default: `true`). Set to `false` to fail the turn instead, as earlier versions did.
+- `models` - An ordered chain of `"provider/model"` entries. When set it is used exactly as written; entries whose provider has no credential are skipped, and the price guard below does not apply.
+- `max_switches` - How many switches one session will make before giving up (default: `3`). `0` turns fallback off for the session and leaves the ordinary retry backoff in charge.
+- `max_cost` - The most a replacement may cost per million output tokens. Defaults to the price of the model the turn started on.
+
+Without a `models` list the chain is built from every model you hold a
+credential for. **Free models come first**, ranked among themselves by parameter
+count, context window, reasoning support and release date; paid models follow in
+the same order, most capable first. Models that cannot call tools, and those
+marked deprecated or alpha, are never used as fallbacks.
+
+A fallback is an accident you did not ask for, so by default it never costs more
+than the model you chose: the replacement must be no dearer per output token than
+the one that just failed. Start a session on a free model and it stays on free
+models; when those are exhausted the turn fails rather than quietly moving onto a
+metered key. Set `max_cost` to allow more, or to `0` to pin a paid session to
+free fallbacks. An explicit `models` chain is an instruction and is followed
+whatever it costs.
+
+```json title="queryai.json"
+{
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "fallback": {
+    "models": ["anthropic/claude-opus-5", "google/gemini-3-pro", "groq/llama-3.3-70b-versatile"]
+  }
+}
+```
+
+Quota errors (`402`, `insufficient_quota`, `RESOURCE_EXHAUSTED`, a free-tier
+ceiling) switch immediately, since waiting cannot refill an exhausted key. Plain
+rate limits and provider overloads (`429`, `503`, `529`) are retried with backoff
+first and only fall back once that budget is spent. Failures that every model
+would hit alike — a dead network, a context overflow — are never treated as a
+reason to switch, and neither is a bare `403`: providers return it for a revoked
+key or a model your account cannot reach, and those are worth telling you about
+rather than working around.
+
+A model set aside for a plain rate limit is offered again after five minutes; one
+that hit a quota ceiling after an hour. `max_switches` counts switches actually
+made, and those cooldowns do not refund it.
+
+---
+
+### Memory
+
+QueryAI remembers durable facts about you and your projects across sessions. It
+is on by default and needs no account, no server and no API key: memories are
+kept in a file on your own machine. The `memory` tool is available to the agent,
+and relevant memories are injected into the system prompt at the start of each
+turn.
+
+```json title="queryai.json"
+{
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "memory": {
+    "enabled": true,
+    "backend": "auto",
+    "auto_capture": false,
+    "limit": 8,
+    "max_chars": 4000,
+    "project_scope": true
+  }
+}
+```
+
+- `enabled` - Turn memory off entirely (default: `true`).
+- `backend` - `"local"`, `"mem0"`, or `"auto"` (default). `auto` uses mem0 when an API key is configured and the local store otherwise.
+- `api_key` - Your mem0 API key. Falls back to the `MEM0_API_KEY` environment variable.
+- `base_url` - Point this at a self-hosted mem0 server to keep memories in your own infrastructure.
+- `auto_capture` - Send each completed user turn to the store for fact extraction (default: `false`). When off, memories are only written when the agent calls the `memory` tool.
+- `limit` - Maximum number of memories injected into the system prompt (default: `8`).
+- `max_chars` - Character budget for the injected memory block (default: `4000`).
+- `project_scope` - Restrict recall to memories written in this project, plus ones explicitly saved with `user` scope (default: `true`).
+
+#### The local backend
+
+The default. Memories are written to a JSON file under your data directory
+(`~/.local/share/queryai/memory/` on Linux, the platform equivalent elsewhere),
+one file per user id, mode `0600`. Nothing leaves the machine, there is no quota,
+and the only limit is your disk.
+
+The trade is worth stating plainly: no LLM extraction and no embeddings. Facts
+are stored as written and found by term overlap, weighted so a rare word (`pnpm`)
+counts for more than a common one (`project`). When a search comes back short the
+most recent memories fill the remaining slots, so user-scoped facts still reach
+the model even when the question shares no words with them. That is enough for
+what memory is for here — short, deliberate facts — and it costs nothing.
+
+#### The mem0 backend
+
+Set `api_key` (or `MEM0_API_KEY`) and memories move to [mem0](https://mem0.ai),
+which adds LLM extraction, embedding search, and sync across devices. `base_url`
+points at a self-hosted mem0 instead of the hosted platform. Selecting
+`"backend": "mem0"` without a key reports what is missing rather than silently
+writing locally.
+
+Either way, memories are stored under your QueryAI account id when you are logged
+in, so they follow you between devices. Without an account they are written under
+a per-machine id; logging in moves later writes to your account, and memories
+written beforehand stay where they are.
+
+Recall never blocks a turn — if the store is slow or unreachable, QueryAI logs a
+warning and continues without the memory block.
+
+---
+
 ### Watcher
 
 You can configure file watcher ignore patterns through the `watcher` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -785,7 +908,7 @@ You can configure MCP servers you want to use through the `mcp` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "mcp": {}
 }
 ```
@@ -802,7 +925,7 @@ Place plugin files in `.queryai/plugins/` or `~/.config/queryai/plugins/`. You c
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "plugin": ["opencode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
@@ -817,7 +940,7 @@ You can configure the instructions for the model you're using through the `instr
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -833,7 +956,7 @@ You can disable providers that are loaded automatically through the `disabled_pr
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -856,7 +979,7 @@ You can specify an allowlist of providers through the `enabled_providers` option
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
@@ -877,7 +1000,7 @@ The `experimental` key contains options that are under active development.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "experimental": {}
 }
 ```
@@ -900,7 +1023,7 @@ Use `{env:VARIABLE_NAME}` to substitute environment variables:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "model": "{env:QUERYAI_MODEL}",
   "provider": {
     "anthropic": {
@@ -923,7 +1046,7 @@ Use `{file:path/to/file}` to substitute the contents of a file:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {

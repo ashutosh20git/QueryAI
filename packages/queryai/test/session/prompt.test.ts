@@ -30,6 +30,9 @@ import { SessionMessageTable } from "@queryai/core/session/sql"
 import { LLM } from "../../src/session/llm"
 import { MessageV2 } from "../../src/session/message-v2"
 import { FSUtil } from "@queryai/core/fs-util"
+import { rm } from "fs/promises"
+import { Memory } from "@/memory/memory"
+import { LocalMemory } from "@/memory/local"
 import { SessionCompaction } from "../../src/session/compaction"
 import { SessionSummary } from "../../src/session/summary"
 import { Instruction } from "../../src/session/instruction"
@@ -311,7 +314,7 @@ const writeText = Effect.fn("test.writeText")(function* (file: string, text: str
 const writeConfig = Effect.fn("test.writeConfig")(function* (dir: string, config: Partial<ConfigV1.Info>) {
   yield* writeText(
     path.join(dir, "queryai.json"),
-    JSON.stringify({ $schema: "https://opencode.ai/config.json", ...config }),
+    JSON.stringify({ $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json", ...config }),
   )
 })
 
@@ -527,6 +530,49 @@ it.instance("loop exits without an LLM request for interrupted orphan tool calls
     expect(result.info.id).toBe(seeded.assistant.id)
     expect(yield* llm.hits).toHaveLength(0)
   }),
+)
+
+/** Rows the local memory store holds for this machine, or undefined while it is empty. */
+const storedMemories = Effect.gen(function* () {
+  const fs = yield* FSUtil.Service
+  const raw = yield* fs.readJson(LocalMemory.file(Memory.localUserID())).pipe(Effect.orElseSucceed(() => undefined))
+  const items = (raw as { items?: { text: string }[] } | undefined)?.items ?? []
+  return items.length ? items.map((item) => item.text) : undefined
+})
+
+const clearMemories = Effect.promise(() => rm(LocalMemory.file(Memory.localUserID()), { force: true }))
+
+it.instance(
+  "auto_capture fires on a turn that answered, which is the ordinary one",
+  () =>
+    Effect.gen(function* () {
+      yield* clearMemories
+      const { llm } = yield* useServerConfig((url) => ({
+        ...providerCfg(url),
+        memory: { auto_capture: true },
+      }))
+      const prompt = yield* SessionPrompt.Service
+      const sessions = yield* Session.Service
+      const chat = yield* sessions.create({
+        title: "Pinned",
+        permission: [{ permission: "*", pattern: "*", action: "allow" }],
+      })
+      yield* prompt.prompt({
+        sessionID: chat.id,
+        agent: "build",
+        noReply: true,
+        parts: [{ type: "text", text: "we deploy from the release branch" }],
+      })
+      yield* llm.text("noted")
+
+      yield* prompt.loop({ sessionID: chat.id })
+
+      // Capture is forked so the turn never waits on it.
+      const stored = yield* pollWithTimeout(storedMemories, "the completed turn was never captured")
+      expect(stored.some((text) => text.includes("we deploy from the release branch"))).toBe(true)
+      yield* clearMemories
+    }),
+  15_000,
 )
 
 it.instance("loop calls LLM and returns assistant message", () =>
@@ -1041,6 +1087,9 @@ noLLMServer.instance("prompt tools replace previous prompt tool rules", () =>
     expect(reloaded.permission).toEqual([{ permission: "read", pattern: "*", action: "allow" }])
     expect(Permission.evaluate("bash", "anything", reloaded.permission ?? []).action).toBe("ask")
   }),
+  // The prompt needs a model to record on the message, and no provider loads
+  // without a credential - declare the test provider rather than leaning on one.
+  { config: cfg },
 )
 
 it.instance(

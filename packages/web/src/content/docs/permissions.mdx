@@ -45,7 +45,7 @@ You can set permissions globally (with `*`), and override specific tools.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "*": "ask",
     "bash": "allow",
@@ -58,7 +58,7 @@ You can also set all permissions at once:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": "allow"
 }
 ```
@@ -71,7 +71,7 @@ For most permissions, you can use an object to apply different actions based on 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "bash": {
       "*": "ask",
@@ -116,7 +116,7 @@ For example, this allows access to everything under `~/projects/personal/`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -129,7 +129,7 @@ Any directory allowed here inherits the same defaults as the current workspace. 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -160,6 +160,7 @@ QueryAI permissions are keyed by tool name, plus a couple of safety guards:
 - `question` — asking the user questions during execution
 - `webfetch` — fetching a URL (matches the URL)
 - `websearch` — web search (matches the query)
+- `memory` — reading and writing persistent memory (matches the action: `remember`, `search`, `list`, `forget`)
 - `external_directory` — triggered when a tool touches paths outside the project working directory
 - `doom_loop` — triggered when the same tool call repeats 3 times with identical input
 
@@ -210,7 +211,7 @@ Refer to the [Granular Rules (Object Syntax)](#granular-rules-object-syntax) sec
 
 ```json title="queryai.json"
 {
-  "$schema": "https://opencode.ai/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
   "permission": {
     "bash": {
       "*": "ask",

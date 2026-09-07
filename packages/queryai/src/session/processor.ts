@@ -2,7 +2,7 @@ import { LayerNode } from "@queryai/core/effect/layer-node"
 import { PermissionV1 } from "@queryai/core/v1/permission"
 import { Image } from "@/image/image"
 import { SessionV1 } from "@queryai/core/v1/session"
-import { Cause, Deferred, Effect, Exit, Layer, Context, Scope, Schema } from "effect"
+import { Cause, Deferred, Effect, Exit, Layer, Context, Option, Scope, Schema } from "effect"
 import * as Stream from "effect/Stream"
 import { Agent } from "@/agent/agent"
 import { Config } from "@/config/config"
@@ -16,6 +16,7 @@ import { isOverflow } from "./overflow"
 import { PartID } from "./schema"
 import type { SessionID } from "./schema"
 import { SessionRetry } from "./retry"
+import { SessionFallback } from "./fallback"
 import { SessionStatus } from "./status"
 import { SessionSummary } from "./summary"
 import type { Provider } from "@/provider/provider"
@@ -27,10 +28,12 @@ import { Database } from "@queryai/core/database/database"
 import { Usage, type LLMEvent } from "@queryai/llm"
 
 const DOOM_LOOP_THRESHOLD = 3
-export type Result = "compact" | "stop" | "continue"
+export type Result = "compact" | "stop" | "continue" | "fallback"
 
 export interface Handle {
   readonly message: SessionV1.Assistant
+  /** Set when `process` returns "fallback": the model the turn should retry on. */
+  readonly fallback: SessionFallback.Candidate | undefined
   readonly updateToolCall: (
     toolCallID: string,
     update: (part: SessionV1.ToolPart) => SessionV1.ToolPart,
@@ -91,6 +94,7 @@ const layer = Layer.effect(
     const summary = yield* SessionSummary.Service
     const scope = yield* Scope.Scope
     const status = yield* SessionStatus.Service
+    const fallback = yield* SessionFallback.Service
     const image = yield* Image.Service
     const events = yield* EventV2Bridge.Service
     const database = yield* Database.Service
@@ -113,6 +117,7 @@ const layer = Layer.effect(
         reasoningMap: {},
       }
       let aborted = false
+      let fallbackTo: SessionFallback.Candidate | undefined
 
       const parse = (e: unknown) =>
         MessageV2.fromError(e, {
@@ -608,6 +613,10 @@ const layer = Layer.effect(
           if ((yield* config.get()).compaction?.auto === false && !ctx.assistantMessage.summary) {
             ctx.assistantMessage.error = error
             ctx.assistantMessage.finish = "error"
+            // `cleanup` has already closed the message out by the time a failure
+            // reaches here, so the error is persisted at the point it is set
+            // rather than by a later pass.
+            yield* session.updateMessage(ctx.assistantMessage)
             yield* events.publish(Session.Event.Error, { sessionID: ctx.sessionID, error })
             yield* status.set(ctx.sessionID, { type: "idle" })
             return
@@ -617,11 +626,59 @@ const layer = Layer.effect(
           return
         }
         ctx.assistantMessage.error = error
+        yield* session.updateMessage(ctx.assistantMessage)
         yield* events.publish(Session.Event.Error, {
           sessionID: ctx.assistantMessage.sessionID,
           error: ctx.assistantMessage.error,
         })
         yield* status.set(ctx.sessionID, { type: "idle" })
+      })
+
+      /**
+       * Last stop before the turn dies: if the failure is one another model can
+       * absorb and this session still has somewhere to go, record the switch and
+       * leave the message clean so the caller can re-run the step. Anything else
+       * halts as before.
+       */
+      const switchOrHalt = Effect.fn("SessionProcessor.switchOrHalt")(function* (e: unknown) {
+        const error = parse(e)
+        const next = aborted
+          ? undefined
+          : yield* fallback.next({
+              sessionID: ctx.sessionID,
+              current: { providerID: ctx.model.providerID, modelID: ctx.model.id },
+              error,
+            })
+        if (!next) return yield* halt(e)
+
+        fallbackTo = next
+        // The caller re-runs this step against the new model and writes a fresh
+        // assistant message for it, so an attempt that produced nothing is dropped
+        // rather than left in the history as an empty turn. One that did emit
+        // something is kept and closed out, so the user still sees it - but with no
+        // error, because the turn has not failed, it is changing model.
+        const existing = yield* session
+          .findMessage(ctx.sessionID, (m) => m.info.id === ctx.assistantMessage.id)
+          .pipe(Effect.orElseSucceed(() => Option.none<SessionV1.WithParts>()))
+        const produced =
+          Option.isSome(existing) &&
+          existing.value.parts.some((part) => part.type !== "step-start" && part.type !== "step-finish")
+        // `cleanup` has already written the closed-out message, so a produced
+        // attempt needs nothing further; an empty one is deleted last so no
+        // later write brings it back.
+        if (!produced) {
+          yield* session
+            .removeMessage({ sessionID: ctx.sessionID, messageID: ctx.assistantMessage.id })
+            .pipe(Effect.ignore)
+        }
+        // Reuses the retry status so every client already renders it - the switch
+        // is a retry, just against a different model.
+        yield* status.set(ctx.sessionID, {
+          type: "retry",
+          attempt: 0,
+          message: `${SessionRetry.retryable(error, ctx.model.providerID)?.message ?? "Model unavailable"} - switching to ${next.modelID}`,
+          next: Date.now(),
+        })
       })
 
       const process = Effect.fn("SessionProcessor.process")(function* (streamInput: LLM.StreamInput) {
@@ -630,7 +687,13 @@ const layer = Layer.effect(
           messageID: input.assistantMessage.id,
         })
         ctx.needsCompaction = false
+        fallbackTo = undefined
         ctx.shouldBreak = (yield* config.get()).experimental?.continue_loop_on_deny !== true
+        // Resolved once per step so the retry policy can consult it synchronously.
+        const canFallback = yield* fallback.available({
+          sessionID: ctx.sessionID,
+          current: { providerID: ctx.model.providerID, modelID: ctx.model.id },
+        })
 
         return yield* Effect.gen(function* () {
           yield* Effect.gen(function* () {
@@ -661,6 +724,10 @@ const layer = Layer.effect(
               SessionRetry.policy({
                 provider: input.model.providerID,
                 parse,
+                // A key that is out of quota will still be out of quota after the
+                // backoff, so when another model can take the turn, don't spend
+                // a minute proving it.
+                stop: (error) => canFallback && SessionFallback.hard(error),
                 set: (info) => {
                   return status.set(ctx.sessionID, {
                     type: "retry",
@@ -672,10 +739,14 @@ const layer = Layer.effect(
                 },
               }),
             ),
-            Effect.catch(halt),
+            // Order matters: the message is closed out first, so `switchOrHalt`
+            // sees the parts this attempt actually produced and, when it drops an
+            // empty message, nothing writes it back afterwards.
             Effect.ensuring(cleanup()),
+            Effect.catch(switchOrHalt),
           )
 
+          if (fallbackTo) return "fallback"
           if (ctx.needsCompaction) return "compact"
           if (ctx.blocked || ctx.assistantMessage.error) return "stop"
           return "continue"
@@ -685,6 +756,9 @@ const layer = Layer.effect(
       return {
         get message() {
           return ctx.assistantMessage
+        },
+        get fallback() {
+          return fallbackTo
         },
         updateToolCall,
         completeToolCall,
@@ -709,6 +783,7 @@ export const node = LayerNode.make({
     Plugin.node,
     SessionSummary.node,
     SessionStatus.node,
+    SessionFallback.node,
     Image.node,
     EventV2Bridge.node,
     Database.node,
