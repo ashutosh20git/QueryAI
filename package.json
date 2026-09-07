@@ -119,7 +119,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/anomalyco/opencode"
+    "url": "https://github.com/ashutosh20git/QueryAI"
   },
   "license": "MIT",
   "prettier": {
@@ -161,5 +161,9 @@
     "@tanstack/virtual-core@3.17.3": "patches/@tanstack%2Fvirtual-core@3.17.3.patch",
     "@ai-sdk/openai-compatible@2.0.41": "patches/@ai-sdk%2Fopenai-compatible@2.0.41.patch",
     "@ai-sdk/groq@3.0.31": "patches/@ai-sdk%2Fgroq@3.0.31.patch"
+  },
+  "homepage": "https://github.com/ashutosh20git/QueryAI#readme",
+  "bugs": {
+    "url": "https://github.com/ashutosh20git/QueryAI/issues"
   }
 }

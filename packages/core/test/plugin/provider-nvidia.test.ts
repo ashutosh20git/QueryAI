@@ -39,7 +39,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
         Existing: "value",
-        "HTTP-Referer": "https://opencode.ai/",
+        "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
         "X-Title": "queryai",
         "X-BILLING-INVOKE-ORIGIN": "QueryAI",
       })
@@ -62,7 +62,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
-        "HTTP-Referer": "https://opencode.ai/",
+        "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
         "X-Title": "queryai",
         "X-BILLING-INVOKE-ORIGIN": "QueryAI",
       })
@@ -88,7 +88,7 @@ describe("NvidiaPlugin", () => {
       yield* addPlugin()
 
       expect((yield* catalog.provider.get(ProviderV2.ID.make("nvidia")))?.request.headers).toEqual({
-        "HTTP-Referer": "https://opencode.ai/",
+        "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
         "X-Title": "queryai",
         "X-BILLING-INVOKE-ORIGIN": "CustomOrigin",
       })

@@ -1,129 +1,162 @@
 <p align="center">
-  <a href="https://opencode.ai">
-    <picture>
-      <source srcset="packages/console/app/src/asset/logo-ornate-dark.svg" media="(prefers-color-scheme: dark)">
-      <source srcset="packages/console/app/src/asset/logo-ornate-light.svg" media="(prefers-color-scheme: light)">
-      <img src="packages/console/app/src/asset/logo-ornate-light.svg" alt="QueryAI logo">
-    </picture>
-  </a>
-</p>
-<p align="center">The open source AI coding agent.</p>
-<p align="center">
-  <a href="https://opencode.ai/discord"><img alt="Discord" src="https://img.shields.io/discord/1391832426048651334?style=flat-square&label=discord" /></a>
-  <a href="https://www.npmjs.com/package/opencode-ai"><img alt="npm" src="https://img.shields.io/npm/v/opencode-ai?style=flat-square" /></a>
-  <a href="https://github.com/anomalyco/opencode/actions/workflows/publish.yml"><img alt="Build status" src="https://img.shields.io/github/actions/workflow/status/anomalyco/opencode/publish.yml?style=flat-square&branch=dev" /></a>
+  <b>QueryAI</b><br>
+  An AI coding agent for the terminal that runs on free models, remembers you between sessions, and needs no account.
 </p>
 
 <p align="center">
-  <a href="README.md">English</a> |
-  <a href="README.zh.md">简体中文</a> |
-  <a href="README.zht.md">繁體中文</a> |
-  <a href="README.ko.md">한국어</a> |
-  <a href="README.de.md">Deutsch</a> |
-  <a href="README.es.md">Español</a> |
-  <a href="README.fr.md">Français</a> |
-  <a href="README.it.md">Italiano</a> |
-  <a href="README.da.md">Dansk</a> |
-  <a href="README.ja.md">日本語</a> |
-  <a href="README.pl.md">Polski</a> |
-  <a href="README.ru.md">Русский</a> |
-  <a href="README.bs.md">Bosanski</a> |
-  <a href="README.ar.md">العربية</a> |
-  <a href="README.no.md">Norsk</a> |
-  <a href="README.br.md">Português (Brasil)</a> |
-  <a href="README.th.md">ไทย</a> |
-  <a href="README.tr.md">Türkçe</a> |
-  <a href="README.uk.md">Українська</a> |
-  <a href="README.bn.md">বাংলা</a> |
-  <a href="README.gr.md">Ελληνικά</a> |
-  <a href="README.vi.md">Tiếng Việt</a>
+  <a href="#quick-start">Quick start</a> &middot;
+  <a href="#free-models-and-fallback">Free models</a> &middot;
+  <a href="#memory">Memory</a> &middot;
+  <a href="#what-this-fork-changes">What this fork changes</a> &middot;
+  <a href="#credits-and-licence">Licence</a>
 </p>
 
-[![QueryAI Terminal UI](packages/web/src/assets/lander/screenshot.png)](https://opencode.ai)
+---
+
+QueryAI is a fork of [opencode](https://github.com/anomalyco/opencode) built around
+three ideas:
+
+- **Free models first.** Bring your own keys — most providers have a free tier —
+  and QueryAI ranks free, tool-capable models ahead of paid ones.
+- **It keeps going when a free tier runs out.** Hit a quota ceiling and the turn
+  moves to another model on a different key, mid-session, without failing.
+- **It remembers you, locally.** Durable facts persist across sessions in a file
+  on your machine. No account, no server, no API key.
+
+It runs entirely on your machine against your own provider credentials. Nothing
+is uploaded anywhere unless you explicitly turn on sharing and point it at a
+server you run.
 
 ---
 
-### Installation
+## Quick start
+
+Requires [Bun](https://bun.sh). There is no published package yet — run it from
+source:
 
 ```bash
-# YOLO
-curl -fsSL https://opencode.ai/install | bash
-
-# Package managers
-npm i -g opencode-ai@latest        # or bun/pnpm/yarn
-scoop install opencode             # Windows
-choco install opencode             # Windows
-brew install anomalyco/tap/opencode # macOS and Linux (recommended, always up to date)
-brew install opencode              # macOS and Linux (official brew formula, updated less)
-sudo pacman -S opencode            # Arch Linux (Stable)
-paru -S opencode-bin               # Arch Linux (Latest from AUR)
-mise use -g opencode               # Any OS
-nix run nixpkgs#opencode           # or github:anomalyco/opencode for latest dev branch
+git clone https://github.com/ashutosh20git/QueryAI
+cd QueryAI
+bun install
+bun run dev
 ```
 
-> [!TIP]
-> Remove versions older than 0.1.x before installing.
-
-### Desktop App (BETA)
-
-QueryAI is also available as a desktop application. Download directly from the [releases page](https://github.com/anomalyco/opencode/releases) or [opencode.ai/download](https://opencode.ai/download).
-
-| Platform              | Download                          |
-| --------------------- | --------------------------------- |
-| macOS (Apple Silicon) | `queryai-desktop-mac-arm64.dmg`   |
-| macOS (Intel)         | `queryai-desktop-mac-x64.dmg`     |
-| Windows               | `queryai-desktop-windows-x64.exe` |
-| Linux                 | `.deb`, `.rpm`, or `.AppImage`    |
+Add a provider credential (any of them; the free tiers are the point):
 
 ```bash
-# macOS (Homebrew)
-brew install --cask opencode-desktop
-# Windows (Scoop)
-scoop bucket add extras; scoop install extras/opencode-desktop
+bun run dev providers   # interactive login for openrouter, google, groq, nvidia, …
 ```
 
-#### Installation Directory
-
-The install script respects the following priority order for the installation path:
-
-1. `$QUERYAI_INSTALL_DIR` - Custom installation directory
-2. `$XDG_BIN_DIR` - XDG Base Directory Specification compliant path
-3. `$HOME/bin` - Standard user binary directory (if it exists or can be created)
-4. `$HOME/.queryai/bin` - Default fallback
+Then pick a free model and go:
 
 ```bash
-# Examples
-QUERYAI_INSTALL_DIR=/usr/local/bin curl -fsSL https://opencode.ai/install | bash
-XDG_BIN_DIR=$HOME/.local/bin curl -fsSL https://opencode.ai/install | bash
+bun run dev models                                   # list what your keys unlock
+bun run dev run -m nvidia/moonshotai/kimi-k3 "explain this repo"
 ```
 
-### Agents
+Set a default so you do not pass `-m` every time:
 
-QueryAI includes two built-in agents you can switch between with the `Tab` key.
-
-- **build** - Default, full-access agent for development work
-- **plan** - Read-only agent for analysis and code exploration
-  - Denies file edits by default
-  - Asks permission before running bash commands
-  - Ideal for exploring unfamiliar codebases or planning changes
-
-Also included is a **general** subagent for complex searches and multistep tasks.
-This is used internally and can be invoked using `@general` in messages.
-
-Learn more about [agents](https://opencode.ai/docs/agents).
-
-### Documentation
-
-For more info on how to configure QueryAI, [**head over to our docs**](https://opencode.ai/docs).
-
-### Contributing
-
-If you're interested in contributing to QueryAI, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
-
-### Building on QueryAI
-
-If you are working on a project that's related to QueryAI and is using "queryai" as part of its name, for example "queryai-dashboard" or "queryai-mobile", please add a note to your README to clarify that it is not built by the QueryAI team and is not affiliated with us in any way.
+```json title="~/.config/queryai/queryai.json"
+{
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "model": "nvidia/moonshotai/kimi-k3",
+  "memory": { "auto_capture": true }
+}
+```
 
 ---
 
-**Join our community** [Discord](https://discord.gg/opencode) | [X.com](https://x.com/opencode)
+## Free models and fallback
+
+When a model is rate limited or its key is out of quota, the turn is re-run on
+another model instead of failing. Two rules make that safe:
+
+- **Free models rank first**, ordered among themselves by capability. A switch
+  always lands on a different provider's key than the one that just failed.
+- **A fallback never costs more than the model you chose.** Start free and the
+  session stays free; when the free options are exhausted the turn fails rather
+  than quietly moving onto a metered key. `fallback.max_cost` overrides this.
+
+A model set aside for a plain rate limit is retried after five minutes; one that
+hit a quota ceiling after an hour. Bare `403`s are treated as auth failures and
+surfaced, not worked around.
+
+See [the fallback docs](packages/web/src/content/docs/config.mdx) for the knobs.
+
+---
+
+## Memory
+
+On by default, stored in a JSON file under your data directory, mode `0600`.
+Nothing leaves the machine and there is no quota.
+
+The agent gets a `memory` tool (`remember`, `search`, `list`, `forget`), and
+relevant memories are injected into the system prompt at the start of each turn.
+Facts are project-scoped by default; `user` scope follows you everywhere.
+
+Be aware of what that means: what you tell the agent to remember is written to
+disk in readable form, and `memory.auto_capture` sends each completed turn to the
+store. Turn it off with `"memory": { "enabled": false }`.
+
+Set `MEM0_API_KEY` to use [mem0](https://mem0.ai) instead, which adds LLM
+extraction, embedding search and sync across devices.
+
+---
+
+## Sharing (optional, and yours)
+
+`queryai share` is **off until you configure it**. There is no default server,
+because publishing a conversation to a host you did not choose is not a sensible
+default.
+
+To turn it on, deploy [`packages/share-worker`](packages/share-worker) to your own
+Cloudflare account — one worker, one R2 bucket, free tier, no domain needed — and
+set `share_url`. Shared sessions then live entirely on infrastructure you control.
+
+---
+
+## What this fork changes
+
+Beyond the branding, relative to upstream opencode:
+
+| Area              | Change                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------- |
+| Memory            | New. Local file backend by default; mem0 optional                                     |
+| Fallback          | New. Free-first ranking, per-session cooldowns, a price ceiling                       |
+| Sharing           | No default server; deploy your own worker                                             |
+| Updates           | Points at this repository's releases, not upstream's                                  |
+| Model catalog     | Mirrored into this repo daily, not fetched from a third party                         |
+| Config `$schema`  | Generated from this repo's config and published to the `schema` branch                |
+| Accounts, billing | Removed. No hosted console, no subscription gateway                                   |
+| GitHub agent      | Removed. It depended on an app we do not own                                          |
+
+Nothing in this build calls a server belonging to another project. The only
+network traffic is to your own model providers, the catalog mirror in this
+repository, and — if you configure it — your own share worker.
+
+---
+
+## Development
+
+```bash
+bun install
+bun run dev                       # run the TUI from source
+bun run typecheck                 # all packages
+bun test --cwd packages/queryai   # or packages/core
+bun run lint
+```
+
+---
+
+## Credits and licence
+
+QueryAI is a fork of [opencode](https://github.com/anomalyco/opencode) by
+anomalyco, and would not exist without it. Upstream did the hard work of building
+the agent loop, the provider layer, the TUI and the plugin system; this fork
+changes what it points at and adds memory and model fallback on top.
+
+MIT, and the upstream copyright notice is retained in [LICENSE](LICENSE) as MIT
+requires.
+
+- Original work: Copyright (c) 2025 opencode
+- Modifications: Copyright (c) 2026 Ashutosh

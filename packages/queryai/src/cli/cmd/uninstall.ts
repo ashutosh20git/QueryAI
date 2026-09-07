@@ -129,10 +129,10 @@ async function showRemovalSummary(targets: RemovalTargets, method: Installation.
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string> = {
-      npm: "npm uninstall -g opencode-ai",
-      pnpm: "pnpm uninstall -g opencode-ai",
-      bun: "bun remove -g opencode-ai",
-      yarn: "yarn global remove opencode-ai",
+      npm: `npm uninstall -g ${Installation.Release.npm}`,
+      pnpm: `pnpm uninstall -g ${Installation.Release.npm}`,
+      bun: `bun remove -g ${Installation.Release.npm}`,
+      yarn: `yarn global remove ${Installation.Release.npm}`,
       brew: "brew uninstall queryai",
       choco: "choco uninstall queryai",
       scoop: "scoop uninstall queryai",
@@ -180,10 +180,10 @@ async function executeUninstall(method: Installation.Method, targets: RemovalTar
 
   if (method !== "curl" && method !== "unknown") {
     const cmds: Record<string, string[]> = {
-      npm: ["npm", "uninstall", "-g", "opencode-ai"],
-      pnpm: ["pnpm", "uninstall", "-g", "opencode-ai"],
-      bun: ["bun", "remove", "-g", "opencode-ai"],
-      yarn: ["yarn", "global", "remove", "opencode-ai"],
+      npm: ["npm", "uninstall", "-g", Installation.Release.npm],
+      pnpm: ["pnpm", "uninstall", "-g", Installation.Release.npm],
+      bun: ["bun", "remove", "-g", Installation.Release.npm],
+      yarn: ["yarn", "global", "remove", Installation.Release.npm],
       brew: ["brew", "uninstall", "queryai"],
       choco: ["choco", "uninstall", "queryai"],
       scoop: ["scoop", "uninstall", "queryai"],

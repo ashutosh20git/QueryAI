@@ -6,7 +6,18 @@ import { ProxyUtil } from "../proxy-util"
 
 let embeddedUIPromise: Promise<Record<string, string> | null> | undefined
 
-export const UI_UPSTREAM = new URL("https://app.opencode.ai")
+/**
+ * Where `queryai web` gets its UI when this build has none embedded.
+ *
+ * Release builds embed the UI (`script/build.ts`), so this only matters for a
+ * build made with `--skip-embed-web-ui`. There is deliberately no default: a
+ * server that quietly proxied a third party's app would serve code we do not
+ * control, to a page holding the user's sessions. Set `QUERYAI_WEB_UI_UPSTREAM`
+ * if you want that during development.
+ */
+export const UI_UPSTREAM = process.env["QUERYAI_WEB_UI_UPSTREAM"]
+  ? new URL(process.env["QUERYAI_WEB_UI_UPSTREAM"])
+  : undefined
 
 export const csp = (hash = "") =>
   `default-src 'self'; script-src 'self' 'wasm-unsafe-eval'${hash ? ` 'sha256-${hash}'` : ""}; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; media-src 'self' data:; connect-src * data: blob:`
@@ -38,6 +49,7 @@ function proxyResponseHeaders(headers: Record<string, string>) {
 }
 
 export function upstreamURL(path: string) {
+  if (!UI_UPSTREAM) throw new Error("No web UI upstream is configured")
   return new URL(path, UI_UPSTREAM).toString()
 }
 
@@ -84,6 +96,16 @@ export function serveUIEffect(
     const path = new URL(request.url, "http://localhost").pathname
 
     if (embeddedWebUI) return yield* serveEmbeddedUIEffect(path, services.fs, embeddedWebUI)
+
+    if (!UI_UPSTREAM) {
+      return HttpServerResponse.jsonUnsafe(
+        {
+          error:
+            "This build has no web UI embedded. Build one with `bun run --cwd packages/queryai build`, or set QUERYAI_WEB_UI_UPSTREAM to serve it from somewhere else.",
+        },
+        { status: 503 },
+      )
+    }
 
     const response = yield* services.client.execute(
       HttpClientRequest.make(request.method)(upstreamURL(path), {

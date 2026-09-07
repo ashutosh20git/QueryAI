@@ -501,7 +501,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://opencode.ai/",
+            "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
             "X-Title": "queryai",
             "X-Source": "queryai",
           },
@@ -512,7 +512,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://opencode.ai/",
+            "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
             "X-Title": "queryai",
           },
         },
@@ -522,7 +522,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: provider.source === "config",
         options: {
           headers: {
-            "HTTP-Referer": "https://opencode.ai/",
+            "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
             "X-Title": "queryai",
             "X-BILLING-INVOKE-ORIGIN": "QueryAI",
           },
@@ -533,7 +533,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "http-referer": "https://opencode.ai/",
+            "http-referer": "https://github.com/ashutosh20git/QueryAI",
             "x-title": "queryai",
           },
         },
@@ -638,7 +638,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://opencode.ai/",
+            "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
             "X-Title": "queryai",
           },
         },
@@ -928,7 +928,7 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
         autoload: false,
         options: {
           headers: {
-            "HTTP-Referer": "https://opencode.ai/",
+            "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
             "X-Title": "queryai",
           },
         },
