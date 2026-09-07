@@ -5,7 +5,7 @@ APP=queryai
 # Where release binaries come from. Must match Release.repo in
 # packages/queryai/src/installation/index.ts, or `queryai upgrade` would pull
 # from somewhere other than the installer did.
-REPO=${QUERYAI_RELEASE_REPO:-ashutosh20git/QueryAI}
+REPO=${QUERYAI_RELEASE_REPO:-ashutosh20git/QueryAI-dist}
 
 MUTED='\033[0;2m'
 RED='\033[0;31m'
@@ -25,8 +25,8 @@ Options:
         --no-modify-path    Don't modify shell config files (.zshrc, .bashrc, etc.)
 
 Examples:
-    curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI/dev/install | bash
-    curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI/dev/install | bash -s -- --version 1.0.180
+    curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash
+    curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash -s -- --version 1.0.180
     ./install --binary /path/to/queryai
 EOF
 }
