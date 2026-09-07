@@ -44,7 +44,11 @@ jobs:
 
       - name: Publish to the schema branch
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The built-in GITHUB_TOKEN is scoped to this repository only, and this
+          # publishes to the public distribution repo. DIST_TOKEN must be a PAT
+          # (or app token) with contents:write on DIST_REPO.
+          GITHUB_TOKEN: ${{ secrets.DIST_TOKEN }}
+          DIST_REPO: ${{ vars.DIST_REPO || 'ashutosh20git/QueryAI-dist' }}
         run: |
           set -euo pipefail
           mkdir -p out && cp config.json out/config.json
@@ -52,7 +56,7 @@ jobs:
           git init -q
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${DIST_REPO}.git"
           git checkout -q --orphan schema
           printf '%s\n' \
             "JSON Schema for queryai.json, generated from packages/core/src/v1/config/config.ts." \

@@ -34,7 +34,7 @@ QueryAI 설정의 `provider` 섹션을 통해 공급자를 사용자 정의할 �
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -194,7 +194,7 @@ QueryAI로 Amazon Bedrock을 사용하려면:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -223,7 +223,7 @@ QueryAI로 Amazon Bedrock을 사용하려면:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -272,7 +272,7 @@ QueryAI로 Amazon Bedrock을 사용하려면:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       // ...
@@ -331,7 +331,7 @@ OpenAI 호환 API 서버 뒤에서 로컬 LLM을 실행하는 데스크톱 애�
 
 ```json title="queryai.json" "atomic-chat" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "atomic-chat": {
       "npm": "@ai-sdk/openai-compatible",
@@ -559,7 +559,7 @@ Cloudflare AI Gateway는 OpenAI, Anthropic, Workers AI 등의 모델에 액세�
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "cloudflare-ai-gateway": {
          "models": {
@@ -764,7 +764,7 @@ QueryAI를 자체 호스팅 GitLab 인스턴스만 사용하도록 제한하려�
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "small_model": "gitlab/duo-chat-haiku-4-5",
   "share": "disabled"
 }
@@ -825,7 +825,7 @@ export GITLAB_OAUTH_CLIENT_ID=your_application_id_here
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "gitlab": {
       "options": {
@@ -842,7 +842,7 @@ GitLab 도구(병합 요청, 이슈, 파이프라인, CI/CD 등)에 액세스하
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "plugin": ["queryai-gitlab-plugin"]
 }
 ```
@@ -1022,7 +1022,7 @@ QueryAI를 통해 자동으로 구성되지 않는 Helicone의 기능이나 모�
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1050,7 +1050,7 @@ Helicone는 캐싱, 사용자 추적 및 세션 관리와 같은 기능을 위�
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1104,7 +1104,7 @@ npm install -g opencode-helicone-session
 
 ```json title="queryai.json" "llama.cpp" {5, 6, 8, 10-15}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1171,7 +1171,7 @@ LM Studio를 통해 로컬 모델을 사용하도록 구성할 수 있습니다.
 
 ```json title="queryai.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1292,7 +1292,7 @@ Ollama는 QueryAI에 대해 자동으로 구성될 수 있습니다. 자세한 �
 
 ```json title="queryai.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1453,7 +1453,7 @@ QueryAI Zen은 QueryAI 팀에서 제공하는 테스트 및 검증된 모델 목
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1468,7 +1468,7 @@ QueryAI Zen은 QueryAI 팀에서 제공하는 테스트 및 검증된 모델 목
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1717,7 +1717,7 @@ QueryAI 구성을 통해 모델을 사용자 정의할 수도 있습니다. 다�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "vercel": {
       "models": {
@@ -1827,7 +1827,7 @@ QueryAI 구성을 통해 모델을 사용자 정의할 수도 있습니다. 다�
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "zenmux": {
          "models": {
@@ -1895,7 +1895,7 @@ QueryAI에서 모든 OpenAI 호환 공급자를 사용할 수 있습니다. 대�
 
    ```json title="queryai.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -1933,7 +1933,7 @@ QueryAI에서 모든 OpenAI 호환 공급자를 사용할 수 있습니다. 대�
 
 ```json title="queryai.json" {9,11,17-20}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",

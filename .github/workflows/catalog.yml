@@ -1,8 +1,12 @@
 name: catalog
 
-# Mirrors the models.dev catalog into this repository so a QueryAI install does
-# not depend on anyone else's host staying up. The CLI reads
-# <raw.githubusercontent>/<repo>/catalog/api.json; see ModelsDev.DEFAULT_SOURCE.
+# Mirrors the models.dev catalog into this repository as a backup source, so a
+# models.dev outage cannot leave an install unable to name a single model. The
+# CLI reads models.dev first and only falls back to
+# <raw.githubusercontent>/<repo>/catalog/api.json; see ModelsDev.MIRROR_SOURCE.
+#
+# It is published to the public distribution repo, not beside the source:
+# raw.githubusercontent serves a branch only while its repository is public.
 #
 # The catalog lives on its own orphan branch rather than on the default branch,
 # so a 4 MB file changing every day never touches the source history.
@@ -36,14 +40,18 @@ jobs:
 
       - name: Publish to the catalog branch
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # The built-in GITHUB_TOKEN is scoped to this repository only, and this
+          # publishes to the public distribution repo. DIST_TOKEN must be a PAT
+          # (or app token) with contents:write on DIST_REPO.
+          GITHUB_TOKEN: ${{ secrets.DIST_TOKEN }}
+          DIST_REPO: ${{ vars.DIST_REPO || 'ashutosh20git/QueryAI-dist' }}
         run: |
           set -euo pipefail
           git init -q mirror
           cd mirror
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${DIST_REPO}.git"
 
           # Orphan branch, single commit: the history of a mirror has no value
           # and a daily 4 MB diff would bloat the repository within a year.

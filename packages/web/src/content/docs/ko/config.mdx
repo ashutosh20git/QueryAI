@@ -13,7 +13,7 @@ QueryAI는 **JSON**과 **JSONC**(주석이 포함된 JSON) 형식을 모두 지�
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
   "server": {
@@ -147,7 +147,7 @@ custom 디렉토리는 전역 config와 `.queryai` 디렉토리 뒤에 로드되
 
 ## Schema
 
-server/runtime config schema는 [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json)에 정의되어 있습니다.
+server/runtime config schema는 [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json)에 정의되어 있습니다.
 
 TUI config는 [**`opencode.ai/tui.json`**](https://opencode.ai/tui.json)을 사용합니다.
 
@@ -184,7 +184,7 @@ TUI 관련 설정에는 전용 `tui.json` (또는 `tui.jsonc`) 파일을 사용�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -213,7 +213,7 @@ TUI 관련 설정에는 전용 `tui.json` (또는 `tui.jsonc`) 파일을 사용�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -231,7 +231,7 @@ QueryAI config의 `provider`, `model`, `small_model` 옵션으로 사용할 prov
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
@@ -244,7 +244,7 @@ provider 옵션에는 `timeout`, `setCacheKey`를 포함할 수 있습니다.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -273,7 +273,7 @@ Amazon Bedrock은 AWS 전용 config를 지원합니다.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -319,7 +319,7 @@ Bearer token(`AWS_BEARER_TOKEN_BEDROCK` 또는 `/connect`)은 profile 기반 인
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -345,7 +345,7 @@ Bearer token(`AWS_BEARER_TOKEN_BEDROCK` 또는 `/connect`)은 profile 기반 인
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "default_agent": "plan"
 }
 ```
@@ -362,7 +362,7 @@ Bearer token(`AWS_BEARER_TOKEN_BEDROCK` 또는 `/connect`)은 profile 기반 인
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "share": "manual"
 }
 ```
@@ -383,7 +383,7 @@ Bearer token(`AWS_BEARER_TOKEN_BEDROCK` 또는 `/connect`)은 profile 기반 인
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -424,7 +424,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "autoupdate": false
 }
 ```
@@ -440,7 +440,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -468,7 +468,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -486,7 +486,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "compaction": {
     "auto": true,
     "prune": false,
@@ -507,7 +507,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -524,7 +524,7 @@ QueryAI는 시작 시 새 업데이트를 자동으로 다운로드합니다. `a
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "mcp": {}
 }
 ```
@@ -541,7 +541,7 @@ plugin 파일은 `.queryai/plugins/` 또는 `~/.config/queryai/plugins/`에 두�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "plugin": ["opencode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
@@ -556,7 +556,7 @@ plugin 파일은 `.queryai/plugins/` 또는 `~/.config/queryai/plugins/`에 두�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -571,7 +571,7 @@ plugin 파일은 `.queryai/plugins/` 또는 `~/.config/queryai/plugins/`에 두�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -594,7 +594,7 @@ plugin 파일은 `.queryai/plugins/` 또는 `~/.config/queryai/plugins/`에 두�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
@@ -615,7 +615,7 @@ provider를 하나씩 비활성화하는 대신, QueryAI가 특정 provider만 �
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "experimental": {}
 }
 ```
@@ -638,7 +638,7 @@ config 파일에서 환경 변수와 파일 내용을 참조할 수 있도록 �
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "model": "{env:QUERYAI_MODEL}",
   "provider": {
     "anthropic": {
@@ -661,7 +661,7 @@ config 파일에서 환경 변수와 파일 내용을 참조할 수 있도록 �
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {

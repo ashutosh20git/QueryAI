@@ -35,7 +35,7 @@ Vous pouvez personnaliser la base URL pour n'importe quel fournisseur en défini
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -195,7 +195,7 @@ Pour une configuration spécifique au projet ou persistante, utilisez `queryai.j
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -223,7 +223,7 @@ Si vous utilisez des points de terminaison d'un VPC pour Bedrock :
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -269,7 +269,7 @@ Pour les profils d'inférence personnalisés, utilisez le nom du modèle et du f
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       // ...
@@ -331,7 +331,7 @@ Vous pouvez configurer queryai pour utiliser des modèles locaux via [Atomic Cha
 
 ```json title="queryai.json" "atomic-chat" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "atomic-chat": {
       "npm": "@ai-sdk/openai-compatible",
@@ -559,7 +559,7 @@ Vous pouvez également ajouter des modèles via votre configuration queryai.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "cloudflare-ai-gateway": {
       "models": {
@@ -769,7 +769,7 @@ Fichier `queryai.json`. Il est également recommandé de désactiver le partage 
 
 ```json
 {
-"$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+"$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
 "small_model": "gitlab/duo-chat-haiku-4-5",
 "share": "disabled"
 }
@@ -831,7 +831,7 @@ Personnalisez via `queryai.json` :
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "gitlab": {
       "options": {
@@ -848,7 +848,7 @@ Pour accéder aux outils GitLab (demandes de fusion, tickets, pipelines, CI/CD, 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "plugin": ["queryai-gitlab-plugin"]
 }
 ```
@@ -1031,7 +1031,7 @@ Voici le [Répertoire des modèles d'Helicone](https://helicone.ai/models), vous
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1059,7 +1059,7 @@ Helicone prend en charge les en-têtes personnalisés pour des fonctionnalités 
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1113,7 +1113,7 @@ Vous pouvez configurer queryai pour utiliser des modèles locaux via l'utilitair
 
 ```json title="queryai.json" "llama.cpp" {5, 6, 8, 10-15}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1180,7 +1180,7 @@ Vous pouvez configurer queryai pour utiliser des modèles locaux via LM Studio.
 
 ```json title="queryai.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1301,7 +1301,7 @@ Ollama peut se configurer automatiquement pour QueryAI. Voir les [documents d'in
 
 ```json title="queryai.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1463,7 +1463,7 @@ Vous pouvez également ajouter des modèles supplémentaires via votre configura
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "openrouter": {
       "models": {
@@ -1478,7 +1478,7 @@ Vous pouvez également ajouter des modèles supplémentaires via votre configura
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1727,7 +1727,7 @@ Vous pouvez également personnaliser les modèles via votre configuration querya
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "vercel": {
       "models": {
@@ -1837,7 +1837,7 @@ Vous pouvez également ajouter des modèles supplémentaires via votre configura
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "zenmux": {
       "models": {
@@ -1905,7 +1905,7 @@ Vous pouvez utiliser n'importe quel fournisseur compatible OpenAI avec queryai. 
 
    ```json title="queryai.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -1944,7 +1944,7 @@ Voici un exemple de définition des options `apiKey`, `headers` et modèle `limi
 
 ```json title="queryai.json" {9,11,17-20}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",

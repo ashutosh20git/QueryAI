@@ -1,5 +1,5 @@
 import { describe, expect, beforeAll, beforeEach, afterAll } from "bun:test"
-import { Effect, Layer, Ref } from "effect"
+import { Effect, Exit, Layer, Ref } from "effect"
 import { HttpClient, HttpClientResponse } from "effect/unstable/http"
 import { AppNodeBuilder } from "@queryai/core/effect/app-node-builder"
 import { LayerNodePlatform } from "@queryai/core/effect/app-node-platform"
@@ -362,6 +362,94 @@ describe("ModelsDev.alias", () => {
       expect(ModelsDev.aliasID("opencode-go")).toBe("queryai-go")
       expect(ModelsDev.aliasID("queryai")).toBe("queryai")
       expect(ModelsDev.aliasID("anthropic")).toBe("anthropic")
+    }),
+  )
+})
+
+// populate is orDie, so a source that cannot be reached takes the whole CLI down
+// rather than degrading: not one model can be named. The default is public and
+// the mirror only backs it up, so both halves of that order are pinned here.
+describe("ModelsDev catalog source", () => {
+  const routed = (state: Ref.Ref<MockState>, reply: (url: string) => Response) =>
+    HttpClient.make((request) =>
+      Effect.gen(function* () {
+        yield* Ref.update(state, (s) => ({
+          ...s,
+          calls: [...s.calls, { url: request.url, userAgent: request.headers["user-agent"] ?? null }],
+        }))
+        return HttpClientResponse.fromWeb(request, reply(request.url))
+      }),
+    )
+
+  const withFetch = <A, E>(eff: Effect.Effect<A, E>) =>
+    Effect.acquireUseRelease(
+      Effect.sync(() => {
+        Flag.QUERYAI_DISABLE_MODELS_FETCH = false
+      }),
+      () => eff,
+      () =>
+        Effect.sync(() => {
+          Flag.QUERYAI_DISABLE_MODELS_FETCH = true
+        }),
+    )
+
+  const build = (state: Ref.Ref<MockState>, reply: (url: string) => Response) =>
+    Layer.fresh(
+      AppNodeBuilder.build(ModelsDev.node, [
+        [LayerNodePlatform.httpClient, Layer.succeed(HttpClient.HttpClient, routed(state, reply))],
+      ]),
+    )
+
+  it.live("falls back to the mirror when the default source is unreachable", () =>
+    Effect.gen(function* () {
+      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const context = yield* Layer.build(
+        build(state, (url) =>
+          url.startsWith(ModelsDev.DEFAULT_SOURCE)
+            ? new Response("Not Found", { status: 404 })
+            : new Response(JSON.stringify(fixture2), { status: 200 }),
+        ),
+      )
+      const result = yield* withFetch(ModelsDev.Service.use((s) => s.get()).pipe(Effect.provide(context)))
+
+      expect(result).toEqual(fixture2)
+      const final = yield* Ref.get(state)
+      // Mirror first, upstream only after it fails.
+      expect(final.calls[0].url).toBe(`${ModelsDev.DEFAULT_SOURCE}/api.json`)
+      expect(final.calls.at(-1)!.url).toBe(`${ModelsDev.MIRROR_SOURCE}/api.json`)
+    }),
+  )
+
+  it.live("does not reach for the mirror while the default source is serving", () =>
+    Effect.gen(function* () {
+      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const context = yield* Layer.build(build(state, () => new Response(JSON.stringify(fixture), { status: 200 })))
+      const result = yield* withFetch(ModelsDev.Service.use((s) => s.get()).pipe(Effect.provide(context)))
+
+      expect(result).toEqual(fixture)
+      const final = yield* Ref.get(state)
+      expect(final.calls.every((call) => call.url.startsWith(ModelsDev.DEFAULT_SOURCE))).toBe(true)
+    }),
+  )
+
+  it.live("honours an explicit QUERYAI_MODELS_URL instead of silently serving upstream", () =>
+    Effect.gen(function* () {
+      const original = Flag.QUERYAI_MODELS_URL
+      Flag.QUERYAI_MODELS_URL = "https://catalog.example.com"
+      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const context = yield* Layer.build(build(state, () => new Response("Not Found", { status: 404 })))
+      // populate is orDie, so an unreachable configured source surfaces as a
+      // defect rather than a typed failure - exit captures both.
+      const result = yield* withFetch(
+        ModelsDev.Service.use((s) => s.get()).pipe(Effect.provide(context), Effect.exit),
+      ).pipe(Effect.ensuring(Effect.sync(() => (Flag.QUERYAI_MODELS_URL = original))))
+
+      // A configured source that fails is an error to surface, not a cue to go
+      // fetch someone else's catalog behind the user's back.
+      expect(Exit.isSuccess(result)).toBe(false)
+      const final = yield* Ref.get(state)
+      expect(final.calls.length).toBeGreaterThan(0)
+      expect(final.calls.every((call) => call.url.startsWith("https://catalog.example.com"))).toBe(true)
     }),
   )
 })

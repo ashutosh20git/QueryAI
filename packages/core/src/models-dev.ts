@@ -135,13 +135,27 @@ export type Provider = Schema.Schema.Type<typeof Provider>
  * Where the model catalog is fetched from. `<source>/api.json` must serve the
  * models.dev schema.
  *
- * This is a mirror in our own repository, refreshed daily by
- * `.github/workflows/catalog.yml`, so a QueryAI install depends on no other
- * project's uptime. The data itself is models.dev's open catalog. Point
- * `QUERYAI_MODELS_URL` at your own host to take over completely, or set
- * `QUERYAI_DISABLE_MODELS_FETCH` to run offline from the build-time snapshot.
+ * models.dev is the catalog's home and is public to everyone, so it is what an
+ * ordinary install reads and it works on a machine that has never heard of this
+ * project. Point `QUERYAI_MODELS_URL` at your own host to take over completely,
+ * or set `QUERYAI_DISABLE_MODELS_FETCH` to run offline from the build-time
+ * snapshot.
  */
-export const DEFAULT_SOURCE = "https://raw.githubusercontent.com/ashutosh20git/QueryAI/catalog"
+export const DEFAULT_SOURCE = "https://models.dev"
+
+/**
+ * Our own daily mirror of `DEFAULT_SOURCE`, published by
+ * `.github/workflows/catalog.yml`, used only when models.dev cannot be reached -
+ * an empty catalog is not a degraded CLI, it is one that cannot name a single
+ * model, so it is worth a second request to avoid.
+ *
+ * Lives in the public distribution repo rather than beside the source, because
+ * raw.githubusercontent serves a repository's branches only while that
+ * repository is public and the source repo is not. Kept as the backup rather
+ * than the primary so that a mirror that is ever missing costs a retry rather
+ * than a doomed request on every refresh.
+ */
+export const MIRROR_SOURCE = "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/catalog"
 
 /**
  * The shared catalog still publishes the built-in provider under its pre-rename
@@ -220,12 +234,22 @@ const layer = Layer.effect(
       return Date.now() - mtime < Duration.toMillis(ttl)
     })
 
-    const fetchApi = Effect.fn("ModelsDev.fetchApi")(function* () {
-      return yield* HttpClientRequest.get(`${source}/api.json`).pipe(
+    const download = (from: string) =>
+      HttpClientRequest.get(`${from}/api.json`).pipe(
         HttpClientRequest.setHeader("User-Agent", USER_AGENT),
         http.execute,
         Effect.flatMap((res) => res.text),
         Effect.timeout("10 seconds"),
+      )
+
+    const fetchApi = Effect.fn("ModelsDev.fetchApi")(function* () {
+      // A configured source is an instruction - the user pointed us somewhere on
+      // purpose, and quietly serving them a different catalog instead would be
+      // worse than failing. Only the built-in default gets a second chance.
+      if (source !== DEFAULT_SOURCE) return yield* download(source)
+      return yield* download(source).pipe(
+        Effect.tapError((cause) => Effect.logWarning("catalog source unavailable, trying mirror", { source, cause })),
+        Effect.catch(() => download(MIRROR_SOURCE)),
       )
     })
 

@@ -77,7 +77,7 @@ Da biste omogućili sve ugrađene LSP servere, postavite `lsp` na `true`.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": true
 }
 ```
@@ -86,7 +86,7 @@ Koristite objekt da zadržite ugrađene servere omogućene dok konfigurirate izm
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": {}
 }
 ```
@@ -111,7 +111,7 @@ Koristite svojstvo `env` za postavljanje varijabli okruženja prilikom pokretanj
 
 ```json title="queryai.json" {5-7}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": {
     "rust": {
       "env": {
@@ -130,7 +130,7 @@ Koristite svojstvo `initialization` da prosledite opcije inicijalizacije na LSP 
 
 ```json title="queryai.json" {5-9}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": {
     "typescript": {
       "initialization": {
@@ -155,7 +155,7 @@ Ako je `lsp` izostavljen, svi LSP serveri su onemogućeni. Da biste onemogućili
 
 ```json title="queryai.json" {3}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": false
 }
 ```
@@ -164,7 +164,7 @@ Da onemogućite **specifičan** LSP server, postavite `disabled` na `true`:
 
 ```json title="queryai.json" {5}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": {
     "typescript": {
       "disabled": true
@@ -181,7 +181,7 @@ Možete dodati prilagođene LSP servere navodeći ekstenzije naredbe i datoteke:
 
 ```json title="queryai.json" {4-7}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "lsp": {
     "custom-lsp": {
       "command": ["custom-lsp-server", "--stdio"],

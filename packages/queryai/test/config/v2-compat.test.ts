@@ -290,7 +290,7 @@ describe("V2 configuration loading", () => {
       const fs = yield* FSUtil.Service
       const file = path.join(instance.directory, "queryai.jsonc")
       const text =
-        '{\n  // Retain this comment\n  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",\n  "plugins": ["native-only"]\n}\n'
+        '{\n  // Retain this comment\n  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",\n  "plugins": ["native-only"]\n}\n'
       yield* fs.writeWithDirs(file, text)
       const messages: unknown[] = []
       const config = yield* Config.use.get().pipe(
@@ -319,7 +319,7 @@ describe("V2 configuration loading", () => {
       yield* fs.writeWithDirs(
         path.join(instance.directory, "queryai.json"),
         JSON.stringify({
-          $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+          $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
           model: { providerID: "anthropic", model: "claude-sonnet", variant: "fast" },
           snapshots: false,
           skills: ["./skills", "https://example.com/skills"],
@@ -375,7 +375,7 @@ describe("V2 configuration loading", () => {
       yield* fs.writeWithDirs(
         path.join(instance.directory, "queryai.json"),
         JSON.stringify({
-          $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+          $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
           model: { providerID: "openai", model: "gpt-4.1" },
           theme: "legacy",
           keybinds: { leader: "ctrl+x" },

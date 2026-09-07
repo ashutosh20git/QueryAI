@@ -28,7 +28,7 @@ export const Release = {
   /** npm package name, also used to recognise an npm-installed copy. */
   npm: process.env["QUERYAI_NPM_PACKAGE"] || "queryai",
   /** GitHub `owner/repo` whose releases are the source of truth for versions. */
-  repo: process.env["QUERYAI_RELEASE_REPO"] || "ashutosh20git/QueryAI",
+  repo: process.env["QUERYAI_RELEASE_REPO"] || "ashutosh20git/QueryAI-dist",
   brewFormula: "queryai",
   brewTap: "ashutosh20git/tap/queryai",
   chocoPackage: "queryai",

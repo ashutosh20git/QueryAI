@@ -31,8 +31,17 @@ server you run.
 
 ## Quick start
 
-Requires [Bun](https://bun.sh). There is no published package yet — run it from
-source:
+**Using QueryAI?** You do not need this repository. Install a release and follow
+the setup guide at
+[ashutosh20git/QueryAI-dist](https://github.com/ashutosh20git/QueryAI-dist):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash
+# or
+npm install -g queryai
+```
+
+**Working on QueryAI?** This repo is the source. Requires [Bun](https://bun.sh):
 
 ```bash
 git clone https://github.com/ashutosh20git/QueryAI
@@ -40,6 +49,8 @@ cd QueryAI
 bun install
 bun run dev
 ```
+
+Cutting a release is documented in [RELEASING.md](RELEASING.md).
 
 Add a provider credential (any of them; the free tiers are the point):
 
@@ -58,7 +69,7 @@ Set a default so you do not pass `-m` every time:
 
 ```json title="~/.config/queryai/queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "model": "nvidia/moonshotai/kimi-k3",
   "memory": { "auto_capture": true }
 }
@@ -124,15 +135,17 @@ Beyond the branding, relative to upstream opencode:
 | Memory            | New. Local file backend by default; mem0 optional                                     |
 | Fallback          | New. Free-first ranking, per-session cooldowns, a price ceiling                       |
 | Sharing           | No default server; deploy your own worker                                             |
-| Updates           | Points at this repository's releases, not upstream's                                  |
-| Model catalog     | Mirrored into this repo daily, not fetched from a third party                         |
-| Config `$schema`  | Generated from this repo's config and published to the `schema` branch                |
+| Updates           | Points at the QueryAI-dist releases, not upstream's                                   |
+| Model catalog     | models.dev, with a daily mirror in QueryAI-dist as the backup                          |
+| Config `$schema`  | Generated from this repo's config, published to QueryAI-dist `schema`                 |
 | Accounts, billing | Removed. No hosted console, no subscription gateway                                   |
 | GitHub agent      | Removed. It depended on an app we do not own                                          |
 
-Nothing in this build calls a server belonging to another project. The only
-network traffic is to your own model providers, the catalog mirror in this
-repository, and — if you configure it — your own share worker.
+The only network traffic is to your own model providers, the public model
+catalog at [models.dev](https://models.dev) (mirrored into QueryAI-dist as a
+backup), the distribution repo for upgrades, and — if you configure it — your own
+share worker. No server belonging to another project is contacted for anything
+that carries your code or conversations.
 
 ---
 

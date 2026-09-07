@@ -35,7 +35,7 @@ Puede personalizar la URL base para cualquier proveedor configurando la opción 
 
 ```json title="queryai.json" {6}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -195,7 +195,7 @@ Para usar Amazon Bedrock con QueryAI:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -222,7 +222,7 @@ Para usar Amazon Bedrock con QueryAI:
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "amazon-bedrock": {
          "options": {
@@ -266,7 +266,7 @@ Para perfiles de inferencia personalizados, utilice el modelo y el nombre del pr
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       // ...
@@ -328,7 +328,7 @@ Puedes configurar queryai para usar modelos locales mediante [Atomic Chat](https
 
 ```json title="queryai.json" "atomic-chat" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "atomic-chat": {
       "npm": "@ai-sdk/openai-compatible",
@@ -556,7 +556,7 @@ Cloudflare AI Gateway le permite acceder a modelos de OpenAI, Anthropic, Workers
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "cloudflare-ai-gateway": {
          "models": {
@@ -763,7 +763,7 @@ Archivo `queryai.json`. También se recomienda desactivar el uso compartido de s
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "small_model": "gitlab/duo-chat-haiku-4-5",
   "share": "disabled"
 }
@@ -825,7 +825,7 @@ Personalizar a través de `queryai.json`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "gitlab": {
       "options": {
@@ -842,7 +842,7 @@ Para acceder a herramientas GitLab (solicitudes de fusión, problemas, canalizac
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "plugin": ["queryai-gitlab-plugin"]
 }
 ```
@@ -1024,7 +1024,7 @@ Aquí está el [Directorio de modelos de Helicone](https://helicone.ai/models), 
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1052,7 +1052,7 @@ Helicone admite encabezados personalizados para funciones como almacenamiento en
 
 ```jsonc title="~/.config/queryai/queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "helicone": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1106,7 +1106,7 @@ Puede configurar queryai para usar modelos locales a través de la utilidad llam
 
 ```json title="queryai.json" "llama.cpp" {5, 6, 8, 10-15}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "llama.cpp": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1173,7 +1173,7 @@ Puede configurar queryai para usar modelos locales a través de LM Studio.
 
 ```json title="queryai.json" "lmstudio" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "lmstudio": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1294,7 +1294,7 @@ Ollama puede configurarse automáticamente para QueryAI. Consulte los [documento
 
 ```json title="queryai.json" "ollama" {5, 6, 8, 10-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "ollama": {
       "npm": "@ai-sdk/openai-compatible",
@@ -1457,7 +1457,7 @@ QueryAI Zen es una lista de modelos probados y verificados proporcionada por el 
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1472,7 +1472,7 @@ QueryAI Zen es una lista de modelos probados y verificados proporcionada por el 
 
    ```json title="queryai.json"
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "openrouter": {
          "models": {
@@ -1721,7 +1721,7 @@ También puede personalizar modelos a través de su configuración queryai. A co
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "vercel": {
       "models": {
@@ -1831,7 +1831,7 @@ Algunas opciones de enrutamiento útiles:
 
    ```json title="queryai.json" {6}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "zenmux": {
          "models": {
@@ -1899,7 +1899,7 @@ Puede utilizar cualquier proveedor compatible con OpenAI con queryai. La mayorí
 
    ```json title="queryai.json" ""myprovider"" {5-15}
    {
-     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+     "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
      "provider": {
        "myprovider": {
          "npm": "@ai-sdk/openai-compatible",
@@ -1937,7 +1937,7 @@ A continuación se muestra un ejemplo de configuración de las opciones `apiKey`
 
 ```json title="queryai.json" {9,11,17-20}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "provider": {
     "myprovider": {
       "npm": "@ai-sdk/openai-compatible",

@@ -215,6 +215,12 @@ for (const item of targets) {
   }
 
   await $`rm -rf ./dist/${name}/bin/tui`
+
+  // These archives are what users actually receive, and the repository they were
+  // built from is private - so the archive is the only place the MIT notice can
+  // reach them, and MIT requires it to travel with every copy.
+  await $`cp ${path.join(dir, "../../LICENSE")} ./dist/${name}/bin/LICENSE`
+
   await Bun.file(`dist/${name}/package.json`).write(
     JSON.stringify(
       {

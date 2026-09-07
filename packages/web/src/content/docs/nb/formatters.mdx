@@ -61,7 +61,7 @@ Du kan tilpasse formattere gjennom `formatter`-delen i QueryAI-konfigurasjonen.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "formatter": {}
 }
 ```
@@ -85,7 +85,7 @@ For å deaktivere **alle** formattere globalt, sett `formatter` til `false`:
 
 ```json title="queryai.json" {3}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "formatter": false
 }
 ```
@@ -94,7 +94,7 @@ For å deaktivere en **spesifikk** formatter, sett `disabled` til `true`:
 
 ```json title="queryai.json" {5}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -111,7 +111,7 @@ Du kan overstyre de innebygde formatterne eller legge til nye ved å spesifisere
 
 ```json title="queryai.json" {4-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],
