@@ -97,14 +97,24 @@ async function readMeta(env: Env, id: string) {
   return (await object.json()) as Meta
 }
 
-async function authorize(env: Env, id: string, request: Request) {
+/**
+ * Discriminated on a literal `ok` rather than the presence of an `error` key:
+ * an `in` check leaves the compiler free to widen `auth.error` back to
+ * `Response | undefined` at the call site, which does not typecheck against a
+ * handler that must return a Response.
+ */
+type Authorization =
+  | { ok: false; error: Response }
+  | { ok: true; meta: Meta; body: { secret?: string } }
+
+async function authorize(env: Env, id: string, request: Request): Promise<Authorization> {
   const body = await request.json<{ secret?: string }>().catch(() => ({}) as { secret?: string })
   const meta = await readMeta(env, id)
-  if (!meta) return { error: fail(404, "No such share") } as const
+  if (!meta) return { ok: false, error: fail(404, "No such share") }
   if (!body.secret || !same(await hash(body.secret), meta.secret)) {
-    return { error: fail(403, "Wrong or missing secret") } as const
+    return { ok: false, error: fail(403, "Wrong or missing secret") }
   }
-  return { meta, body } as const
+  return { ok: true, meta, body }
 }
 
 async function listData(env: Env, id: string) {
@@ -171,7 +181,7 @@ export default {
 
       if (suffix === "/sync" && request.method === "POST") {
         const auth = await authorize(env, id, request)
-        if ("error" in auth) return auth.error
+        if (!auth.ok) return auth.error
         const items = Array.isArray((auth.body as { data?: unknown }).data)
           ? ((auth.body as { data: Entry[] }).data ?? [])
           : []
@@ -189,7 +199,7 @@ export default {
 
       if (!suffix && request.method === "DELETE") {
         const auth = await authorize(env, id, request)
-        if ("error" in auth) return auth.error
+        if (!auth.ok) return auth.error
         await removeAll(env, id)
         return json({ ok: true })
       }

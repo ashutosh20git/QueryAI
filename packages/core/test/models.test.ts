@@ -402,7 +402,7 @@ describe("ModelsDev catalog source", () => {
 
   it.live("falls back to the mirror when the default source is unreachable", () =>
     Effect.gen(function* () {
-      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const state = yield* Ref.make<MockState>({ ...initialState, calls: [] })
       const context = yield* Layer.build(
         build(state, (url) =>
           url.startsWith(ModelsDev.DEFAULT_SOURCE)
@@ -422,7 +422,7 @@ describe("ModelsDev catalog source", () => {
 
   it.live("does not reach for the mirror while the default source is serving", () =>
     Effect.gen(function* () {
-      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const state = yield* Ref.make<MockState>({ ...initialState, calls: [] })
       const context = yield* Layer.build(build(state, () => new Response(JSON.stringify(fixture), { status: 200 })))
       const result = yield* withFetch(ModelsDev.Service.use((s) => s.get()).pipe(Effect.provide(context)))
 
@@ -436,7 +436,7 @@ describe("ModelsDev catalog source", () => {
     Effect.gen(function* () {
       const original = Flag.QUERYAI_MODELS_URL
       Flag.QUERYAI_MODELS_URL = "https://catalog.example.com"
-      const state = yield* Ref.make({ ...initialState, calls: [] })
+      const state = yield* Ref.make<MockState>({ ...initialState, calls: [] })
       const context = yield* Layer.build(build(state, () => new Response("Not Found", { status: 404 })))
       // populate is orDie, so an unreachable configured source surfaces as a
       // defect rather than a typed failure - exit captures both.
