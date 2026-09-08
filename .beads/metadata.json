@@ -1,0 +1,7 @@
+{
+  "database": "dolt",
+  "backend": "dolt",
+  "dolt_mode": "embedded",
+  "dolt_database": "QueryAI",
+  "project_id": "3063e91a-852c-49f2-8fe1-1da053470e53"
+}
