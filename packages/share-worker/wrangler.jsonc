@@ -7,9 +7,9 @@
   "r2_buckets": [
     {
       "binding": "BUCKET",
-      "bucket_name": "queryai-share"
-    }
-  ]
+      "bucket_name": "queryai-share",
+    },
+  ],
   // Serving this from your own domain instead of *.workers.dev? Add:
   //   "routes": [{ "pattern": "share.example.com", "custom_domain": true }],
   //   "vars": { "PUBLIC_URL": "https://share.example.com" }

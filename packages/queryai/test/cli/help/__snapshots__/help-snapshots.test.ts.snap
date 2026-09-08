@@ -313,20 +313,62 @@ Options:
 `;
 
 exports[`queryai CLI help-text snapshots every documented command emits stable help text: queryai github --help 1`] = `
-"queryai github
-
-manage GitHub agent
+"⠀                                 
+█▀▀█ █  █ █▀▀▀ █▀▀█ █  █ █▀▀█ ▀▀▀▀
+█  █ █  █ █▀▀▀ █▀▀▄ ▀▄▄▀ █▀▀█  ██ 
+▀▀▀▄ ▀▀▀▀ ▀▀▀▀ ▀  ▀  ▀▀  ▀  ▀ ▀▀▀▀
 
 Commands:
-  queryai github install  install the GitHub agent
-  queryai github run      run the GitHub agent
+  queryai completion          generate shell completion script
+  queryai acp                 start ACP (Agent Client Protocol) server
+  queryai mcp                 manage MCP (Model Context Protocol) servers
+  queryai [project]           start queryai tui                                            [default]
+  queryai attach <url>        attach to a running queryai server
+  queryai run [message..]     run queryai with a message
+  queryai debug               debugging and troubleshooting tools
+  queryai providers           manage AI providers and credentials                    [aliases: auth]
+  queryai agent               manage agents
+  queryai upgrade [target]    upgrade queryai to the latest or a specific version
+  queryai uninstall           uninstall queryai and remove all related files
+  queryai serve               starts a headless queryai server
+  queryai web                 start queryai server and open web interface
+  queryai models [provider]   list all available models
+  queryai stats               show token usage and cost statistics
+  queryai export [sessionID]  export session data as JSON
+  queryai import <file>       import session data from JSON file or URL
+  queryai pr <number>         fetch and checkout a GitHub PR branch, then run queryai
+  queryai session             manage sessions
+  queryai plugin <module>     install plugin and update config                       [aliases: plug]
+  queryai db                  database tools
+
+Positionals:
+  project  path to start queryai in                                                         [string]
 
 Options:
-  -h, --help        show help                                                              [boolean]
-  -v, --version     show version number                                                    [boolean]
-      --print-logs  print logs to stderr                                                   [boolean]
-      --log-level   log level                   [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
-      --pure        run without external plugins                                           [boolean]"
+  -h, --help          show help                                                            [boolean]
+  -v, --version       show version number                                                  [boolean]
+      --print-logs    print logs to stderr                                                 [boolean]
+      --log-level     log level                 [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
+      --pure          run without external plugins                                         [boolean]
+      --port          port to listen on                                        [number] [default: 0]
+      --hostname      hostname to listen on                          [string] [default: "127.0.0.1"]
+      --mdns          enable mDNS service discovery (defaults hostname to 0.0.0.0)
+                                                                          [boolean] [default: false]
+      --mdns-domain   custom domain name for mDNS service (default: queryai.local)
+                                                                 [string] [default: "queryai.local"]
+      --cors          additional domains to allow for CORS                     [array] [default: []]
+  -m, --model         model to use in the format of provider/model                          [string]
+  -c, --continue      continue the last session                                            [boolean]
+  -s, --session       session id to continue                                                [string]
+      --fork          fork the session when continuing (use with --continue or --session)  [boolean]
+      --prompt        prompt to use                                                         [string]
+      --agent         agent to use                                                          [string]
+      --auto          auto-approve permissions that are not explicitly denied (dangerous!)
+                                                                          [boolean] [default: false]
+      --mini          start the minimal interactive interface             [boolean] [default: false]
+      --no-replay     disable mini session history replay on resume and after resize       [boolean]
+      --replay-limit  cap visible mini replay to the newest N messages                      [number]
+"
 `;
 
 exports[`queryai CLI help-text snapshots every documented command emits stable help text: queryai pr --help 1`] = `
@@ -580,31 +622,121 @@ Options:
 `;
 
 exports[`queryai CLI help-text snapshots every documented command emits stable help text: queryai github install --help 1`] = `
-"queryai github install
+"⠀                                 
+█▀▀█ █  █ █▀▀▀ █▀▀█ █  █ █▀▀█ ▀▀▀▀
+█  █ █  █ █▀▀▀ █▀▀▄ ▀▄▄▀ █▀▀█  ██ 
+▀▀▀▄ ▀▀▀▀ ▀▀▀▀ ▀  ▀  ▀▀  ▀  ▀ ▀▀▀▀
 
-install the GitHub agent
+Commands:
+  queryai completion          generate shell completion script
+  queryai acp                 start ACP (Agent Client Protocol) server
+  queryai mcp                 manage MCP (Model Context Protocol) servers
+  queryai [project]           start queryai tui                                            [default]
+  queryai attach <url>        attach to a running queryai server
+  queryai run [message..]     run queryai with a message
+  queryai debug               debugging and troubleshooting tools
+  queryai providers           manage AI providers and credentials                    [aliases: auth]
+  queryai agent               manage agents
+  queryai upgrade [target]    upgrade queryai to the latest or a specific version
+  queryai uninstall           uninstall queryai and remove all related files
+  queryai serve               starts a headless queryai server
+  queryai web                 start queryai server and open web interface
+  queryai models [provider]   list all available models
+  queryai stats               show token usage and cost statistics
+  queryai export [sessionID]  export session data as JSON
+  queryai import <file>       import session data from JSON file or URL
+  queryai pr <number>         fetch and checkout a GitHub PR branch, then run queryai
+  queryai session             manage sessions
+  queryai plugin <module>     install plugin and update config                       [aliases: plug]
+  queryai db                  database tools
+
+Positionals:
+  project  path to start queryai in                                                         [string]
 
 Options:
-  -h, --help        show help                                                              [boolean]
-  -v, --version     show version number                                                    [boolean]
-      --print-logs  print logs to stderr                                                   [boolean]
-      --log-level   log level                   [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
-      --pure        run without external plugins                                           [boolean]"
+  -h, --help          show help                                                            [boolean]
+  -v, --version       show version number                                                  [boolean]
+      --print-logs    print logs to stderr                                                 [boolean]
+      --log-level     log level                 [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
+      --pure          run without external plugins                                         [boolean]
+      --port          port to listen on                                        [number] [default: 0]
+      --hostname      hostname to listen on                          [string] [default: "127.0.0.1"]
+      --mdns          enable mDNS service discovery (defaults hostname to 0.0.0.0)
+                                                                          [boolean] [default: false]
+      --mdns-domain   custom domain name for mDNS service (default: queryai.local)
+                                                                 [string] [default: "queryai.local"]
+      --cors          additional domains to allow for CORS                     [array] [default: []]
+  -m, --model         model to use in the format of provider/model                          [string]
+  -c, --continue      continue the last session                                            [boolean]
+  -s, --session       session id to continue                                                [string]
+      --fork          fork the session when continuing (use with --continue or --session)  [boolean]
+      --prompt        prompt to use                                                         [string]
+      --agent         agent to use                                                          [string]
+      --auto          auto-approve permissions that are not explicitly denied (dangerous!)
+                                                                          [boolean] [default: false]
+      --mini          start the minimal interactive interface             [boolean] [default: false]
+      --no-replay     disable mini session history replay on resume and after resize       [boolean]
+      --replay-limit  cap visible mini replay to the newest N messages                      [number]
+"
 `;
 
 exports[`queryai CLI help-text snapshots every documented command emits stable help text: queryai github run --help 1`] = `
-"queryai github run
+"⠀                                 
+█▀▀█ █  █ █▀▀▀ █▀▀█ █  █ █▀▀█ ▀▀▀▀
+█  █ █  █ █▀▀▀ █▀▀▄ ▀▄▄▀ █▀▀█  ██ 
+▀▀▀▄ ▀▀▀▀ ▀▀▀▀ ▀  ▀  ▀▀  ▀  ▀ ▀▀▀▀
 
-run the GitHub agent
+Commands:
+  queryai completion          generate shell completion script
+  queryai acp                 start ACP (Agent Client Protocol) server
+  queryai mcp                 manage MCP (Model Context Protocol) servers
+  queryai [project]           start queryai tui                                            [default]
+  queryai attach <url>        attach to a running queryai server
+  queryai run [message..]     run queryai with a message
+  queryai debug               debugging and troubleshooting tools
+  queryai providers           manage AI providers and credentials                    [aliases: auth]
+  queryai agent               manage agents
+  queryai upgrade [target]    upgrade queryai to the latest or a specific version
+  queryai uninstall           uninstall queryai and remove all related files
+  queryai serve               starts a headless queryai server
+  queryai web                 start queryai server and open web interface
+  queryai models [provider]   list all available models
+  queryai stats               show token usage and cost statistics
+  queryai export [sessionID]  export session data as JSON
+  queryai import <file>       import session data from JSON file or URL
+  queryai pr <number>         fetch and checkout a GitHub PR branch, then run queryai
+  queryai session             manage sessions
+  queryai plugin <module>     install plugin and update config                       [aliases: plug]
+  queryai db                  database tools
+
+Positionals:
+  project  path to start queryai in                                                         [string]
 
 Options:
-  -h, --help        show help                                                              [boolean]
-  -v, --version     show version number                                                    [boolean]
-      --print-logs  print logs to stderr                                                   [boolean]
-      --log-level   log level                   [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
-      --pure        run without external plugins                                           [boolean]
-      --event       GitHub mock event to run the agent for                                  [string]
-      --token       GitHub personal access token (github_pat_********)                      [string]"
+  -h, --help          show help                                                            [boolean]
+  -v, --version       show version number                                                  [boolean]
+      --print-logs    print logs to stderr                                                 [boolean]
+      --log-level     log level                 [string] [choices: "DEBUG", "INFO", "WARN", "ERROR"]
+      --pure          run without external plugins                                         [boolean]
+      --port          port to listen on                                        [number] [default: 0]
+      --hostname      hostname to listen on                          [string] [default: "127.0.0.1"]
+      --mdns          enable mDNS service discovery (defaults hostname to 0.0.0.0)
+                                                                          [boolean] [default: false]
+      --mdns-domain   custom domain name for mDNS service (default: queryai.local)
+                                                                 [string] [default: "queryai.local"]
+      --cors          additional domains to allow for CORS                     [array] [default: []]
+  -m, --model         model to use in the format of provider/model                          [string]
+  -c, --continue      continue the last session                                            [boolean]
+  -s, --session       session id to continue                                                [string]
+      --fork          fork the session when continuing (use with --continue or --session)  [boolean]
+      --prompt        prompt to use                                                         [string]
+      --agent         agent to use                                                          [string]
+      --auto          auto-approve permissions that are not explicitly denied (dangerous!)
+                                                                          [boolean] [default: false]
+      --mini          start the minimal interactive interface             [boolean] [default: false]
+      --no-replay     disable mini session history replay on resume and after resize       [boolean]
+      --replay-limit  cap visible mini replay to the newest N messages                      [number]
+"
 `;
 
 exports[`queryai CLI help-text snapshots every documented command emits stable help text: queryai db path --help 1`] = `

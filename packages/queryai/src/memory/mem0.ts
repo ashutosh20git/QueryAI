@@ -98,7 +98,8 @@ export function make(input: { apiKey: string; baseURL?: string; http: HttpClient
       Effect.mapError(fail(operation)),
     )
 
-  const decode = <A, I>(operation: string, schema: Schema.Codec<A, I>) =>
+  const decode =
+    <A, I>(operation: string, schema: Schema.Codec<A, I>) =>
     (response: HttpClientResponse.HttpClientResponse) =>
       HttpClientResponse.schemaBodyJson(schema)(response).pipe(
         Effect.mapError(

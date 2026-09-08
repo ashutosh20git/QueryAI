@@ -154,7 +154,10 @@ export function tmpdirScoped<E = never, R = never>(options?: {
       yield* Effect.promise(() =>
         fs.writeFile(
           path.join(dir, "queryai.json"),
-          JSON.stringify({ $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json", ...resolved }),
+          JSON.stringify({
+            $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+            ...resolved,
+          }),
         ),
       )
     }

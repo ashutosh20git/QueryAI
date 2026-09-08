@@ -39,10 +39,7 @@ export class MemoryDisabledError extends Schema.TaggedErrorClass<MemoryDisabledE
   reason: Schema.optional(Schema.String),
 }) {
   override get message() {
-    return (
-      this.reason ??
-      `Memory is turned off. Remove "memory": { "enabled": false } from your config to enable it.`
-    )
+    return this.reason ?? `Memory is turned off. Remove "memory": { "enabled": false } from your config to enable it.`
   }
 }
 
@@ -72,11 +69,7 @@ export interface Interface {
   }) => Effect.Effect<void, MemoryDisabledError | Mem0.Mem0Error>
   readonly forget: (id: string) => Effect.Effect<void, MemoryDisabledError | Mem0.Mem0Error>
   /** Auto-capture of a finished turn. No-op unless memory.auto_capture is on. */
-  readonly capture: (input: {
-    messages: Mem0.Message[]
-    agent?: string
-    sessionID?: string
-  }) => Effect.Effect<void>
+  readonly capture: (input: { messages: Mem0.Message[]; agent?: string; sessionID?: string }) => Effect.Effect<void>
 }
 
 export class Service extends Context.Service<Service, Interface>()("@queryai/Memory") {}

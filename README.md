@@ -130,16 +130,16 @@ set `share_url`. Shared sessions then live entirely on infrastructure you contro
 
 Beyond the branding, relative to upstream opencode:
 
-| Area              | Change                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| Memory            | New. Local file backend by default; mem0 optional                                     |
-| Fallback          | New. Free-first ranking, per-session cooldowns, a price ceiling                       |
-| Sharing           | No default server; deploy your own worker                                             |
-| Updates           | Points at the QueryAI-dist releases, not upstream's                                   |
-| Model catalog     | models.dev, with a daily mirror in QueryAI-dist as the backup                          |
-| Config `$schema`  | Generated from this repo's config, published to QueryAI-dist `schema`                 |
-| Accounts, billing | Removed. No hosted console, no subscription gateway                                   |
-| GitHub agent      | Removed. It depended on an app we do not own                                          |
+| Area              | Change                                                                |
+| ----------------- | --------------------------------------------------------------------- |
+| Memory            | New. Local file backend by default; mem0 optional                     |
+| Fallback          | New. Free-first ranking, per-session cooldowns, a price ceiling       |
+| Sharing           | No default server; deploy your own worker                             |
+| Updates           | Points at the QueryAI-dist releases, not upstream's                   |
+| Model catalog     | models.dev, with a daily mirror in QueryAI-dist as the backup         |
+| Config `$schema`  | Generated from this repo's config, published to QueryAI-dist `schema` |
+| Accounts, billing | Removed. No hosted console, no subscription gateway                   |
+| GitHub agent      | Removed. It depended on an app we do not own                          |
 
 The only network traffic is to your own model providers, the public model
 catalog at [models.dev](https://models.dev) (mirrored into QueryAI-dist as a

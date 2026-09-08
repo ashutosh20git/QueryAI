@@ -187,14 +187,14 @@ export const Info = Schema.Struct({
       }),
       models: Schema.optional(Schema.Array(Schema.String)).annotate({
         description:
-          "Ordered fallback chain as \"provider/model\" entries. When set it is used verbatim; otherwise every model you hold a credential for is ranked by capability.",
+          'Ordered fallback chain as "provider/model" entries. When set it is used verbatim; otherwise every model you hold a credential for is ranked by capability.',
       }),
       max_switches: Schema.optional(NonNegativeInt).annotate({
         description: "Maximum number of model switches within one session before giving up (default: 3)",
       }),
       max_cost: Schema.optional(Schema.Number).annotate({
         description:
-          "Most a fallback model may cost per million output tokens. Defaults to the price of the model the turn started on, so a switch never moves you onto something pricier than you chose; 0 keeps the session on free models only. Ignored when \"models\" is set.",
+          'Most a fallback model may cost per million output tokens. Defaults to the price of the model the turn started on, so a switch never moves you onto something pricier than you chose; 0 keeps the session on free models only. Ignored when "models" is set.',
       }),
     }),
   ),
@@ -205,13 +205,14 @@ export const Info = Schema.Struct({
       }),
       backend: Schema.optional(Schema.Literals(["auto", "local", "mem0"])).annotate({
         description:
-          "Where memories are kept. \"local\" stores them on this machine and needs no account; \"mem0\" requires an API key and syncs across devices; \"auto\" (default) uses mem0 when a key is configured and local otherwise.",
+          'Where memories are kept. "local" stores them on this machine and needs no account; "mem0" requires an API key and syncs across devices; "auto" (default) uses mem0 when a key is configured and local otherwise.',
       }),
       api_key: Schema.optional(Schema.String).annotate({
         description: "mem0 API key. Falls back to the MEM0_API_KEY environment variable.",
       }),
       base_url: Schema.optional(Schema.String).annotate({
-        description: "mem0 API base URL. Point this at a self-hosted mem0 server to keep memories in your own infrastructure.",
+        description:
+          "mem0 API base URL. Point this at a self-hosted mem0 server to keep memories in your own infrastructure.",
       }),
       auto_capture: Schema.optional(Schema.Boolean).annotate({
         description:

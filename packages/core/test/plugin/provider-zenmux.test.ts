@@ -41,7 +41,10 @@ describe("ZenmuxPlugin", () => {
       })
       yield* addPlugin()
       const result = required(yield* catalog.provider.get(ProviderV2.ID.make("zenmux")))
-      expect(result.request.headers).toEqual({ "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI", "X-Title": "queryai" })
+      expect(result.request.headers).toEqual({
+        "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
+        "X-Title": "queryai",
+      })
       expect(Object.keys(result.request.headers).sort()).toEqual(["HTTP-Referer", "X-Title"])
     }),
   )

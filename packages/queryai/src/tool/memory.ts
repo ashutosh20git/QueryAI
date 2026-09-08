@@ -48,7 +48,8 @@ export const MemoryTool = Tool.define<typeof Parameters, Metadata, Memory.Servic
             switch (params.action) {
               case "remember": {
                 const text = params.text?.trim()
-                if (!text) return { title: "memory", output: "remember requires 'text'", metadata: { action: "remember" } }
+                if (!text)
+                  return { title: "memory", output: "remember requires 'text'", metadata: { action: "remember" } }
                 yield* memory.remember({
                   text,
                   scope: params.scope,
@@ -63,7 +64,8 @@ export const MemoryTool = Tool.define<typeof Parameters, Metadata, Memory.Servic
               }
               case "search": {
                 const query = params.query?.trim()
-                if (!query) return { title: "memory", output: "search requires 'query'", metadata: { action: "search" } }
+                if (!query)
+                  return { title: "memory", output: "search requires 'query'", metadata: { action: "search" } }
                 const items = yield* memory.search({ query, agent: ctx.agent })
                 return {
                   title: `${items.length} memories`,

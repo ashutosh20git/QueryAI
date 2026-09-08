@@ -87,6 +87,15 @@ delete process.env["OTEL_RESOURCE_ATTRIBUTES"]
 // Use in-memory sqlite
 process.env["QUERYAI_DB"] = ":memory:"
 
+// `Release.installScript` and `UI_UPSTREAM` are module-level constants read from
+// the environment at import time, and both are deliberately empty in a plain
+// build: there is no published installer yet, and proxying a third party's web
+// app would serve code we do not control into a page holding user sessions.
+// Tests that exercise those paths need them configured, so set them here rather
+// than in each test, which would run too late to affect the constants.
+process.env["QUERYAI_INSTALL_URL"] = "https://install.queryai.test/install"
+process.env["QUERYAI_WEB_UI_UPSTREAM"] = "https://app.queryai.test"
+
 // Now safe to import from src/
 const { initProjectors } = await import("../src/server/projectors")
 

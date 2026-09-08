@@ -48,7 +48,10 @@ const fail = (status: number, message: string) => json({ error: message }, statu
 /** URL-safe, unguessable, and short enough to paste. 128 bits of randomness. */
 function token(bytes = 16) {
   const raw = crypto.getRandomValues(new Uint8Array(bytes))
-  return btoa(String.fromCharCode(...raw)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "")
+  return btoa(String.fromCharCode(...raw))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "")
 }
 
 async function hash(secret: string) {
@@ -103,9 +106,7 @@ async function readMeta(env: Env, id: string) {
  * `Response | undefined` at the call site, which does not typecheck against a
  * handler that must return a Response.
  */
-type Authorization =
-  | { ok: false; error: Response }
-  | { ok: true; meta: Meta; body: { secret?: string } }
+type Authorization = { ok: false; error: Response } | { ok: true; meta: Meta; body: { secret?: string } }
 
 async function authorize(env: Env, id: string, request: Request): Promise<Authorization> {
   const body = await request.json<{ secret?: string }>().catch(() => ({}) as { secret?: string })

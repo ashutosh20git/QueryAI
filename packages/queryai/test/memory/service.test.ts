@@ -63,18 +63,20 @@ afterEach(async () => {
   await rm(LocalMemory.file(Memory.localUserID()), { force: true })
 })
 
-it.instance("with no credential memory runs locally rather than not at all", () =>
-  Effect.gen(function* () {
-    const memory = yield* Memory.Service
-    expect(yield* memory.enabled()).toBe(true)
-    expect(yield* memory.backend()).toBe("local")
-    expect(yield* memory.userID()).toBe(Memory.localUserID())
+it.instance(
+  "with no credential memory runs locally rather than not at all",
+  () =>
+    Effect.gen(function* () {
+      const memory = yield* Memory.Service
+      expect(yield* memory.enabled()).toBe(true)
+      expect(yield* memory.backend()).toBe("local")
+      expect(yield* memory.userID()).toBe(Memory.localUserID())
 
-    yield* memory.remember({ text: "prefers pnpm" })
-    expect((yield* memory.list()).map((m) => m.text)).toEqual(["prefers pnpm"])
-    // Nothing is sent anywhere: the store is a file on this machine.
-    expect(calls).toHaveLength(0)
-  }),
+      yield* memory.remember({ text: "prefers pnpm" })
+      expect((yield* memory.list()).map((m) => m.text)).toEqual(["prefers pnpm"])
+      // Nothing is sent anywhere: the store is a file on this machine.
+      expect(calls).toHaveLength(0)
+    }),
   // First test in the file, so it pays for building the layer.
   30_000,
 )

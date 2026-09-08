@@ -17,7 +17,11 @@ const client = Effect.fn("LocalMemoryTest.client")(function* () {
 
 const add = (text: string, over: { agent?: string; session?: string } = {}) => ({
   messages: [{ role: "user" as const, content: text }],
-  scope: { userID: USER, ...(over.agent ? { agentID: over.agent } : {}), ...(over.session ? { runID: over.session } : {}) },
+  scope: {
+    userID: USER,
+    ...(over.agent ? { agentID: over.agent } : {}),
+    ...(over.session ? { runID: over.session } : {}),
+  },
 })
 
 afterEach(async () => {
@@ -28,11 +32,7 @@ describe("memory.local scoring", () => {
   const row = (text: string, created = 0): LocalMemory.Row => ({ id: text, text, created })
 
   test("a rare shared term outranks a common one", () => {
-    const rows = [
-      row("the project uses pnpm"),
-      row("the project uses typescript"),
-      row("the project uses biome"),
-    ]
+    const rows = [row("the project uses pnpm"), row("the project uses typescript"), row("the project uses biome")]
     const weights = LocalMemory.idf(rows)
     const query = LocalMemory.tokenize("does the project use pnpm")
     // "project" is in every row and carries almost nothing; "pnpm" decides it.

@@ -1501,9 +1501,7 @@ const layer = Layer.effect(
         // provider block above - otherwise an allowlist written before the rename
         // matches nothing and leaves the install with no providers at all.
         const disabled = new Set((cfg.disabled_providers ?? []).map((id) => ModelsDev.aliasID(id)))
-        const enabled = cfg.enabled_providers
-          ? new Set(cfg.enabled_providers.map((id) => ModelsDev.aliasID(id)))
-          : null
+        const enabled = cfg.enabled_providers ? new Set(cfg.enabled_providers.map((id) => ModelsDev.aliasID(id))) : null
 
         function isProviderAllowed(providerID: ProviderV2.ID): boolean {
           if (enabled && !enabled.has(providerID)) return false

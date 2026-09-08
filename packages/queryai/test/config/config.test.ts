@@ -112,7 +112,10 @@ const layer = configLayer()
 const it = testEffect(layer)
 const configIt = (options?: Parameters<typeof configLayer>[0]) => testEffect(configLayer(options))
 
-const schemaConfig = (config: object) => ({ $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json", ...config })
+const schemaConfig = (config: object) => ({
+  $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  ...config,
+})
 
 const provideCurrentInstance = <A, E, R>(effect: Effect.Effect<A, E, R>, ctx: InstanceContext) =>
   effect.pipe(Effect.provideService(InstanceRef, ctx))
@@ -316,7 +319,9 @@ it.effect("creates global jsonc config with schema when no global configs exist"
       yield* Config.use.get().pipe(provideInstanceEffect(dir))
 
       const content = yield* FSUtil.use.readFileString(path.join(dir, "queryai.jsonc"))
-      expect(content).toContain('"$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json"')
+      expect(content).toContain(
+        '"$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json"',
+      )
     }).pipe(Effect.provide(testInstanceStoreLayer), Effect.provide(LayerNode.compile(CrossSpawnSpawner.node))),
   ),
 )
@@ -2225,7 +2230,9 @@ test("parseManagedPlist handles empty config", async () => {
   const config = ConfigParse.schema(
     ConfigV1.Info,
     ConfigParse.jsonc(
-      await ConfigManaged.parseManagedPlist(JSON.stringify({ $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json" })),
+      await ConfigManaged.parseManagedPlist(
+        JSON.stringify({ $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json" }),
+      ),
       "test:mobileconfig",
     ),
     "test:mobileconfig",

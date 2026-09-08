@@ -145,7 +145,14 @@ describe("session.fallback ranking", () => {
 const catalog = (models: Provider.Model[]) => {
   const byProvider: Record<string, any> = {}
   for (const m of models) {
-    byProvider[m.providerID] ??= { id: m.providerID, name: m.providerID, source: "env", env: [], options: {}, models: {} }
+    byProvider[m.providerID] ??= {
+      id: m.providerID,
+      name: m.providerID,
+      source: "env",
+      env: [],
+      options: {},
+      models: {},
+    }
     byProvider[m.providerID].models[m.id] = m
   }
   return Layer.succeed(
@@ -346,9 +353,7 @@ describe("session.fallback cost", () => {
       expect(yield* fallback.next({ sessionID: ses, current: onFree, error: quota })).toEqual(cand("beta", "free-too"))
       // Both free models are gone now. The paid one is still there, and is still
       // not taken: the user chose a free model and never agreed to spend.
-      expect(
-        yield* fallback.next({ sessionID: ses, current: cand("beta", "free-too"), error: quota }),
-      ).toBeUndefined()
+      expect(yield* fallback.next({ sessionID: ses, current: cand("beta", "free-too"), error: quota })).toBeUndefined()
     }),
   )
 

@@ -501,7 +501,11 @@ const layer = Layer.effect(
         return "stop"
       }
 
-      if (compactionPart && payload.selected.tail_start_id && compactionPart.tail_start_id !== payload.selected.tail_start_id) {
+      if (
+        compactionPart &&
+        payload.selected.tail_start_id &&
+        compactionPart.tail_start_id !== payload.selected.tail_start_id
+      ) {
         yield* session.updatePart({
           ...compactionPart,
           tail_start_id: payload.selected.tail_start_id,

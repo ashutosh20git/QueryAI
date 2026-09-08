@@ -13,7 +13,7 @@ them.
 
 `packages/queryai/src/session/processor.ts:666`
 
-`Effect.ensuring(cleanup())` was applied *outside* `Effect.catch(switchOrHalt)`,
+`Effect.ensuring(cleanup())` was applied _outside_ `Effect.catch(switchOrHalt)`,
 so cleanup ran last and its trailing `session.updateMessage(...)` re-inserted
 (upsert) the empty assistant message the switch handler had just removed. Every
 fallback switch left a content-less assistant turn in history, with its orphaned
@@ -110,7 +110,7 @@ rename still names this provider" and the denylist equivalent.
 `packages/queryai/src/session/compaction.ts:459`
 
 The retry re-ran `attempt()` with the prompt `select()` had built against the
-*original* model's context window, so a smaller fallback reported a hard
+_original_ model's context window, so a smaller fallback reported a hard
 `ContextOverflowError` the first model would have absorbed.
 
 **Fix.** Prompt selection is now a function of the model that will read it, called
@@ -135,7 +135,7 @@ stayed retired for the life of the process.
 limit, an hour for a quota ceiling — and lapse on their own. Session entries
 untouched for six hours are swept on the next lookup. `reset()` remains as the
 explicit "start over" hook (used by tests); the leak no longer depends on anyone
-calling it. The `switches` budget is deliberately *not* refunded by a cooldown, so
+calling it. The `switches` budget is deliberately _not_ refunded by a cooldown, so
 a session still cannot thrash.
 
 ---

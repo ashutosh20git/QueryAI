@@ -54,13 +54,13 @@ practice this is free unless you are running it for an organisation.
 
 Four endpoints, which is the whole contract the CLI's share client expects.
 
-| Method   | Path                     | Body                    | Returns              |
-| -------- | ------------------------ | ----------------------- | -------------------- |
-| `POST`   | `/api/share`             | `{sessionID}`           | `{id, url, secret}`  |
-| `POST`   | `/api/share/:id/sync`    | `{secret, data: [...]}` | `{ok, written}`      |
-| `DELETE` | `/api/share/:id`         | `{secret}`              | `{ok}`               |
-| `GET`    | `/api/share/:id/data`    | —                       | `[...]` flat array   |
-| `GET`    | `/share/:id`             | —                       | a readable HTML page |
+| Method   | Path                  | Body                    | Returns              |
+| -------- | --------------------- | ----------------------- | -------------------- |
+| `POST`   | `/api/share`          | `{sessionID}`           | `{id, url, secret}`  |
+| `POST`   | `/api/share/:id/sync` | `{secret, data: [...]}` | `{ok, written}`      |
+| `DELETE` | `/api/share/:id`      | `{secret}`              | `{ok}`               |
+| `GET`    | `/api/share/:id/data` | —                       | `[...]` flat array   |
+| `GET`    | `/share/:id`          | —                       | a readable HTML page |
 
 ## Security model
 

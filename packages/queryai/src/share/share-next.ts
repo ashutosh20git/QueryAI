@@ -229,8 +229,7 @@ const layer = Layer.effect(
         const config = yield* cfg.get()
         // `enterprise.url` did the same job before this had a name of its own,
         // so a config that set it keeps working.
-        const baseUrl =
-          config.share_url ?? config.enterprise?.url ?? process.env["QUERYAI_SHARE_URL"] ?? undefined
+        const baseUrl = config.share_url ?? config.enterprise?.url ?? process.env["QUERYAI_SHARE_URL"] ?? undefined
         if (!baseUrl) return yield* new ShareNotConfiguredError()
         return { headers, api: legacyApi, baseUrl: baseUrl.replace(/\/+$/, "") } satisfies Req
       }

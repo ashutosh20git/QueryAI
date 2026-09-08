@@ -1674,6 +1674,7 @@ export type PermissionConfig =
       task?: PermissionRuleConfig
       external_directory?: PermissionRuleConfig
       todowrite?: PermissionActionConfig
+      memory?: PermissionRuleConfig
       question?: PermissionActionConfig
       webfetch?: PermissionActionConfig
       websearch?: PermissionActionConfig
@@ -1922,6 +1923,7 @@ export type Config = {
       ]
   >
   share?: "manual" | "auto" | "disabled"
+  share_url?: string
   autoshare?: boolean
   /**
    * Automatically update to the latest version. Set to true to auto-update, false to disable, or 'notify' to show update notifications
@@ -2017,6 +2019,25 @@ export type Config = {
     tail_turns?: number
     preserve_recent_tokens?: number
     reserved?: number
+  }
+  fallback?: {
+    enabled?: boolean
+    models?: Array<string>
+    max_switches?: number
+    /**
+     * Most a fallback model may cost per million output tokens. Defaults to the price of the model the turn started on, so a switch never moves you onto something pricier than you chose; 0 keeps the session on free models only. Ignored when "models" is set.
+     */
+    max_cost?: number | "NaN" | "Infinity" | "-Infinity" | "Infinity" | "-Infinity" | "NaN"
+  }
+  memory?: {
+    enabled?: boolean
+    backend?: "auto" | "local" | "mem0"
+    api_key?: string
+    base_url?: string
+    auto_capture?: boolean
+    limit?: number
+    max_chars?: number
+    project_scope?: boolean
   }
   experimental?: {
     disable_paste_summary?: boolean

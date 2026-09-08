@@ -1283,7 +1283,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://opencode.ai/",
+      "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
       "X-Title": "queryai",
       "X-BILLING-INVOKE-ORIGIN": "QueryAI",
     })
@@ -1296,7 +1296,7 @@ it.instance(
   Effect.gen(function* () {
     const providers = yield* list
     expect(providers[ProviderV2.ID.make("nvidia")].options.headers).toEqual({
-      "HTTP-Referer": "https://opencode.ai/",
+      "HTTP-Referer": "https://github.com/ashutosh20git/QueryAI",
       "X-Title": "queryai",
       "X-BILLING-INVOKE-ORIGIN": "QueryAI",
     })
@@ -2197,17 +2197,19 @@ it.effect("an allowlist written before the rename still names this provider", ()
   }).pipe(provideMultiInstance),
 )
 
-it.effect("a denylist written before the rename still disables this provider", () =>
-  Effect.gen(function* () {
-    const legacyDir = yield* tmpdirScoped({
-      config: {
-        disabled_providers: ["opencode"],
-        provider: { queryai: { options: { apiKey: "test-key" } } },
-      },
-    })
+it.effect(
+  "a denylist written before the rename still disables this provider",
+  () =>
+    Effect.gen(function* () {
+      const legacyDir = yield* tmpdirScoped({
+        config: {
+          disabled_providers: ["opencode"],
+          provider: { queryai: { options: { apiKey: "test-key" } } },
+        },
+      })
 
-    expect(zen(yield* listProvidersIn(legacyDir))).toBeUndefined()
-  }).pipe(provideMultiInstance),
+      expect(zen(yield* listProvidersIn(legacyDir))).toBeUndefined()
+    }).pipe(provideMultiInstance),
   20_000,
 )
 
@@ -2224,10 +2226,7 @@ it.instance("parseModel resolves a pre-rename provider id", () =>
 it.instance("getModel resolves a pre-rename provider id", () =>
   Effect.gen(function* () {
     yield* set("QUERYAI_API_KEY", "test-key")
-    const model = yield* Provider.use.getModel(
-      ProviderV2.ID.make("opencode"),
-      ModelV2.ID.make("claude-sonnet-4-6"),
-    )
+    const model = yield* Provider.use.getModel(ProviderV2.ID.make("opencode"), ModelV2.ID.make("claude-sonnet-4-6"))
     expect(String(model.providerID)).toBe("queryai")
   }),
 )
