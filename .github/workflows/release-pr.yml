@@ -1,0 +1,151 @@
+name: release-pr
+run-name: "release PR for ${{ inputs.bump }}"
+
+# Continuous delivery, gated on a human. This opens a pull request that bumps the
+# version and writes the changelog; nothing is published by merging it alone.
+# `release-merge.yml` picks it up once it lands and runs the actual release.
+#
+# The release itself still goes to the public distribution repository, not to
+# this one - see RELEASING.md.
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Which part of the version to increment"
+        required: true
+        default: patch
+        type: choice
+        options: [patch, minor, major]
+      version:
+        description: "Exact version to release instead of a bump, without the leading v"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  pull-requests: write
+  # Labels live behind the issues API, so `gh label create` and `--label` on the
+  # pull request need this even though nothing here touches an issue.
+  issues: write
+
+jobs:
+  release-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+          # A PAT is needed for CI to run on the pull request this job opens:
+          # GitHub deliberately does not trigger workflows for events created
+          # with the built-in GITHUB_TOKEN, so with the default token the PR
+          # would arrive with no checks and could never show as accepted.
+          token: ${{ secrets.RELEASE_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Compute the next version
+        id: version
+        env:
+          BUMP: ${{ inputs.bump }}
+          REQUESTED: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          current=$(node -p "require('./packages/queryai/package.json').version")
+          requested="$REQUESTED"
+          if [ -n "$requested" ]; then
+            next="$requested"
+          else
+            next=$(node -e '
+              const [major, minor, patch] = process.argv[1].split(".").map(Number)
+              const bump = process.argv[2]
+              if (bump === "major") console.log(`${major + 1}.0.0`)
+              else if (bump === "minor") console.log(`${major}.${minor + 1}.0`)
+              else console.log(`${major}.${minor}.${patch + 1}`)
+            ' "$current" "$BUMP")
+          fi
+          echo "current=$current" >> "$GITHUB_OUTPUT"
+          echo "next=$next" >> "$GITHUB_OUTPUT"
+          echo "Releasing $current -> $next"
+
+      - name: Bump versions
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          for manifest in packages/queryai/package.json packages/sdk/js/package.json; do
+            node -e '
+              const fs = require("fs")
+              const file = process.argv[1]
+              const next = process.argv[2]
+              const raw = fs.readFileSync(file, "utf8")
+              // Rewrite only the first "version" field, and textually, so the
+              // rest of the manifest keeps its formatting and key order.
+              const updated = raw.replace(/"version": "[^"]*"/, `"version": "${next}"`)
+              if (updated === raw) throw new Error(`no version field updated in ${file}`)
+              fs.writeFileSync(file, updated)
+            ' "$manifest" "$NEXT"
+          done
+          git diff --stat
+
+      - name: Build the changelog
+        id: changelog
+        env:
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          previous=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          if [ -n "$previous" ]; then
+            range="$previous..HEAD"
+            echo "Changes since $previous"
+          else
+            range=""
+            echo "No previous tag; using full history"
+          fi
+          {
+            echo "## v$NEXT"
+            echo
+            git log --no-merges --pretty=format:'- %s (%h)' $range
+            echo
+          } > /tmp/changelog.md
+          cat /tmp/changelog.md
+
+      - name: Prepend to CHANGELOG.md
+        run: |
+          set -euo pipefail
+          touch CHANGELOG.md
+          cat /tmp/changelog.md CHANGELOG.md > CHANGELOG.next.md
+          mv CHANGELOG.next.md CHANGELOG.md
+
+      - name: Open the release pull request
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_PAT || secrets.GITHUB_TOKEN }}
+          NEXT: ${{ steps.version.outputs.next }}
+        run: |
+          set -euo pipefail
+          branch="release/v$NEXT"
+          git config user.name "queryai-release"
+          git config user.email "bot@queryai.local"
+          git checkout -b "$branch"
+          git add packages/queryai/package.json packages/sdk/js/package.json CHANGELOG.md
+          git commit -m "release: v$NEXT"
+          git push --force origin "$branch"
+
+          # release-merge.yml keys off this label, and `gh pr create --label`
+          # fails outright if it does not exist yet.
+          gh label create release --description "Version bump opened by release-pr.yml" --color 0E8A16 2>/dev/null || true
+
+          # The body goes in through a file, never through the command line:
+          # it is built from commit subjects, and a subject containing a quote
+          # or `$(...)` would otherwise break or be executed by this shell.
+          #
+          # `gh pr create` fails if one is already open for the branch, so reuse it.
+          if gh pr view "$branch" --json number >/dev/null 2>&1; then
+            gh pr edit "$branch" --title "release: v$NEXT" --body-file /tmp/changelog.md
+          else
+            gh pr create \
+              --base dev \
+              --head "$branch" \
+              --title "release: v$NEXT" \
+              --label release \
+              --body-file /tmp/changelog.md
+          fi

@@ -99,4 +99,3 @@ jobs:
           echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
           ./packages/queryai/script/publish-npm.ts
         # Reuses ./dist from the build step above, so it must stay in this job.
-

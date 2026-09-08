@@ -1,4 +1,9 @@
-name: test
+name: ci
+
+# Every merge gate lives in this one workflow so a pull request has a single
+# check to judge it by. `ci-ok` at the bottom succeeds only when every job above
+# it succeeded, which is the check to mark as required in branch protection:
+# adding or renaming a job here never means editing the protection rule.
 
 on:
   push:
@@ -9,18 +14,93 @@ on:
 
 concurrency:
   # Keep every run on dev so cancelled checks do not pollute the default branch
-  # commit history. PRs and other branches still share a group and cancel stale runs.
-  group: ${{ case(github.ref == 'refs/heads/dev', format('{0}-{1}', github.workflow, github.run_id), format('{0}-{1}', github.workflow, github.event.pull_request.number || github.ref)) }}
+  # commit history. PRs and other branches share a group and cancel stale runs.
+  group: ${{ github.ref == 'refs/heads/dev' && format('{0}-{1}', github.workflow, github.run_id) || format('{0}-{1}', github.workflow, github.event.pull_request.number || github.ref) }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  checks: write
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Run oxlint
+        run: bun run lint
+
+  format:
+    name: format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Check formatting
+        run: bunx prettier --check .
+
+  typecheck:
+    name: typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Cache Turbo
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: node_modules/.cache/turbo
+          key: turbo-typecheck-${{ runner.os }}-${{ hashFiles('turbo.json', '**/package.json') }}-${{ github.sha }}
+          restore-keys: |
+            turbo-typecheck-${{ runner.os }}-${{ hashFiles('turbo.json', '**/package.json') }}-
+            turbo-typecheck-${{ runner.os }}-
+
+      - name: Run typecheck
+        run: bun typecheck
+
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+
+      - name: Setup Bun
+        uses: ./.github/actions/setup-bun
+
+      - name: Cache Turbo
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: node_modules/.cache/turbo
+          key: turbo-build-${{ runner.os }}-${{ hashFiles('turbo.json', '**/package.json') }}-${{ github.sha }}
+          restore-keys: |
+            turbo-build-${{ runner.os }}-${{ hashFiles('turbo.json', '**/package.json') }}-
+            turbo-build-${{ runner.os }}-
+
+      # `desktop` is excluded because its prebuild downloads the published
+      # `@queryai/cli-<platform>` binaries from npm, and those packages do not
+      # exist yet under the new name (404). Re-include it once they are
+      # published; until then it can only fail, and a gate that cannot pass is
+      # worse than no gate.
+      - name: Build workspace packages
+        timeout-minutes: 30
+        run: bun turbo build --filter='!@queryai/desktop'
+
   unit:
     name: unit (${{ matrix.settings.name }})
     strategy:
@@ -38,8 +118,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -49,9 +127,11 @@ jobs:
       - name: Setup Bun
         uses: ./.github/actions/setup-bun
 
+      # Several tests shell out to git, which refuses to build a commit without
+      # an identity configured.
       - name: Configure git identity
         run: |
-          git config --global user.email "bot@opencode.ai"
+          git config --global user.email "bot@queryai.local"
           git config --global user.name "queryai"
 
       - name: Cache Turbo
@@ -98,8 +178,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
@@ -149,3 +227,27 @@ jobs:
           path: |
             packages/app/e2e/test-results
             packages/app/e2e/playwright-report
+
+  # The single required check. `always()` makes it run even when a dependency
+  # failed, so a red PR gets a failing gate rather than a skipped one that
+  # branch protection would wait on forever.
+  ci-ok:
+    name: ci-ok
+    if: always()
+    needs: [lint, format, typecheck, build, unit, e2e]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report gate result
+        run: |
+          echo "lint=${{ needs.lint.result }}"
+          echo "format=${{ needs.format.result }}"
+          echo "typecheck=${{ needs.typecheck.result }}"
+          echo "build=${{ needs.build.result }}"
+          echo "unit=${{ needs.unit.result }}"
+          echo "e2e=${{ needs.e2e.result }}"
+
+      - name: Fail when any job did not succeed
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: |
+          echo "::error::One or more CI jobs did not succeed. This pull request needs revision."
+          exit 1

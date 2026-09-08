@@ -19,8 +19,8 @@ goes through a second, **public** repository that holds artifacts and no source:
 
 | Branch    | File          | Consumed by                                  |
 | --------- | ------------- | -------------------------------------------- |
-| `catalog` | `api.json`    | `ModelsDev.MIRROR_SOURCE` — backup catalog    |
-| `schema`  | `config.json` | `ConfigV1.SCHEMA_URL` — editor config schema  |
+| `catalog` | `api.json`    | `ModelsDev.MIRROR_SOURCE` — backup catalog   |
+| `schema`  | `config.json` | `ConfigV1.SCHEMA_URL` — editor config schema |
 
 Four places must agree on the distribution repo name. They all default to
 `ashutosh20git/QueryAI-dist`, and all read a `DIST_REPO` variable or equivalent
@@ -63,7 +63,27 @@ npm token create --read-only=false     # copy the token
 gh secret set NPM_TOKEN --repo ashutosh20git/QueryAI
 ```
 
-### 3. Optional — override the distribution repo
+### 3. Optional — the `RELEASE_PAT` secret
+
+Only needed for the pull-request release flow below. `release-pr.yml` opens a
+pull request, and GitHub deliberately does not run workflows for events created
+with the built-in `GITHUB_TOKEN` — so with the default token that pull request
+arrives with no checks at all and can never show as accepted. A personal access
+token makes the checks run.
+
+1. <https://github.com/settings/personal-access-tokens/new>
+2. Resource owner: your account. Repository access: **only** `QueryAI`.
+3. Repository permissions: **Contents → Read and write**, **Pull requests →
+   Read and write**, **Workflows → Read and write**.
+
+```bash
+gh secret set RELEASE_PAT --repo ashutosh20git/QueryAI
+```
+
+Without it `release-pr.yml` still opens the pull request, you just have to push
+an empty commit to it (or close and reopen it) to make CI run.
+
+### 4. Optional — override the distribution repo
 
 Only if you rename or move it:
 
@@ -71,57 +91,86 @@ Only if you rename or move it:
 gh variable set DIST_REPO --repo ashutosh20git/QueryAI --body "youruser/YourDist"
 ```
 
-### 4. Verify the setup
+### 5. Verify the setup
 
 ```bash
 gh secret list --repo ashutosh20git/QueryAI
 ```
 
-You should see `DIST_TOKEN`, and `NPM_TOKEN` if you set it up.
+You should see `DIST_TOKEN`, plus `NPM_TOKEN` and `RELEASE_PAT` if you set them
+up.
 
 ---
 
 ## Cutting a release
 
-### 1. Make sure the branch is green
+There are two ways in. The **pull-request flow** is the normal one: it puts a
+reviewable version bump in front of you and runs the full merge gate against it
+before anything ships. The **direct dispatch** underneath is for rehearsals and
+for re-running a release that half-failed.
 
-```bash
-bun install
-bun run typecheck
-bun test --cwd packages/core
-bun test --cwd packages/queryai
+### The pull-request flow
+
+```
+release-pr.yml  ──►  release/vX.Y.Z PR  ──►  merge  ──►  release-merge.yml  ──►  release.yml
+   dispatch          CI runs on it        (approval)      tags the commit        builds + publishes
 ```
 
-### 2. Push your work
+**1. Open the release pull request.**
 
 ```bash
-git push origin dev
+gh workflow run release-pr --repo ashutosh20git/QueryAI -f bump=patch
 ```
 
-The workflow builds from what is on the branch, so anything unpushed will not be
-in the release.
+`bump` is `patch`, `minor` or `major`. To pin an exact version instead, pass
+`-f version=0.1.0` (no leading `v`) and the bump is ignored.
 
-### 3. Run the release workflow
+The job bumps `packages/queryai/package.json` and `packages/sdk/js/package.json`,
+prepends the commit subjects since the last `v*` tag to `CHANGELOG.md`, pushes
+`release/vX.Y.Z` and opens a pull request labelled `release`. Re-running it for
+the same version updates that branch and pull request rather than failing.
 
-```bash
-gh workflow run release --repo ashutosh20git/QueryAI -f version=0.1.0
-```
+**2. Review it, and let the gate judge it.**
 
-Use a plain semver string with no leading `v`. To rehearse without publishing
-anything publicly, add `-f draft=true`.
+`ci.yml` runs on the pull request like any other. `ci-ok` going green is what
+"this release is safe to ship" means — see [`.github/CI.md`](.github/CI.md).
+Read the changelog while you wait; it is the release notes users will see.
 
-Watch it:
+**3. Merge it.**
+
+Merging is the approval, and the only manual step. `release-merge.yml` fires on
+the merge, tags the merge commit `vX.Y.Z`, and dispatches `release.yml` with that
+version. Nothing is published until then, so an abandoned release pull request
+costs nothing but a branch.
+
+**4. Watch the release.**
 
 ```bash
 gh run watch --repo ashutosh20git/QueryAI
 ```
 
-The workflow creates the release on `QueryAI-dist`, cross-compiles all twelve
+`release.yml` creates the release on `QueryAI-dist`, cross-compiles all twelve
 targets from one Linux runner, uploads the archives, asserts the release actually
 has assets, and — if `NPM_TOKEN` is set — publishes to npm under the `latest`
 tag.
 
-### 4. Verify what users will get
+### Direct dispatch
+
+`release.yml` is still dispatchable on its own. Use it to rehearse, or when a
+release already has its tag and only the build needs re-running:
+
+```bash
+gh workflow run release --repo ashutosh20git/QueryAI -f version=0.1.0
+gh workflow run release --repo ashutosh20git/QueryAI -f version=0.1.0 -f draft=true
+```
+
+It builds from whatever is on the default branch, so anything unpushed will not
+be in the release, and it neither bumps a version nor writes a tag — that is what
+the pull-request flow adds. `draft=true` rehearses without publishing anything
+publicly. Re-running for an existing version reuses that release and re-uploads
+the assets, so a failed run is safe to retry.
+
+### Verify what users will get
 
 ```bash
 gh release view v0.1.0 --repo ashutosh20git/QueryAI-dist
@@ -136,10 +185,10 @@ npm view queryai version      # only if you wired up npm
 
 Two scheduled workflows keep `QueryAI-dist` current. Both need `DIST_TOKEN`.
 
-| Workflow      | Runs                                   | Publishes                |
-| ------------- | -------------------------------------- | ------------------------ |
-| `catalog.yml` | daily at 05:17 UTC, or on dispatch     | `catalog` branch         |
-| `schema.yml`  | on pushes touching the config schema   | `schema` branch          |
+| Workflow      | Runs                                 | Publishes        |
+| ------------- | ------------------------------------ | ---------------- |
+| `catalog.yml` | daily at 05:17 UTC, or on dispatch   | `catalog` branch |
+| `schema.yml`  | on pushes touching the config schema | `schema` branch  |
 
 Run either by hand:
 

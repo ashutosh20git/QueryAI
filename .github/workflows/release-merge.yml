@@ -1,0 +1,57 @@
+name: release-merge
+
+# The second half of continuous delivery. When a `release`-labelled pull request
+# opened by `release-pr.yml` is merged, tag the merge commit and hand the version
+# to `release.yml`, which builds the binaries and publishes them to the public
+# distribution repository.
+#
+# Merging is the only manual step: reviewing the release PR is the approval.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [dev]
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  tag-and-release:
+    # `closed` fires for abandoned PRs too, so `merged` is what matters here.
+    if: github.event.pull_request.merged == true && contains(github.event.pull_request.labels.*.name, 'release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
+
+      - name: Read the released version
+        id: version
+        run: |
+          set -euo pipefail
+          version=$(node -p "require('./packages/queryai/package.json').version")
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Releasing v$version"
+
+      - name: Tag the merge commit
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -euo pipefail
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "Tag v$VERSION already exists, leaving it alone"
+            exit 0
+          fi
+          git config user.name "queryai-release"
+          git config user.email "bot@queryai.local"
+          git tag -a "v$VERSION" -m "v$VERSION"
+          git push origin "v$VERSION"
+
+      - name: Run the release workflow
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: gh workflow run release.yml -f version="$VERSION"
