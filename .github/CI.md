@@ -59,7 +59,7 @@ of `ci-ok` rather than weakening the rule, so the gate keeps meaning something.
   call a model. No such secret is configured, so they cannot do useful work.
   `check-duplicates` skips itself for anyone listed in
   [`TEAM_MEMBERS`](TEAM_MEMBERS).
-- **Blacksmith runners.** Eighteen workflows still request
+- **Blacksmith runners.** Sixteen workflows still request
   `blacksmith-4vcpu-ubuntu-2404`, a paid third-party runner this account has no
   subscription to. Jobs asking for one queue until GitHub cancels them at 24
   hours. `ci.yml`, `nix-eval.yml` and `pr-management.yml` have been moved to
