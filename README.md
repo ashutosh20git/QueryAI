@@ -1,175 +1,293 @@
 <p align="center">
   <b>QueryAI</b><br>
-  An AI coding agent for the terminal that runs on free models, remembers you between sessions, and needs no account.
+  An AI coding agent for the terminal that runs on free models, remembers you
+  between sessions, and needs no account.
 </p>
 
 <p align="center">
-  <a href="#quick-start">Quick start</a> &middot;
-  <a href="#free-models-and-fallback">Free models</a> &middot;
+  <a href="#1-install">Install</a> &middot;
+  <a href="#2-add-a-provider-key">Add a key</a> &middot;
+  <a href="#3-first-run">First run</a> &middot;
+  <a href="#4-set-a-default-model">Configure</a> &middot;
   <a href="#memory">Memory</a> &middot;
-  <a href="#what-this-fork-changes">What this fork changes</a> &middot;
-  <a href="#credits-and-licence">Licence</a>
+  <a href="#free-models-and-fallback">Fallback</a> &middot;
+  <a href="#troubleshooting">Troubleshooting</a>
 </p>
 
 ---
 
-QueryAI is a fork of [opencode](https://github.com/anomalyco/opencode) built around
-three ideas:
+QueryAI runs entirely on your machine against your own provider credentials.
+There is no account to create, no subscription, and nothing is uploaded
+anywhere. Three things make it different from most terminal agents:
 
 - **Free models first.** Bring your own keys — most providers have a free tier —
   and QueryAI ranks free, tool-capable models ahead of paid ones.
 - **It keeps going when a free tier runs out.** Hit a quota ceiling and the turn
   moves to another model on a different key, mid-session, without failing.
-- **It remembers you, locally.** Durable facts persist across sessions in a file
-  on your machine. No account, no server, no API key.
+- **It remembers you.** Durable facts persist across sessions in a file on your
+  machine.
 
-It runs entirely on your machine against your own provider credentials. Nothing
-is uploaded anywhere unless you explicitly turn on sharing and point it at a
-server you run.
+This repository holds the released binaries. The source is maintained privately.
 
 ---
 
-## Quick start
+## Requirements
 
-**Using QueryAI?** You do not need this repository. Install a release and follow
-the setup guide at
-[ashutosh20git/QueryAI-dist](https://github.com/ashutosh20git/QueryAI-dist):
+- macOS, Linux, or Windows (x64 or arm64)
+- [`ripgrep`](https://github.com/BurntSushi/ripgrep) is fetched automatically on first use — nothing to install by hand
+- For the npm install route only: Node.js 18+
+
+---
+
+## 1. Install
+
+Pick **one** of these.
+
+### macOS / Linux — install script
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash
-# or
+```
+
+This drops a single binary in `~/.queryai/bin` and adds it to your `PATH`. To
+skip the `PATH` edit, append `-s -- --no-modify-path`.
+
+### Any platform — npm
+
+```bash
 npm install -g queryai
 ```
 
-**Working on QueryAI?** This repo is the source. Requires [Bun](https://bun.sh):
+`pnpm` and `yarn` work too. If you use `--ignore-scripts`, run the postinstall
+by hand afterwards: `cd $(npm root -g)/queryai && node postinstall.mjs`.
+
+### Windows — PowerShell
+
+Use the npm route above, or download the `queryai-windows-x64.zip` asset from
+[Releases](https://github.com/ashutosh20git/QueryAI-dist/releases), unzip it, and
+put `queryai.exe` somewhere on your `PATH`.
+
+### Verify
 
 ```bash
-git clone https://github.com/ashutosh20git/QueryAI
-cd QueryAI
-bun install
-bun run dev
+queryai --version
 ```
 
-Cutting a release is documented in [RELEASING.md](RELEASING.md).
+If the command is not found, open a new terminal so the updated `PATH` is
+picked up.
 
-Add a provider credential (any of them; the free tiers are the point):
+---
+
+## 2. Add a provider key
+
+QueryAI has no models of its own — it talks to providers using **your** keys.
+Most have a free tier, which is the whole point of the fallback system.
+
+Start the interactive login and pick a provider from the list:
 
 ```bash
-bun run dev providers   # interactive login for openrouter, google, groq, nvidia, …
+queryai providers login
 ```
 
-Then pick a free model and go:
+Good free-tier options to start with:
+
+| Provider     | Where to get a key                                      | Notes                          |
+| ------------ | ------------------------------------------------------- | ------------------------------ |
+| Google       | [aistudio.google.com](https://aistudio.google.com/apikey) | Generous free tier, Gemini     |
+| OpenRouter   | [openrouter.ai/keys](https://openrouter.ai/keys)         | Many `:free` models on one key |
+| Groq         | [console.groq.com/keys](https://console.groq.com/keys)   | Very fast                      |
+| NVIDIA       | [build.nvidia.com](https://build.nvidia.com)             | Large open models              |
+| Cerebras     | [cloud.cerebras.ai](https://cloud.cerebras.ai)           | Very fast                      |
+
+Add as many as you like — more keys means more room to fall back when one runs
+out. Check what is configured:
 
 ```bash
-bun run dev models                                   # list what your keys unlock
-bun run dev run -m nvidia/moonshotai/kimi-k3 "explain this repo"
+queryai providers list
 ```
 
-Set a default so you do not pass `-m` every time:
+Keys are stored in `auth.json` under your data directory, readable only by you.
+They are never sent anywhere except to that provider.
 
-```json title="~/.config/queryai/queryai.json"
+---
+
+## 3. First run
+
+See which models your keys actually unlock:
+
+```bash
+queryai models
+```
+
+Run a one-off prompt:
+
+```bash
+queryai run -m google/gemini-3.6-flash "explain what this repo does"
+```
+
+Or start the interactive terminal UI in the current directory:
+
+```bash
+queryai
+```
+
+Both read the files in your working directory, so `cd` into a project first.
+
+---
+
+## 4. Set a default model
+
+So you stop passing `-m` every time. Create a config file:
+
+**macOS / Linux:** `~/.config/queryai/queryai.json`
+**Windows:** `%APPDATA%\queryai\queryai.json`
+
+```json
 {
   "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
-  "model": "nvidia/moonshotai/kimi-k3",
-  "memory": { "auto_capture": true }
+  "model": "google/gemini-3.6-flash"
 }
 ```
+
+The `$schema` line is optional but worth adding — editors will autocomplete and
+validate every key from it.
+
+For per-project settings, put a `queryai.json` in the project root instead. It
+is merged over the global one.
+
+---
+
+## Memory
+
+On by default. Durable facts are stored in a JSON file under your data
+directory, mode `0600`. Nothing leaves the machine and there is no quota.
+
+Just tell the agent to remember something:
+
+```
+> remember that I prefer pnpm over npm in this repo
+```
+
+It writes the fact and recalls it in later sessions automatically — relevant
+memories are injected at the start of each turn, so you do not have to ask.
+
+The agent has a `memory` tool with `remember`, `search`, `list` and `forget`.
+Facts are project-scoped by default; `user` scope follows you everywhere.
+
+**Be aware:** what you ask it to remember is written to disk in readable form.
+To capture every finished turn automatically, or to turn memory off entirely:
+
+```json
+{
+  "memory": {
+    "enabled": true,
+    "auto_capture": false
+  }
+}
+```
+
+To use [mem0](https://mem0.ai) instead of the local file — adding LLM extraction,
+embedding search, and sync across devices — set `MEM0_API_KEY` in your
+environment and it switches over automatically.
 
 ---
 
 ## Free models and fallback
 
 When a model is rate limited or its key is out of quota, the turn is re-run on
-another model instead of failing. Two rules make that safe:
+another model instead of failing. Two rules keep that safe:
 
 - **Free models rank first**, ordered among themselves by capability. A switch
   always lands on a different provider's key than the one that just failed.
 - **A fallback never costs more than the model you chose.** Start free and the
   session stays free; when the free options are exhausted the turn fails rather
-  than quietly moving onto a metered key. `fallback.max_cost` overrides this.
+  than quietly moving you onto a metered key.
 
 A model set aside for a plain rate limit is retried after five minutes; one that
-hit a quota ceiling after an hour. Bare `403`s are treated as auth failures and
-surfaced, not worked around.
+hit a quota ceiling after an hour. A bare `403` is treated as an auth failure
+and surfaced, not worked around — you need to know your key is broken.
 
-See [the fallback docs](packages/web/src/content/docs/config.mdx) for the knobs.
+Defaults are sensible, but you can pin the chain explicitly:
 
----
+```json
+{
+  "fallback": {
+    "enabled": true,
+    "models": ["google/gemini-3.6-flash", "groq/llama-3.3-70b-versatile"],
+    "max_switches": 3
+  }
+}
+```
 
-## Memory
-
-On by default, stored in a JSON file under your data directory, mode `0600`.
-Nothing leaves the machine and there is no quota.
-
-The agent gets a `memory` tool (`remember`, `search`, `list`, `forget`), and
-relevant memories are injected into the system prompt at the start of each turn.
-Facts are project-scoped by default; `user` scope follows you everywhere.
-
-Be aware of what that means: what you tell the agent to remember is written to
-disk in readable form, and `memory.auto_capture` sends each completed turn to the
-store. Turn it off with `"memory": { "enabled": false }`.
-
-Set `MEM0_API_KEY` to use [mem0](https://mem0.ai) instead, which adds LLM
-extraction, embedding search and sync across devices.
+Set `"max_cost": 0` to keep a session on free models only, whatever it started
+on.
 
 ---
 
-## Sharing (optional, and yours)
-
-`queryai share` is **off until you configure it**. There is no default server,
-because publishing a conversation to a host you did not choose is not a sensible
-default.
-
-To turn it on, deploy [`packages/share-worker`](packages/share-worker) to your own
-Cloudflare account — one worker, one R2 bucket, free tier, no domain needed — and
-set `share_url`. Shared sessions then live entirely on infrastructure you control.
-
----
-
-## What this fork changes
-
-Beyond the branding, relative to upstream opencode:
-
-| Area              | Change                                                                |
-| ----------------- | --------------------------------------------------------------------- |
-| Memory            | New. Local file backend by default; mem0 optional                     |
-| Fallback          | New. Free-first ranking, per-session cooldowns, a price ceiling       |
-| Sharing           | No default server; deploy your own worker                             |
-| Updates           | Points at the QueryAI-dist releases, not upstream's                   |
-| Model catalog     | models.dev, with a daily mirror in QueryAI-dist as the backup         |
-| Config `$schema`  | Generated from this repo's config, published to QueryAI-dist `schema` |
-| Accounts, billing | Removed. No hosted console, no subscription gateway                   |
-| GitHub agent      | Removed. It depended on an app we do not own                          |
-
-The only network traffic is to your own model providers, the public model
-catalog at [models.dev](https://models.dev) (mirrored into QueryAI-dist as a
-backup), the distribution repo for upgrades, and — if you configure it — your own
-share worker. No server belonging to another project is contacted for anything
-that carries your code or conversations.
-
----
-
-## Development
+## Everyday commands
 
 ```bash
-bun install
-bun run dev                       # run the TUI from source
-bun run typecheck                 # all packages
-bun test --cwd packages/queryai   # or packages/core
-bun run lint
+queryai                        # interactive TUI in the current directory
+queryai run "..."              # one-off prompt
+queryai models                 # list models your keys unlock
+queryai providers list         # show configured credentials
+queryai session                # browse past sessions
+queryai stats                  # token usage and cost
+queryai upgrade                # update to the latest release
+queryai uninstall              # remove the binary and its files
 ```
 
 ---
 
-## Credits and licence
+## Upgrading
 
-QueryAI is a fork of [opencode](https://github.com/anomalyco/opencode) by
-anomalyco, and would not exist without it. Upstream did the hard work of building
-the agent loop, the provider layer, the TUI and the plugin system; this fork
-changes what it points at and adds memory and model fallback on top.
+```bash
+queryai upgrade
+```
 
-MIT, and the upstream copyright notice is retained in [LICENSE](LICENSE) as MIT
-requires.
+It detects how you installed and uses the matching method. To pin a version:
+`queryai upgrade 0.1.0`.
+
+---
+
+## Troubleshooting
+
+**`queryai: command not found` after installing**
+Open a new terminal. If it persists, add `~/.queryai/bin` to your `PATH`.
+
+**`queryai models` lists nothing**
+No credentials yet — run `queryai providers login`. The model list is filtered
+to what your keys can actually reach.
+
+**"This model is no longer available"**
+Providers retire models. Run `queryai models` for the current list and update
+your config.
+
+**Everything fails with quota errors**
+Every configured key is exhausted. Add another provider — fallback needs
+somewhere to go. `queryai providers list` shows what you have.
+
+**Windows SmartScreen warning**
+The binaries are not code-signed yet. You can verify what you downloaded against
+the checksums on the release, or install via npm instead.
+
+**Sharing**
+`queryai share` is off until you configure it — there is no default server,
+because publishing a conversation to a host you did not choose is not a sensible
+default.
+
+---
+
+## License
+
+QueryAI is MIT licensed. It is a fork of
+[opencode](https://github.com/anomalyco/opencode) by anomalyco, whose copyright
+notice is retained in [LICENSE](LICENSE) alongside the notice for later
+modifications, as MIT requires.
 
 - Original work: Copyright (c) 2025 opencode
 - Modifications: Copyright (c) 2026 Ashutosh
+
+Upstream built the agent loop, the provider layer, the TUI and the plugin
+system; this project changes what it points at and adds memory and model
+fallback on top.
