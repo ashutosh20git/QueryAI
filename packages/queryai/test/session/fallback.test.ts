@@ -47,12 +47,30 @@ const api = (over: Partial<SessionV1.APIError["data"]>) =>
     ...over,
   } as SessionV1.APIError["data"]).toObject()
 
+const gone = api({
+  statusCode: 410,
+  message: "Gone",
+  responseBody: JSON.stringify({
+    title: "Gone",
+    status: 410,
+    detail: "The model has reached its end of life and is no longer available.",
+  }),
+})
+
 describe("session.fallback classification", () => {
   test("a quota ceiling is hard and skips the backoff", () => {
     expect(SessionFallback.hard(api({ message: "You exceeded your current quota" }))).toBe(true)
     expect(SessionFallback.hard(api({ statusCode: 402, message: "Payment Required" }))).toBe(true)
     expect(SessionFallback.hard(api({ message: "429", responseBody: '{"type":"FreeUsageLimitError"}' }))).toBe(true)
     expect(SessionFallback.hard(api({ message: "RESOURCE_EXHAUSTED: quota" }))).toBe(true)
+  })
+
+  test("a withdrawn model is hard, and says so narrowly", () => {
+    expect(SessionFallback.hard(gone)).toBe(true)
+    expect(SessionFallback.retired(gone)).toBe(true)
+    // A quota ceiling is hard too, but it belongs to the key, not the model.
+    expect(SessionFallback.retired(api({ statusCode: 402, message: "Payment Required" }))).toBe(false)
+    expect(SessionFallback.retired(api({ statusCode: 429, message: "Too Many Requests" }))).toBe(false)
   })
 
   test("a plain rate limit is soft and is worth waiting out first", () => {
@@ -250,6 +268,37 @@ describe("session.fallback chain", () => {
       yield* fallback.next({ sessionID: ses, current, error: quota })
       yield* fallback.reset(ses)
       expect(yield* fallback.resolve({ sessionID: ses, preferred: current })).toEqual(current)
+    }),
+  )
+})
+
+describe("session.fallback retirement scope", () => {
+  const spare = cand("alpha", "spare")
+  const it = harness(undefined, [
+    model({ id: "top", providerID: "alpha", cost: { input: 0, output: 15, cache: { read: 0, write: 0 } } }),
+    model({ id: "spare", providerID: "alpha", cost: { input: 0, output: 10, cache: { read: 0, write: 0 } } }),
+    model({ id: "mid", providerID: "beta", cost: { input: 0, output: 3, cache: { read: 0, write: 0 } } }),
+  ])
+
+  it.instance("an end-of-life model steps aside without benching its provider", () =>
+    Effect.gen(function* () {
+      const fallback = yield* SessionFallback.Service
+      yield* fallback.next({ sessionID: ses, current, error: gone })
+
+      // The withdrawn model is out, because it will never answer again.
+      expect(yield* fallback.resolve({ sessionID: ses, preferred: current })).not.toEqual(current)
+      // Its siblings behind the same credential are untouched.
+      expect(yield* fallback.resolve({ sessionID: ses, preferred: spare })).toEqual(spare)
+    }),
+  )
+
+  it.instance("a quota ceiling still benches the whole key", () =>
+    Effect.gen(function* () {
+      const fallback = yield* SessionFallback.Service
+      yield* fallback.next({ sessionID: ses, current, error: quota })
+
+      // Quota is charged against the key, so the sibling is gone with it.
+      expect(yield* fallback.resolve({ sessionID: ses, preferred: spare })).not.toEqual(spare)
     }),
   )
 })

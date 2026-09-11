@@ -52,8 +52,13 @@ const SOFT_PATTERNS = [
  * region as readily as for an exhausted budget, and silently walking to another
  * provider would bury an auth failure the user has to fix. A 403 that really is
  * a quota ceiling still says so in the body, which HARD_PATTERNS catches.
+ *
+ * 410 is a model the provider has withdrawn. It is hard because no amount of
+ * waiting brings it back, but unlike a quota ceiling it is charged against the
+ * model and not the key, so it retires narrowly - see `retired`.
  */
-const HARD_STATUS = [402]
+const RETIRED_STATUS = [410]
+const HARD_STATUS = [402, ...RETIRED_STATUS]
 const SOFT_STATUS = [429, 503, 529]
 
 function text(error: SessionRetry.Err) {
@@ -88,6 +93,16 @@ export function soft(error: SessionRetry.Err) {
   const code = status(error)
   if (code !== undefined && SOFT_STATUS.includes(code)) return true
   return SOFT_PATTERNS.some((pattern) => pattern.test(text(error)))
+}
+
+/**
+ * A model the provider has withdrawn for good. A subset of `hard`: the turn
+ * still stops retrying immediately, because a retirement is permanent, but the
+ * credential behind it is healthy and every other model it serves still works.
+ */
+export function retired(error: SessionRetry.Err) {
+  const code = status(error)
+  return code !== undefined && RETIRED_STATUS.includes(code)
 }
 
 /** Whether switching models is a plausible response to this failure at all. */
@@ -356,8 +371,9 @@ const layer = Layer.effect(
       spent.models.set(key(input.current), until)
       // A quota ceiling belongs to the key, so retiring only the model would send
       // the next attempt straight back to the same dead credential. A plain rate
-      // limit is often per-model, so there only the model steps aside.
-      if (hard(input.error)) spent.providers.set(input.current.providerID, until)
+      // limit is often per-model, so there only the model steps aside - and so
+      // does an end-of-life model, whose key still serves everything else.
+      if (hard(input.error) && !retired(input.error)) spent.providers.set(input.current.providerID, until)
 
       const candidate = yield* pick({
         sessionID: input.sessionID,
