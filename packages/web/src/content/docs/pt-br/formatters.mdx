@@ -61,7 +61,7 @@ Você pode personalizar os formatadores através da seção `formatter` em sua c
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {}
 }
 ```
@@ -85,7 +85,7 @@ Para desabilitar **todos** os formatadores globalmente, defina `formatter` como 
 
 ```json title="queryai.json" {3}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": false
 }
 ```
@@ -94,7 +94,7 @@ Para desabilitar um **formatador específico**, defina `disabled` como `true`:
 
 ```json title="queryai.json" {5}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -111,7 +111,7 @@ Você pode substituir os formatadores integrados ou adicionar novos especificand
 
 ```json title="queryai.json" {4-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

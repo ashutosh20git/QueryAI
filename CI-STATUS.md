@@ -99,12 +99,12 @@ What the release path reads:
 | `DIST_TOKEN`  | **yes**                 | PAT with `contents:write` on `QueryAI-dist`. `GITHUB_TOKEN` cannot cross repos |
 | `NPM_TOKEN`   | no — step self-skips    | publishes `npm i -g queryai`                                                  |
 | `RELEASE_PAT` | no — falls back         | without it the release PR opens with no checks attached                       |
-| `DIST_REPO`   | no — variable, defaults | defaults to `ashutosh20git/QueryAI-dist`                                      |
+| `DIST_REPO`   | no — variable, defaults | defaults to `QueryAI-org/QueryAI`                                      |
 
 ## 5. `QueryAI-dist` is still private
 
 ```console
-$ gh repo view ashutosh20git/QueryAI-dist --json visibility
+$ gh repo view QueryAI-org/QueryAI --json visibility
 {"visibility":"PRIVATE"}
 ```
 
@@ -133,7 +133,7 @@ their own schedule. Also inherited upstream automation.
 
 ```bash
 # 1. Make the distribution repository public
-gh repo edit ashutosh20git/QueryAI-dist \
+gh repo edit QueryAI-org/QueryAI \
   --visibility public --accept-visibility-change-consequences
 
 # 2. Create a PAT with contents:write on QueryAI-dist, then:

@@ -61,7 +61,7 @@ Możesz dostosować formatery za pomocą sekcji `formatter` w konfiguracji Query
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {}
 }
 ```
@@ -85,7 +85,7 @@ Aby globalnie wyłączyć **wszystkie** formatery, ustaw `formatter` na `false`:
 
 ```json title="queryai.json" {3}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": false
 }
 ```
@@ -94,7 +94,7 @@ Aby wyłączyć **określony** formater, ustaw `disabled` na `true`:
 
 ```json title="queryai.json" {5}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -111,7 +111,7 @@ Możesz dodać niestandardowe formatery, podając polecenie, zmienne środowisko
 
 ```json title="queryai.json" {4-14}
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "command": ["npx", "prettier", "--write", "$FILE"],

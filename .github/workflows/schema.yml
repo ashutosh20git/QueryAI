@@ -48,7 +48,7 @@ jobs:
           # publishes to the public distribution repo. DIST_TOKEN must be a PAT
           # (or app token) with contents:write on DIST_REPO.
           GITHUB_TOKEN: ${{ secrets.DIST_TOKEN }}
-          DIST_REPO: ${{ vars.DIST_REPO || 'ashutosh20git/QueryAI-dist' }}
+          DIST_REPO: ${{ vars.DIST_REPO || 'QueryAI-org/QueryAI' }}
         run: |
           set -euo pipefail
           mkdir -p out && cp config.json out/config.json

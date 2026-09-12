@@ -46,7 +46,7 @@ Pick **one** of these.
 ### macOS / Linux — install script
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash
+curl -fsSL https://raw.githubusercontent.com/QueryAI-org/QueryAI/main/install | bash
 ```
 
 This drops a single binary in `~/.queryai/bin` and adds it to your `PATH`. To
@@ -64,7 +64,7 @@ by hand afterwards: `cd $(npm root -g)/queryai && node postinstall.mjs`.
 ### Windows — PowerShell
 
 Use the npm route above, or download the `queryai-windows-x64.zip` asset from
-[Releases](https://github.com/ashutosh20git/QueryAI-dist/releases), unzip it, and
+[Releases](https://github.com/QueryAI-org/QueryAI/releases), unzip it, and
 put `queryai.exe` somewhere on your `PATH`.
 
 ### Verify
@@ -144,7 +144,7 @@ So you stop passing `-m` every time. Create a config file:
 
 ```json
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "model": "google/gemini-3.6-flash"
 }
 ```

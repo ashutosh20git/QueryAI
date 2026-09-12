@@ -13,7 +13,7 @@ QueryAI supports both **JSON** and **JSONC** (JSON with Comments) formats.
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
   "server": {
@@ -253,7 +253,7 @@ All managed preference keys appear in the resolved config and cannot be overridd
 
 ## Schema
 
-The server/runtime config schema is defined in [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json).
+The server/runtime config schema is defined in [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json).
 
 TUI config uses [**`opencode.ai/tui.json`**](https://opencode.ai/tui.json).
 
@@ -303,7 +303,7 @@ You can configure server settings for the `queryai serve` and `queryai web` comm
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -332,7 +332,7 @@ You can configure the shell used for the interactive terminal using the `shell` 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "shell": "pwsh"
 }
 ```
@@ -347,7 +347,7 @@ You can manage the tools an LLM can use through the `tools` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -365,7 +365,7 @@ You can configure the providers and models you want to use in your QueryAI confi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
@@ -378,7 +378,7 @@ Provider options can include `timeout`, `chunkTimeout`, and `setCacheKey`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -405,7 +405,7 @@ Use the `experimental.policies` option to allow or deny QueryAI actions on confi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "experimental": {
     "policies": [
       {
@@ -430,7 +430,7 @@ Configure image attachment limits with the `attachment.image` option:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "attachment": {
     "image": {
       "auto_resize": true,
@@ -461,7 +461,7 @@ Amazon Bedrock supports AWS-specific configuration:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -507,7 +507,7 @@ You can configure specialized agents for specific tasks through the `agent` opti
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -533,7 +533,7 @@ You can set the default agent using the `default_agent` option. This determines 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "default_agent": "plan"
 }
 ```
@@ -550,7 +550,7 @@ You can control how deeply subagents can invoke other subagents using the `subag
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "subagent_depth": 2
 }
 ```
@@ -565,7 +565,7 @@ You can configure the [share](/docs/share) feature through the `share` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "share": "manual"
 }
 ```
@@ -586,7 +586,7 @@ You can configure custom commands for repetitive tasks through the `command` opt
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -633,7 +633,7 @@ For large repositories or projects with many submodules, the snapshot system can
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "snapshot": false
 }
 ```
@@ -648,7 +648,7 @@ QueryAI will automatically download any new updates when it starts up. You can d
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "autoupdate": false
 }
 ```
@@ -664,7 +664,7 @@ You can enable and configure code formatters through the `formatter` option. Omi
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": true
 }
 ```
@@ -673,7 +673,7 @@ Use an object to keep built-ins enabled while configuring overrides or custom fo
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -699,7 +699,7 @@ You can enable and configure LSP servers through the `lsp` option. Omit it to ke
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "lsp": true
 }
 ```
@@ -708,7 +708,7 @@ Use an object to keep built-ins enabled while configuring overrides or custom LS
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "lsp": {
     "typescript": {
       "disabled": true
@@ -729,7 +729,7 @@ For example, to ensure that the `edit` and `bash` tools require user approval:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -747,7 +747,7 @@ You can control context compaction behavior through the `compaction` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "compaction": {
     "auto": true,
     "prune": false,
@@ -771,7 +771,7 @@ ran out stays skipped for the rest of that session.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "fallback": {
     "enabled": true,
     "max_switches": 3
@@ -800,7 +800,7 @@ whatever it costs.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "fallback": {
     "models": ["anthropic/claude-opus-5", "google/gemini-3-pro", "groq/llama-3.3-70b-versatile"]
   }
@@ -832,7 +832,7 @@ turn.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "memory": {
     "enabled": true,
     "backend": "auto",
@@ -891,7 +891,7 @@ You can configure file watcher ignore patterns through the `watcher` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -908,7 +908,7 @@ You can configure MCP servers you want to use through the `mcp` option.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "mcp": {}
 }
 ```
@@ -925,7 +925,7 @@ Place plugin files in `.queryai/plugins/` or `~/.config/queryai/plugins/`. You c
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "plugin": ["opencode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
@@ -940,7 +940,7 @@ You can configure the instructions for the model you're using through the `instr
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -956,7 +956,7 @@ You can disable providers that are loaded automatically through the `disabled_pr
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -979,7 +979,7 @@ You can specify an allowlist of providers through the `enabled_providers` option
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
@@ -1000,7 +1000,7 @@ The `experimental` key contains options that are under active development.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "experimental": {}
 }
 ```
@@ -1023,7 +1023,7 @@ Use `{env:VARIABLE_NAME}` to substitute environment variables:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "model": "{env:QUERYAI_MODEL}",
   "provider": {
     "anthropic": {
@@ -1046,7 +1046,7 @@ Use `{file:path/to/file}` to substitute the contents of a file:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {

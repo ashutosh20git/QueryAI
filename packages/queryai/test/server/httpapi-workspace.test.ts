@@ -400,7 +400,7 @@ describe("workspace HttpApi", () => {
             "x-queryai-workspace": "internal",
           },
           body: JSON.stringify({
-            $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+            $schema: "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
           }),
         })
 
@@ -419,7 +419,7 @@ describe("workspace HttpApi", () => {
               "x-target-auth": "secret",
             }),
             body: JSON.stringify({
-              $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+              $schema: "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
             }),
           },
         ])

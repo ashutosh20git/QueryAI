@@ -28,13 +28,14 @@ export const Release = {
   /** npm package name, also used to recognise an npm-installed copy. */
   npm: process.env["QUERYAI_NPM_PACKAGE"] || "queryai",
   /** GitHub `owner/repo` whose releases are the source of truth for versions. */
-  repo: process.env["QUERYAI_RELEASE_REPO"] || "ashutosh20git/QueryAI-dist",
+  repo: process.env["QUERYAI_RELEASE_REPO"] || "QueryAI-org/QueryAI",
   brewFormula: "queryai",
   brewTap: "ashutosh20git/tap/queryai",
   chocoPackage: "queryai",
   scoopManifest: "queryai",
   /** Shell installer. Empty until one is published; `curl` upgrades are skipped while it is. */
-  installScript: process.env["QUERYAI_INSTALL_URL"] || "",
+  installScript:
+    process.env["QUERYAI_INSTALL_URL"] || "https://raw.githubusercontent.com/QueryAI-org/QueryAI/main/install",
 } as const
 
 export type Method = "curl" | "npm" | "yarn" | "pnpm" | "bun" | "brew" | "scoop" | "choco" | "unknown"

@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       # Must match ModelsDev.MIRROR_SOURCE, Release.repo and the installer's REPO.
-      DIST_REPO: ${{ vars.DIST_REPO || 'ashutosh20git/QueryAI-dist' }}
+      DIST_REPO: ${{ vars.DIST_REPO || 'QueryAI-org/QueryAI' }}
       # A PAT (or app token) with contents:write on DIST_REPO. The built-in
       # GITHUB_TOKEN cannot write to another repository.
       GH_TOKEN: ${{ secrets.DIST_TOKEN }}

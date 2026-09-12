@@ -155,7 +155,7 @@ export const DEFAULT_SOURCE = "https://models.dev"
  * than the primary so that a mirror that is ever missing costs a retry rather
  * than a doomed request on every refresh.
  */
-export const MIRROR_SOURCE = "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/catalog"
+export const MIRROR_SOURCE = "https://raw.githubusercontent.com/QueryAI-org/QueryAI/catalog"
 
 /**
  * The shared catalog still publishes the built-in provider under its pre-rename

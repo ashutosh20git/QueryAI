@@ -26,7 +26,7 @@ const WRAPPER = process.env["QUERYAI_NPM_PACKAGE"] || pkg.name
 
 // Where users are sent from the npm page. The source repo is private, so every
 // public-facing link has to point at the distribution repo instead.
-const DIST_REPO = process.env["DIST_REPO"] || "ashutosh20git/QueryAI-dist"
+const DIST_REPO = process.env["DIST_REPO"] || "QueryAI-org/QueryAI"
 
 // A release is what `npm install` gets with no tag, so it goes to `latest`.
 // Anything else is a preview and is tagged with its branch, where it can only be

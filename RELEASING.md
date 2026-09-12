@@ -13,7 +13,7 @@ goes through a second, **public** repository that holds artifacts and no source:
 | Repository                   | Visibility | Holds                                             |
 | ---------------------------- | ---------- | ------------------------------------------------- |
 | `ashutosh20git/QueryAI`      | private    | the source (this repo)                            |
-| `ashutosh20git/QueryAI-dist` | public     | release binaries, the install script, user README |
+| `QueryAI-org/QueryAI` | public     | release binaries, the install script, user README |
 
 `QueryAI-dist` also carries two orphan branches the CLI reads at runtime:
 
@@ -23,7 +23,7 @@ goes through a second, **public** repository that holds artifacts and no source:
 | `schema`  | `config.json` | `ConfigV1.SCHEMA_URL` — editor config schema |
 
 Four places must agree on the distribution repo name. They all default to
-`ashutosh20git/QueryAI-dist`, and all read a `DIST_REPO` variable or equivalent
+`QueryAI-org/QueryAI`, and all read a `DIST_REPO` variable or equivalent
 override:
 
 - `packages/core/src/models-dev.ts` — `MIRROR_SOURCE`
@@ -173,8 +173,8 @@ the assets, so a failed run is safe to retry.
 ### Verify what users will get
 
 ```bash
-gh release view v0.1.0 --repo ashutosh20git/QueryAI-dist
-curl -fsSL https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/main/install | bash
+gh release view v0.1.0 --repo QueryAI-org/QueryAI
+curl -fsSL https://raw.githubusercontent.com/QueryAI-org/QueryAI/main/install | bash
 queryai --version
 npm view queryai version      # only if you wired up npm
 ```

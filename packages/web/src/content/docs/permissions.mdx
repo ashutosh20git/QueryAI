@@ -45,7 +45,7 @@ You can set permissions globally (with `*`), and override specific tools.
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "*": "ask",
     "bash": "allow",
@@ -58,7 +58,7 @@ You can also set all permissions at once:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": "allow"
 }
 ```
@@ -71,7 +71,7 @@ For most permissions, you can use an object to apply different actions based on 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "bash": {
       "*": "ask",
@@ -116,7 +116,7 @@ For example, this allows access to everything under `~/projects/personal/`:
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -129,7 +129,7 @@ Any directory allowed here inherits the same defaults as the current workspace. 
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "external_directory": {
       "~/projects/personal/**": "allow"
@@ -211,7 +211,7 @@ Refer to the [Granular Rules (Object Syntax)](#granular-rules-object-syntax) sec
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "bash": {
       "*": "ask",

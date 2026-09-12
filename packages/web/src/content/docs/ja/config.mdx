@@ -13,7 +13,7 @@ QueryAI は、**JSON** と **JSONC** (コメント付きの JSON) 形式の両�
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "model": "anthropic/claude-sonnet-4-5",
   "autoupdate": true,
   "server": {
@@ -150,7 +150,7 @@ queryai run "Hello world"
 
 ## スキーマ
 
-サーバー/ランタイム構成スキーマは [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json) で定義されています。
+サーバー/ランタイム構成スキーマは [**`opencode.ai/config.json`**](https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json) で定義されています。
 
 TUI 設定は [**`opencode.ai/tui.json`**](https://opencode.ai/tui.json) を使用します。
 
@@ -187,7 +187,7 @@ TUI 固有の設定には、専用の `tui.json` (または `tui.jsonc`) ファ�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "server": {
     "port": 4096,
     "hostname": "0.0.0.0",
@@ -216,7 +216,7 @@ LLM が使用できるツールは、`tools` オプションを通じて管理�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "tools": {
     "write": false,
     "bash": false
@@ -234,7 +234,7 @@ LLM が使用できるツールは、`tools` オプションを通じて管理�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {},
   "model": "anthropic/claude-sonnet-4-5",
   "small_model": "anthropic/claude-haiku-4-5"
@@ -247,7 +247,7 @@ LLM が使用できるツールは、`tools` オプションを通じて管理�
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {
     "anthropic": {
       "options": {
@@ -276,7 +276,7 @@ Amazon Bedrock は、AWS 固有の設定をサポートしています。
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "provider": {
     "amazon-bedrock": {
       "options": {
@@ -322,7 +322,7 @@ UI テーマを `tui.json` で設定します。
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "agent": {
     "code-reviewer": {
       "description": "Reviews code for best practices and potential issues",
@@ -348,7 +348,7 @@ UI テーマを `tui.json` で設定します。
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "default_agent": "plan"
 }
 ```
@@ -365,7 +365,7 @@ UI テーマを `tui.json` で設定します。
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "share": "manual"
 }
 ```
@@ -386,7 +386,7 @@ UI テーマを `tui.json` で設定します。
 
 ```jsonc title="queryai.jsonc"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "command": {
     "test": {
       "template": "Run the full test suite with coverage report and show any failures.\nFocus on the failing tests and suggest fixes.",
@@ -427,7 +427,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "autoupdate": false
 }
 ```
@@ -443,7 +443,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "formatter": {
     "prettier": {
       "disabled": true
@@ -471,7 +471,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "permission": {
     "edit": "ask",
     "bash": "ask"
@@ -489,7 +489,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "compaction": {
     "auto": true,
     "prune": false
@@ -508,7 +508,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "watcher": {
     "ignore": ["node_modules/**", "dist/**", ".git/**"]
   }
@@ -525,7 +525,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "mcp": {}
 }
 ```
@@ -542,7 +542,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "plugin": ["opencode-helicone-session", "@my-org/custom-plugin"]
 }
 ```
@@ -557,7 +557,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "instructions": ["CONTRIBUTING.md", "docs/guidelines.md", ".cursor/rules/*.md"]
 }
 ```
@@ -572,7 +572,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "disabled_providers": ["openai", "gemini"]
 }
 ```
@@ -594,7 +594,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "enabled_providers": ["anthropic", "openai"]
 }
 ```
@@ -614,7 +614,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "experimental": {}
 }
 ```
@@ -637,7 +637,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "model": "{env:QUERYAI_MODEL}",
   "provider": {
     "anthropic": {
@@ -660,7 +660,7 @@ QueryAI は起動時に新しいアップデートを自動的にダウンロー
 
 ```json title="queryai.json"
 {
-  "$schema": "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+  "$schema": "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
   "instructions": ["./custom-instructions.md"],
   "provider": {
     "openai": {

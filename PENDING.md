@@ -13,31 +13,27 @@ two-repository distribution design. See [`.github/CI.md`](.github/CI.md) and
 
 ## 1. Blocking distribution — nothing reaches a user until these are done
 
-### 1.1 Make `QueryAI-dist` public
+### 1.1 Make `QueryAI-dist` public — done 2026-09-12
 
-It is currently **private**:
+`QueryAI-org/QueryAI` is public and carries `main` (`LICENSE`,
+`README.md`, `install`) plus the `catalog` and `schema` orphan branches the CLI
+reads at runtime. All three raw URLs return 200.
 
-```bash
-gh repo view ashutosh20git/QueryAI-dist --json visibility
-# {"visibility":"PRIVATE"}
-```
+The earlier `ashutosh20git/QueryAI-dist` was never a separate repository — the
+name redirected to the source repo, so the split existed only in the code that
+named it. Every reference now says `QueryAI-org/QueryAI`.
 
-This defeats the whole arrangement. GitHub release assets inherit their
-repository's visibility, so while it is private the install `curl` and every
-binary download 404 for everyone but you. The repo already has the right
-contents — `main` (with `LICENSE`, `README.md`, `install`), plus the `catalog`
-and `schema` orphan branches the CLI reads at runtime.
-
-Making it public exposes **no source**. That is the point of the split:
-`ashutosh20git/QueryAI` stays private and holds the code, `QueryAI-dist` holds
-artifacts only.
+What this does **not** yet do: `QueryAI-org/QueryAI` is still public and still
+holds the source. Making it private is deliberately held until 1.2 and 1.3
+below prove the install path, because a private source repo cannot serve the
+binaries or the runtime branches its own users need.
 
 ### 1.2 Create the `DIST_TOKEN` secret
 
 There are currently **no secrets configured at all** on the source repo:
 
 ```bash
-gh secret list --repo ashutosh20git/QueryAI   # empty
+gh secret list --repo QueryAI-org/QueryAI   # empty
 ```
 
 `release.yml` cannot write to `QueryAI-dist` without it — the built-in

@@ -27,7 +27,7 @@ export type Layout = ConfigLayoutV1.Layout
  * this project's own - a schema owned by anyone else would reject every key we
  * add and accept keys we do not have.
  */
-export const SCHEMA_URL = "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json"
+export const SCHEMA_URL = "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json"
 
 export const WellKnown = Schema.Struct({
   config: Schema.optional(Schema.Json),

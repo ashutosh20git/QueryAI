@@ -292,7 +292,7 @@ const writeConfig = (directory: string, scenario: RecordedScenario, model: Model
     Bun.write(
       path.join(directory, "queryai.json"),
       JSON.stringify({
-        $schema: "https://raw.githubusercontent.com/ashutosh20git/QueryAI-dist/schema/config.json",
+        $schema: "https://raw.githubusercontent.com/QueryAI-org/QueryAI/schema/config.json",
         ...scenario.config(model),
       }),
     ),
