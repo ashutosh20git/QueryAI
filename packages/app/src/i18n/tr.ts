@@ -249,13 +249,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API anahtarı",
   "provider.connect.apiKey.placeholder": "API anahtarı",
   "provider.connect.apiKey.required": "API anahtarı gerekli",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen, kodlama ajanları için seçilmiş güvenilir optimize edilmiş modellere erişim sağlar.",
-  "provider.connect.queryaiZen.line2":
-    "Tek bir API anahtarıyla Claude, GPT, Gemini, GLM ve daha fazlası gibi modellere erişebilirsiniz.",
-  "provider.connect.queryaiZen.visit.prefix": "",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " adresini ziyaret ederek API anahtarınızı alın.",
   "provider.connect.oauth.code.visit.prefix": "Yetkilendirme kodunuzu almak için ",
   "provider.connect.oauth.code.visit.link": "bu bağlantıya",
   "provider.connect.oauth.code.visit.suffix":
@@ -572,7 +565,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description": "Yeni bir çalışma alanı (worktree) oluşturduktan sonra çalışır.",
   "dialog.project.edit.worktree.startup.placeholder": "örneğin bun install",
 
-  "dialog.usageExceeded.dontShowAgain": "Bir daha gösterme",
 
   "context.breakdown.title": "Bağlam Dökümü",
   "context.breakdown.note": 'Girdi tokenlerinin yaklaşık dökümü. "Diğer" araç tanımları ve ek yükleri içerir.',

@@ -2,13 +2,10 @@ import type { NamedError } from "@queryai/core/util/error"
 import { SessionV1 } from "@queryai/core/v1/session"
 import { Cause, Clock, Duration, Effect, Schedule } from "effect"
 import { MessageV2 } from "./message-v2"
-import { iife } from "@/util/iife"
 import { isRecord } from "@/util/record"
 
 export type Err = ReturnType<NamedError["toObject"]>
 
-export const GO_UPSELL_MESSAGE = "Free usage exceeded, subscribe to Go"
-export const GO_UPSELL_URL = "https://opencode.ai/go"
 export type RetryReason = "free_tier_limit" | "account_rate_limit" | (string & {})
 
 export type Retryable = {
@@ -82,7 +79,10 @@ function exponential(attempt: number, random: number) {
   return Math.ceil(base + base * RETRY_JITTER_FACTOR * random)
 }
 
-export function retryable(error: Err, provider: string) {
+// The return type is declared rather than inferred: `action` is part of the
+// retry contract `policy` forwards to `opts.set`, and no branch populates it
+// any more, so inference would otherwise narrow it away.
+export function retryable(error: Err, _provider: string): Retryable | undefined {
   // context overflow errors should not be retried
   if (SessionV1.ContextOverflowError.isInstance(error)) return undefined
   if (SessionV1.APIError.isInstance(error)) {
@@ -96,52 +96,6 @@ export function retryable(error: Err, provider: string) {
       !matchesRetryableMessage(error.data.responseBody)
     )
       return undefined
-    if (error.data.responseBody?.includes("FreeUsageLimitError")) {
-      return {
-        message: GO_UPSELL_MESSAGE,
-        action: {
-          reason: "free_tier_limit",
-          provider,
-          title: "Free limit reached",
-          message: "Subscribe to QueryAI Go for reliable access to the best open-source models for $10/month.",
-          label: "subscribe",
-          link: GO_UPSELL_URL,
-        },
-      }
-    }
-    if (error.data.responseBody?.includes("GoUsageLimitError")) {
-      const body = parseJSON(error.data.responseBody)
-      const workspace = str(body?.metadata?.workspace)
-      const limitName = str(body?.metadata?.limitName)
-      const retryAfter = num(error.data.responseHeaders?.["retry-after"])
-      const resetIn = iife(() => {
-        if (retryAfter === undefined) return ""
-        const seconds = Math.max(0, Math.ceil(retryAfter))
-        const days = Math.floor(seconds / 86_400)
-        const hours = Math.floor((seconds % 86_400) / 3_600)
-        const minutes = Math.ceil((seconds % 3_600) / 60)
-        const unit = (value: number, name: string) => `${value} ${name}${value === 1 ? "" : "s"}`
-
-        if (days > 0) return hours > 0 ? `${unit(days, "day")} ${unit(hours, "hour")}` : unit(days, "day")
-        if (hours > 0) return minutes > 0 ? `${unit(hours, "hour")} ${unit(minutes, "minute")}` : unit(hours, "hour")
-        return minutes > 0 ? unit(minutes, "minute") : "less than a minute"
-      })
-
-      const message = `${limitName ? `${limitName} usage limit` : "Usage limit"} reached. It will reset in ${resetIn}. To continue using this model now, enable usage from your available balance`
-
-      const link = `https://opencode.ai/workspace/${workspace}/go`
-      return {
-        message: `${message} - ${link}`,
-        action: {
-          reason: "account_rate_limit",
-          provider,
-          title: "Go limit reached",
-          message,
-          label: "open settings",
-          link,
-        },
-      }
-    }
     return { message: error.data.message.includes("Overloaded") ? "Provider is overloaded" : error.data.message }
   }
 
@@ -156,28 +110,6 @@ export function retryable(error: Err, provider: string) {
 
 function matchesRetryableMessage(value: unknown) {
   return typeof value === "string" && RETRYABLE_MESSAGE_PATTERNS.some((pattern) => pattern.test(value))
-}
-
-function str(value: unknown) {
-  if (value === undefined || value === null) return ""
-  return String(value)
-}
-
-function num(value: unknown) {
-  const parsed = Number.parseFloat(str(value))
-  if (Number.isNaN(parsed)) return undefined
-  return parsed
-}
-
-function parseJSON(value: unknown) {
-  return iife(() => {
-    try {
-      if (typeof value !== "string") return undefined
-      return JSON.parse(value)
-    } catch {
-      return undefined
-    }
-  })
 }
 
 export function policy(opts: {

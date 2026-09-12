@@ -832,25 +832,7 @@ function ProviderConnection(props: {
     if (newLayout())
       return (
         <div class="flex flex-col gap-5 px-3 text-[13px] font-[440] leading-5 tracking-[-0.04px] text-v2-text-text-muted">
-          <Show
-            when={provider().id === "queryai"}
-            fallback={language.t("provider.connect.apiKey.description", { provider: provider().name })}
-          >
-            <div class="flex flex-col gap-5">
-              <div>{language.t("provider.connect.queryaiZen.line1")}</div>
-              <div>{language.t("provider.connect.queryaiZen.line2")}</div>
-              <div>
-                {language.t("provider.connect.queryaiZen.visit.prefix")}
-                <ExternalLink
-                  href="https://opencode.ai/zen"
-                  class="text-v2-text-text-base focus-visible:rounded-xs focus-visible:outline-2 focus-visible:outline-v2-border-border-focus"
-                >
-                  {language.t("provider.connect.queryaiZen.visit.link")}
-                </ExternalLink>
-                {language.t("provider.connect.queryaiZen.visit.suffix")}
-              </div>
-            </div>
-          </Show>
+          {language.t("provider.connect.apiKey.description", { provider: provider().name })}
           <form onSubmit={handleSubmit} class="flex flex-col items-start gap-5 self-stretch">
             <label class="flex w-full flex-col gap-1 font-[530] leading-4 text-v2-text-text-base">
               {language.t("provider.connect.apiKey.label", { provider: provider().name })}
@@ -885,19 +867,6 @@ function ProviderConnection(props: {
     return (
       <div class="flex flex-col gap-6">
         <Switch>
-          <Match when={provider().id === "queryai"}>
-            <div class="flex flex-col gap-4">
-              <div class="text-14-regular text-text-base">{language.t("provider.connect.queryaiZen.line1")}</div>
-              <div class="text-14-regular text-text-base">{language.t("provider.connect.queryaiZen.line2")}</div>
-              <div class="text-14-regular text-text-base">
-                {language.t("provider.connect.queryaiZen.visit.prefix")}
-                <ExternalLink href="https://opencode.ai/zen" tabIndex={-1}>
-                  {language.t("provider.connect.queryaiZen.visit.link")}
-                </ExternalLink>
-                {language.t("provider.connect.queryaiZen.visit.suffix")}
-              </div>
-            </div>
-          </Match>
           <Match when={true}>
             <div class="text-14-regular text-text-base">
               {language.t("provider.connect.apiKey.description", { provider: provider().name })}

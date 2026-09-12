@@ -8,7 +8,7 @@ run-name: "release ${{ inputs.version }}"
 # repo is what lets users install without the source ever being shared.
 #
 # The upstream publish.yml is deliberately not reused: every job in it is gated on
-# `github.repository == 'anomalyco/opencode'` and it expects Blacksmith runners,
+# `github.repository == 'QueryAI-org/QueryAI'` and it expects Blacksmith runners,
 # AUR/npm/SST credentials and Windows code signing. This is the subset that
 # actually gets a working binary into users' hands.
 

@@ -18,7 +18,7 @@ Effect consumers construct canonical decoded inputs:
 ```ts
 import { AbsolutePath, Location, QueryAI, Prompt } from "@queryai/client/effect"
 
-const client = yield * QueryAI.make({ baseUrl: "https://opencode.example" })
+const client = yield * QueryAI.make({ baseUrl: "https://queryai.example" })
 yield *
   client.sessions.create({
     location: Location.Ref.make({ directory: AbsolutePath.make("/workspace") }),

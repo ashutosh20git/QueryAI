@@ -252,7 +252,7 @@ If you change how artifacts are produced, keep that true.
 ## What is deliberately not wired up
 
 - **`publish.yml`** — the upstream workflow. Every job is gated on
-  `github.repository == 'anomalyco/opencode'` and it expects Blacksmith runners
+  `github.repository == 'QueryAI-org/QueryAI'` and it expects Blacksmith runners
   plus AUR, Homebrew, Docker and SST credentials. `release.yml` replaces the part
   that matters; the rest was left rather than half-migrated.
 - **Windows code signing** — needs a certificate. Until then Windows users get a

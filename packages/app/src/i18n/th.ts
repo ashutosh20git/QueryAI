@@ -243,13 +243,6 @@ export const dict = {
   "provider.connect.apiKey.label": "คีย์ API ของ {{provider}}",
   "provider.connect.apiKey.placeholder": "คีย์ API",
   "provider.connect.apiKey.required": "ต้องใช้คีย์ API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ให้คุณเข้าถึงชุดโมเดลที่เชื่อถือได้และปรับแต่งแล้วสำหรับเอเจนต์การเขียนโค้ด",
-  "provider.connect.queryaiZen.line2":
-    "ด้วยคีย์ API เดียวคุณจะได้รับการเข้าถึงโมเดล เช่น Claude, GPT, Gemini, GLM และอื่น ๆ",
-  "provider.connect.queryaiZen.visit.prefix": "เยี่ยมชม ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " เพื่อรับคีย์ API ของคุณ",
   "provider.connect.oauth.code.visit.prefix": "เยี่ยมชม ",
   "provider.connect.oauth.code.visit.link": "ลิงก์นี้",
   "provider.connect.oauth.code.visit.suffix":
@@ -564,7 +557,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description": "ทำงานหลังจากสร้างพื้นที่ทำงานใหม่ (worktree)",
   "dialog.project.edit.worktree.startup.placeholder": "เช่น bun install",
 
-  "dialog.usageExceeded.dontShowAgain": "ไม่ต้องแสดงอีก",
 
   "context.breakdown.title": "การแบ่งบริบท",
   "context.breakdown.note": 'การแบ่งโดยประมาณของโทเค็นนำเข้า "อื่น ๆ" รวมถึงคำนิยามเครื่องมือและโอเวอร์เฮด',

@@ -232,13 +232,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Khóa API {{provider}}",
   "provider.connect.apiKey.placeholder": "khóa API",
   "provider.connect.apiKey.required": "Cần có khóa API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen cho phép bạn truy cập một bộ mô hình được tuyển chọn, tối ưu hóa và đáng tin cậy dành cho tác nhân lập trình.",
-  "provider.connect.queryaiZen.line2":
-    "Chỉ với một khóa API, bạn sẽ có quyền truy cập vào các mô hình như Claude, GPT, Gemini, GLM và hơn thế nữa.",
-  "provider.connect.queryaiZen.visit.prefix": "Truy cập ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " để lấy khóa API của bạn.",
   "provider.connect.oauth.code.visit.prefix": "Truy cập ",
   "provider.connect.oauth.code.visit.link": "liên kết này",
   "provider.connect.oauth.code.visit.suffix":
@@ -546,7 +539,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Tiếp theo",
   "dialog.releaseNotes.action.hideFuture": "Không hiển thị lại",
   "dialog.releaseNotes.media.alt": "Xem trước bản phát hành",
-  "dialog.usageExceeded.dontShowAgain": "Không hiển thị lại",
 
   "context.breakdown.title": "Phân tích ngữ cảnh",
   "context.breakdown.note":

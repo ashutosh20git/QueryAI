@@ -227,13 +227,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API açarı",
   "provider.connect.apiKey.placeholder": "API açarı",
   "provider.connect.apiKey.required": "API açarı tələb olunur",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen sizə kodlaşdırma agentləri üçün etibarlı optimallaşdırılmış seçilmiş modellər dəstinə giriş verir.",
-  "provider.connect.queryaiZen.line2":
-    "Tək bir API açarı ilə Claude, GPT, Gemini, GLM və daha çox modellərə giriş əldə edəcəksiniz.",
-  "provider.connect.queryaiZen.visit.prefix": "",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " səhifəsinə daxil olub API açarınızı əldə edin.",
   "provider.connect.oauth.code.visit.prefix": "",
   "provider.connect.oauth.code.visit.link": "Bu linkə",
   "provider.connect.oauth.code.visit.suffix":
@@ -544,7 +537,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Növbəti",
   "dialog.releaseNotes.action.hideFuture": "Gələcəkdə göstərmə",
   "dialog.releaseNotes.media.alt": "Buraxılış önbaxışı",
-  "dialog.usageExceeded.dontShowAgain": "Bir daha göstərmə",
 
   "context.breakdown.title": "Kontekst bölgüsü",
   "context.breakdown.note": 'Giriş tokenlərinin təxmini bölgüsü. "Digər" alət təriflərini və əlavə yükü əhatə edir.',

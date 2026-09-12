@@ -228,13 +228,6 @@ export const dict: Record<string, string> = {
   "provider.connect.apiKey.label": "{{provider}} APIལྡེ་མིག།",
   "provider.connect.apiKey.placeholder": "APIལྡེ་མིག།",
   "provider.connect.apiKey.required": "APIལྡེ་མིག་དགོས་མཁོ་ཡོད།",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI ཟེན་གྱིས་ཁྱོད་ལུ་ གསང་ཡིག་ལས་ཚབ་ཚུ་གི་དོན་ལུ་ བློ་གཏད་ཅན་གྱི་ཡར་འཕེལ་ཅན་གྱི་དཔེ་ཚད་ཚུ་གི་ བཀོད་སྒྲིག་འབད་ཡོད་པའི་ཆ་ཚན་ཅིག་ལུ་འཛུལ་སྤྱོད་བྱིནམ་ཨིན།",
-  "provider.connect.queryaiZen.line2":
-    "API ལྡེ་མིག་རྐྱང་པ་གཅིག་གིས་ ཁྱོད་ཀྱིས་ Claude དང་ GPT དེ་ལས་ Gemini དང་ GLM དེ་ལས་མངམ་བཟུམ་གྱི་དཔེ་ཚད་ཚུ་ལུ་འཛུལ་སྤྱོད་འབད་ཚུགས།",
-  "provider.connect.queryaiZen.visit.prefix": "འགྱོ་ནི",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "ཁྱོད་རའི་ API ལྡེ་མིག་བསྡུ་ལེན་འབད་ནིའི་དོན་ལུ།",
   "provider.connect.oauth.code.visit.prefix": "འགྱོ་ནི",
   "provider.connect.oauth.code.visit.link": "འབྲེལ་མཐུད་འདི།",
   "provider.connect.oauth.code.visit.suffix":
@@ -1177,5 +1170,4 @@ export const dict: Record<string, string> = {
   "workspace.reset.archived.one": "ལཱ་ཡུན་ ༡ གཏན་མཛོད་ནང་བཞག་འོང་།",
   "workspace.reset.archived.many": "{{count}} ལཱ་ཡུན་ཚུ་ཡིག་མཛོད་ནང་བཞག་འོང་།",
   "workspace.reset.note": "འདི་གིས་ སྔོན་སྒྲིག་ཡན་ལག་མཐུན་སྒྲིག་འབད་ནི་ལུ་ ལཱ་གི་ས་སྒོ་འདི་སླར་སྒྲིག་འབད་འོང་།",
-  "dialog.usageExceeded.dontShowAgain": "ལོག་སྟེ་མ་སྟོན།",
 }

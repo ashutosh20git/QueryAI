@@ -23,7 +23,7 @@ jobs:
           LOGIN="${{ github.event.issue.user.login }}"
           ASSOCIATION="${{ github.event.issue.author_association }}"
 
-          if [ "$LOGIN" = "opencode-agent[bot]" ] ||
+          if [ "$LOGIN" = "queryai-agent[bot]" ] ||
              [ "$ASSOCIATION" = "OWNER" ] ||
              [ "$ASSOCIATION" = "MEMBER" ] ||
              grep -qxiF "$LOGIN" .github/TEAM_MEMBERS; then
@@ -38,7 +38,7 @@ jobs:
 
       - name: Install queryai
         if: steps.author.outputs.skip != 'true'
-        run: curl -fsSL https://opencode.ai/install | bash
+        run: curl -fsSL https://github.com/QueryAI-org/QueryAI/install | bash
 
       - name: Check duplicates and compliance
         if: steps.author.outputs.skip != 'true'
@@ -157,7 +157,7 @@ jobs:
           LOGIN="${{ github.event.issue.user.login }}"
           ASSOCIATION="${{ github.event.issue.author_association }}"
 
-          if [ "$LOGIN" = "opencode-agent[bot]" ] ||
+          if [ "$LOGIN" = "queryai-agent[bot]" ] ||
              [ "$ASSOCIATION" = "OWNER" ] ||
              [ "$ASSOCIATION" = "MEMBER" ] ||
              grep -qxiF "$LOGIN" .github/TEAM_MEMBERS; then
@@ -172,7 +172,7 @@ jobs:
 
       - name: Install queryai
         if: steps.author.outputs.skip != 'true'
-        run: curl -fsSL https://opencode.ai/install | bash
+        run: curl -fsSL https://github.com/QueryAI-org/QueryAI/install | bash
 
       - name: Recheck compliance
         if: steps.author.outputs.skip != 'true'

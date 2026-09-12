@@ -136,13 +136,6 @@ export const dict = {
   "provider.connect.apiKey.label": "API-Schlüssel für {{provider}}",
   "provider.connect.apiKey.placeholder": "API-Schlüssel",
   "provider.connect.apiKey.required": "API-Schlüssel ist erforderlich",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen bietet Ihnen Zugriff auf eine kuratierte Auswahl zuverlässiger, optimierter Modelle für Coding-Agenten.",
-  "provider.connect.queryaiZen.line2":
-    "Mit einem einzigen API-Schlüssel erhalten Sie Zugriff auf Modelle wie Claude, GPT, Gemini, GLM und mehr.",
-  "provider.connect.queryaiZen.visit.prefix": "Besuchen Sie ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": ", um Ihren API-Schlüssel zu erhalten.",
   "provider.connect.oauth.code.visit.prefix": "Besuchen Sie ",
   "provider.connect.oauth.code.visit.link": "diesen Link",
   "provider.connect.oauth.code.visit.suffix":
@@ -428,7 +421,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description":
     "Wird nach dem Erstellen eines neuen Arbeitsbereichs (Worktree) ausgeführt.",
   "dialog.project.edit.worktree.startup.placeholder": "z. B. bun install",
-  "dialog.usageExceeded.dontShowAgain": "Nicht mehr anzeigen",
 
   "context.breakdown.title": "Kontext-Aufschlüsselung",
   "context.breakdown.note":

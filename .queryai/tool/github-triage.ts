@@ -46,7 +46,7 @@ Provide the team that should own the issue. This tool picks a random assignee fr
   },
   async execute(args) {
     const issue = getIssueNumber()
-    const owner = "anomalyco"
+    const owner = "QueryAI-org"
     const repo = "queryai"
     const assignee = pick(TEAM[args.team])
 

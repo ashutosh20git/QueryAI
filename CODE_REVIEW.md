@@ -94,7 +94,7 @@ so in its body and is still caught by `HARD_PATTERNS`; a bare 403 now surfaces.
 
 `packages/queryai/src/provider/provider.ts:1500`
 
-Both lists were compared against raw ids, so `"enabled_providers": ["opencode"]`
+Both lists were compared against raw ids, so `"enabled_providers": ["QueryAI"]`
 matched nothing and left the install with no providers at all.
 
 **Fix.** Both are folded through `ModelsDev.aliasID`, like `cfg.provider` above

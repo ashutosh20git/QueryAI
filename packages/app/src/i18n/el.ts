@@ -225,13 +225,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API κλειδί",
   "provider.connect.apiKey.placeholder": "API κλειδί",
   "provider.connect.apiKey.required": "API απαιτείται κλειδί",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Το Zen σάς δίνει πρόσβαση σε ένα επιμελημένο σύνολο αξιόπιστων βελτιστοποιημένων μοντέλων για πράκτορες κωδικοποίησης.",
-  "provider.connect.queryaiZen.line2":
-    "Με ένα μόνο κλειδί API θα έχετε πρόσβαση σε μοντέλα όπως Claude, GPT, Gemini, GLM και άλλα.",
-  "provider.connect.queryaiZen.visit.prefix": "Επίσκεψη ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " για τη συλλογή του κλειδιού σας API.",
   "provider.connect.oauth.code.visit.prefix": "Επίσκεψη ",
   "provider.connect.oauth.code.visit.link": "αυτός ο σύνδεσμος",
   "provider.connect.oauth.code.visit.suffix":
@@ -1169,5 +1162,4 @@ export const dict = {
   "workspace.reset.archived.one": "Θα αρχειοθετηθεί 1 συνεδρία.",
   "workspace.reset.archived.many": "{{count}} θα αρχειοθετηθούν οι περίοδοι σύνδεσης.",
   "workspace.reset.note": "Αυτό θα επαναφέρει τον χώρο εργασίας ώστε να ταιριάζει με τον προεπιλεγμένο κλάδο.",
-  "dialog.usageExceeded.dontShowAgain": "Να μην εμφανιστεί ξανά",
 }

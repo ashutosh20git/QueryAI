@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API გასაღები",
   "provider.connect.apiKey.placeholder": "API გასაღები",
   "provider.connect.apiKey.required": "API გასაღები საჭიროა",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen გაძლევთ წვდომას კოდირების აგენტებისთვის საიმედო ოპტიმიზირებული მოდელების კურირებულ კომპლექტზე.",
-  "provider.connect.queryaiZen.line2":
-    "ერთი API გასაღებით თქვენ მიიღებთ წვდომას ისეთ მოდელებზე, როგორიცაა Claude, GPT, Gemini, GLM და სხვა.",
-  "provider.connect.queryaiZen.visit.prefix": "ეწვიეთ ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " თქვენი API გასაღების შესაგროვებლად.",
   "provider.connect.oauth.code.visit.prefix": "ეწვიეთ ",
   "provider.connect.oauth.code.visit.link": "ეს ბმული",
   "provider.connect.oauth.code.visit.suffix":
@@ -1152,5 +1145,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 სესია დაარქივდება.",
   "workspace.reset.archived.many": "{{count}} სესია დაარქივდება.",
   "workspace.reset.note": "ეს აღადგენს სამუშაო სივრცეს ნაგულისხმევი ფილიალის შესატყვისად.",
-  "dialog.usageExceeded.dontShowAgain": "აღარ მაჩვენო",
 }

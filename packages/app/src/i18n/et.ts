@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API klahv",
   "provider.connect.apiKey.placeholder": "API klahv",
   "provider.connect.apiKey.required": "Klahv API on nõutav",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen annab teile juurdepääsu kodeerimisagentide usaldusväärsete optimeeritud mudelite kureeritud komplektile.",
-  "provider.connect.queryaiZen.line2":
-    "Ühe klahviga API pääsete juurde sellistele mudelitele nagu Claude, GPT, Gemini, GLM ja palju muud.",
-  "provider.connect.queryaiZen.visit.prefix": "Külastage ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " API võtme kättesaamiseks.",
   "provider.connect.oauth.code.visit.prefix": "Külastage ",
   "provider.connect.oauth.code.visit.link": "see link",
   "provider.connect.oauth.code.visit.suffix":
@@ -1147,5 +1140,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 seanss arhiveeritakse.",
   "workspace.reset.archived.many": "{{count}} seanssi arhiivitakse.",
   "workspace.reset.note": "See lähtestab tööruumi, et see vastaks vaikeharule.",
-  "dialog.usageExceeded.dontShowAgain": "Ära kuva enam",
 }

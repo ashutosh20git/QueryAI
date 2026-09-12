@@ -954,7 +954,7 @@ export const RunCommand = effectCmd({
         return Server.Default().app.fetch(new Request(request, { headers }))
       }) as typeof globalThis.fetch
       const sdk = createQueryAIClient({
-        baseUrl: "http://opencode.internal",
+        baseUrl: "http://queryai.internal",
         fetch: fetchFn,
         directory,
       })

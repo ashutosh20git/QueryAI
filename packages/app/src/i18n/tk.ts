@@ -225,13 +225,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API açary",
   "provider.connect.apiKey.placeholder": "API açary",
   "provider.connect.apiKey.required": "API açary talap edilýär",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen kodlaşdyrmak serişdeleri üçin ygtybarly optimallaşdyrylan modelleriň toplumyna girmäge mümkinçilik berýär.",
-  "provider.connect.queryaiZen.line2":
-    "Zekeje API açary bilen Claude, GPT, Gemini, GLM we başgalar ýaly modellere girip bilersiňiz.",
-  "provider.connect.queryaiZen.visit.prefix": "Sapar ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " API açaryňyzy ýygnamak.",
   "provider.connect.oauth.code.visit.prefix": "Sapar ",
   "provider.connect.oauth.code.visit.link": "Bu baglanyşyk",
   "provider.connect.oauth.code.visit.suffix":
@@ -1155,5 +1148,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 sessiýa arhiwlener.",
   "workspace.reset.archived.many": "{{count}} sessiýalary arhiwlener.",
   "workspace.reset.note": "Bu workspace-i adaty şaha gabat getirmek üçin täzeden düzer.",
-  "dialog.usageExceeded.dontShowAgain": "Gaýtadan görkezme",
 }

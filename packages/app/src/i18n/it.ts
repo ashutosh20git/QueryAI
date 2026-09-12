@@ -133,13 +133,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Chiave API di {{provider}}",
   "provider.connect.apiKey.placeholder": "Chiave API",
   "provider.connect.apiKey.required": "È richiesta la chiave API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen offre l'accesso a una selezione di modelli affidabili e ottimizzati per gli agenti di programmazione.",
-  "provider.connect.queryaiZen.line2":
-    "Con una sola chiave API avrai accesso a modelli come Claude, GPT, Gemini, GLM e altri.",
-  "provider.connect.queryaiZen.visit.prefix": "Visita ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " per ottenere la tua chiave API.",
   "provider.connect.oauth.code.visit.prefix": "Visita ",
   "provider.connect.oauth.code.visit.link": "questo collegamento",
   "provider.connect.oauth.code.visit.suffix":
@@ -449,7 +442,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Avanti",
   "dialog.releaseNotes.action.hideFuture": "Non mostrarli in futuro",
   "dialog.releaseNotes.media.alt": "Anteprima delle novità",
-  "dialog.usageExceeded.dontShowAgain": "Non mostrare più",
 
   "context.breakdown.title": "Ripartizione del contesto",
   "context.breakdown.note":

@@ -245,13 +245,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Kunci API {{provider}}",
   "provider.connect.apiKey.placeholder": "Kunci API",
   "provider.connect.apiKey.required": "Kunci API diperlukan",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen memberi Anda akses ke serangkaian model andal yang dioptimalkan untuk agen pengodean.",
-  "provider.connect.queryaiZen.line2":
-    "Dengan satu kunci API, Anda akan mendapatkan akses ke model seperti Claude, GPT, Gemini, GLM dan lainnya.",
-  "provider.connect.queryaiZen.visit.prefix": "Kunjungi ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " untuk mendapatkan kunci API Anda.",
   "provider.connect.oauth.code.visit.prefix": "Kunjungi ",
   "provider.connect.oauth.code.visit.link": "tautan ini",
   "provider.connect.oauth.code.visit.suffix":
@@ -579,7 +572,6 @@ export const dict = {
   "dialog.releaseNotes.action.hideFuture": "Jangan tampilkan ini di masa depan",
   "dialog.releaseNotes.media.alt": "Pratinjau rilis",
 
-  "dialog.usageExceeded.dontShowAgain": "Jangan tampilkan lagi",
 
   "context.breakdown.title": "Rincian Konteks",
   "context.breakdown.note": 'Perkiraan rincian token masukan. "Lainnya" mencakup definisi alat dan beban tambahan.',

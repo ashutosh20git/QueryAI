@@ -225,13 +225,6 @@ export const dict: Record<string, string> = {
   "provider.connect.apiKey.label": "{{provider}} API কী",
   "provider.connect.apiKey.placeholder": "API কী",
   "provider.connect.apiKey.required": "API কী প্রয়োজন",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen আপনাকে কোডিং এজেন্টের জন্য নির্ভরযোগ্য অপ্টিমাইজ করা মডেলের একটি কিউরেটেড সেটে অ্যাক্সেস দেয়।",
-  "provider.connect.queryaiZen.line2":
-    "একটি API কী দিয়ে আপনি Claude, GPT, Gemini, GLM এবং আরও অনেক কিছুর মতো মডেলগুলিতে অ্যাক্সেস পাবেন৷",
-  "provider.connect.queryaiZen.visit.prefix": "ভিজিট করুন",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "আপনার API কী সংগ্রহ করতে।",
   "provider.connect.oauth.code.visit.prefix": "ভিজিট করুন",
   "provider.connect.oauth.code.visit.link": "এই লিঙ্ক",
   "provider.connect.oauth.code.visit.suffix":
@@ -1148,5 +1141,4 @@ export const dict: Record<string, string> = {
   "workspace.reset.archived.one": "1 সেশন আর্কাইভ করা হবে.",
   "workspace.reset.archived.many": "{{count}} সেশন আর্কাইভ করা হবে।",
   "workspace.reset.note": "এটি ডিফল্ট শাখার সাথে মেলে ওয়ার্কস্পেস রিসেট করবে।",
-  "dialog.usageExceeded.dontShowAgain": "আবার দেখাবেন না",
 }

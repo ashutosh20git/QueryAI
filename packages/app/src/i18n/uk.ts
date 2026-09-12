@@ -245,13 +245,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Ключ API {{provider}}",
   "provider.connect.apiKey.placeholder": "Ключ API",
   "provider.connect.apiKey.required": "Ключ API обов'язковий",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen надає доступ до відібраного набору надійних оптимізованих моделей для агентів кодування.",
-  "provider.connect.queryaiZen.line2":
-    "З одним ключем API ви отримаєте доступ до таких моделей, як Claude, GPT, Gemini, GLM та інших.",
-  "provider.connect.queryaiZen.visit.prefix": "Відвідайте ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": ", щоб отримати ключ API.",
   "provider.connect.oauth.code.visit.prefix": "Відвідайте ",
   "provider.connect.oauth.code.visit.link": "це посилання",
   "provider.connect.oauth.code.visit.suffix":
@@ -581,7 +574,6 @@ export const dict = {
   "dialog.releaseNotes.action.hideFuture": "Не показувати це в майбутньому",
   "dialog.releaseNotes.media.alt": "Попередній перегляд релізу",
 
-  "dialog.usageExceeded.dontShowAgain": "Більше не показувати",
 
   "context.breakdown.title": "Розподіл контексту",
   "context.breakdown.note":

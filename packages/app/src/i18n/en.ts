@@ -147,13 +147,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API key",
   "provider.connect.apiKey.placeholder": "API key",
   "provider.connect.apiKey.required": "API key is required",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen gives you access to a curated set of reliable optimized models for coding agents.",
-  "provider.connect.queryaiZen.line2":
-    "With a single API key you'll get access to models such as Claude, GPT, Gemini, GLM and more.",
-  "provider.connect.queryaiZen.visit.prefix": "Visit ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " to collect your API key.",
   "provider.connect.oauth.code.visit.prefix": "Visit ",
   "provider.connect.oauth.code.visit.link": "this link",
   "provider.connect.oauth.code.visit.suffix":
@@ -480,7 +473,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Next",
   "dialog.releaseNotes.action.hideFuture": "Don't show these in the future",
   "dialog.releaseNotes.media.alt": "Release preview",
-  "dialog.usageExceeded.dontShowAgain": "Don't show again",
 
   "context.breakdown.title": "Context Breakdown",
   "context.breakdown.note": 'Approximate breakdown of input tokens. "Other" includes tool definitions and overhead.',

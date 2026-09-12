@@ -226,13 +226,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Tecla {{provider}} API.",
   "provider.connect.apiKey.placeholder": "tecla API.",
   "provider.connect.apiKey.required": "La clau API és necessària",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen us ofereix accés a un conjunt seleccionat de models optimitzats fiables per a agents de codificació.",
-  "provider.connect.queryaiZen.line2":
-    "Amb una sola tecla API tindreu accés a models com ara Claude, GPT, Gemini, GLM i més.",
-  "provider.connect.queryaiZen.visit.prefix": "Visita ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " per recollir la teva clau API.",
   "provider.connect.oauth.code.visit.prefix": "Visita ",
   "provider.connect.oauth.code.visit.link": "aquest enllaç",
   "provider.connect.oauth.code.visit.suffix":
@@ -1168,5 +1161,4 @@ export const dict = {
   "workspace.reset.archived.one": "S'arxivarà 1 sessió.",
   "workspace.reset.archived.many": "{{count}} sessions s'arxivaran.",
   "workspace.reset.note": "Això restablirà l'espai de treball perquè coincideixi amb la branca predeterminada.",
-  "dialog.usageExceeded.dontShowAgain": "No ho tornis a mostrar",
 }

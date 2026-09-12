@@ -158,37 +158,30 @@ export const DEFAULT_SOURCE = "https://models.dev"
 export const MIRROR_SOURCE = "https://raw.githubusercontent.com/QueryAI-org/QueryAI/catalog"
 
 /**
- * The shared catalog still publishes the built-in provider under its pre-rename
- * ids and env var. Alias them here, at the single boundary every consumer reads
- * from - the provider loader, `queryai auth login`, the `/provider` list, the v2
- * catalog and integration plugins - so the id a credential is stored under is
- * the id that is looked up. A catalog that already ships the QueryAI entries
- * passes through untouched.
+ * Providers this build does not offer. The shared catalog ships the upstream
+ * project's own hosted service, which a QueryAI install has no account on and
+ * no way to sell - carrying it would advertise someone else's paid product from
+ * inside this CLI, under either its original ids or the renamed ones it used to
+ * be shown as. Dropped at the single boundary every consumer reads from, so the
+ * provider loader, the `/provider` list, the v2 catalog and the integration
+ * plugins all agree it does not exist.
  */
-const ALIASES: Record<string, Pick<Provider, "id" | "name" | "env">> = {
-  opencode: { id: "queryai", name: "QueryAI Zen", env: ["QUERYAI_API_KEY"] },
-  "opencode-go": { id: "queryai-go", name: "QueryAI Go", env: ["QUERYAI_API_KEY"] },
-}
+const EXCLUDED = new Set(["opencode", "opencode-go", "queryai", "queryai-go"])
 
 /**
- * The current id for a provider id that may have been persisted before the
- * rename - a model pinned in config, a recently used model, the provider a
- * stored session ran on. Unlike `alias`, this has no catalog to defer to, so a
- * pre-rename id always resolves forward.
+ * Kept as the pass-through it now is: ids persisted by older installs still
+ * travel through here from config, stored sessions and pinned models, and
+ * nothing is remapped any more.
  */
 export function aliasID(id: string): string {
-  return ALIASES[id]?.id ?? id
+  return id
 }
 
 export function alias(catalog: Record<string, Provider>): Record<string, Provider> {
   const result: Record<string, Provider> = {}
   for (const [id, provider] of Object.entries(catalog)) {
-    const next = ALIASES[id]
-    if (!next || catalog[next.id]) {
-      result[id] = provider
-      continue
-    }
-    result[next.id] = { ...provider, ...next }
+    if (EXCLUDED.has(id)) continue
+    result[id] = provider
   }
   return result
 }

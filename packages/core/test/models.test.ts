@@ -310,7 +310,7 @@ describe("ModelsDev Service", () => {
     }),
   )
 
-  it.live("get() aliases the pre-rename built-in provider", () =>
+  it.live("get() drops the upstream hosted provider", () =>
     Effect.gen(function* () {
       yield* writeCache(legacyFixture)
       const state = yield* Ref.make(initialState)
@@ -318,35 +318,26 @@ describe("ModelsDev Service", () => {
         state,
         ModelsDev.Service.use((s) => s.get()),
       )
-      expect(Object.keys(result)).toEqual(["queryai"])
-      expect(result["queryai"]).toMatchObject({
-        id: "queryai",
-        name: "QueryAI Zen",
-        env: ["QUERYAI_API_KEY"],
-        api: "https://opencode.ai/zen/v1",
-      })
-      expect(result["queryai"].models).toEqual(legacyFixture["opencode"].models)
+      expect(Object.keys(result)).toEqual([])
     }),
   )
 })
 
 describe("ModelsDev.alias", () => {
-  it.effect("renames the pre-rename ids and their env var", () =>
+  it.effect("drops the upstream hosted provider under its original ids", () =>
     Effect.sync(() => {
       const result = ModelsDev.alias({
         ...legacyFixture,
         "opencode-go": { ...legacyFixture["opencode"], id: "opencode-go", name: "OpenCode Go" },
       })
-      expect(Object.keys(result).sort()).toEqual(["queryai", "queryai-go"])
-      expect(result["queryai-go"]).toMatchObject({ id: "queryai-go", name: "QueryAI Go", env: ["QUERYAI_API_KEY"] })
+      expect(Object.keys(result)).toEqual([])
     }),
   )
 
-  it.effect("leaves a catalog that already ships the current ids untouched", () =>
+  it.effect("drops the renamed ids the catalog used to be shown under", () =>
     Effect.sync(() => {
       const current = { ...legacyFixture["opencode"], id: "queryai", name: "QueryAI Zen", env: ["QUERYAI_API_KEY"] }
-      const catalog = { opencode: legacyFixture["opencode"], queryai: current }
-      expect(ModelsDev.alias(catalog)).toEqual(catalog)
+      expect(ModelsDev.alias({ opencode: legacyFixture["opencode"], queryai: current })).toEqual({})
     }),
   )
 
@@ -356,10 +347,9 @@ describe("ModelsDev.alias", () => {
     }),
   )
 
-  it.effect("aliasID resolves persisted ids forward and leaves others alone", () =>
+  it.effect("aliasID leaves every id alone", () =>
     Effect.sync(() => {
-      expect(ModelsDev.aliasID("opencode")).toBe("queryai")
-      expect(ModelsDev.aliasID("opencode-go")).toBe("queryai-go")
+      expect(ModelsDev.aliasID("opencode")).toBe("opencode")
       expect(ModelsDev.aliasID("queryai")).toBe("queryai")
       expect(ModelsDev.aliasID("anthropic")).toBe("anthropic")
     }),

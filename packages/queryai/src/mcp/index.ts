@@ -38,13 +38,12 @@ import { McpBrowser } from "./browser"
 const DEFAULT_TIMEOUT = 30_000
 const CLIENT_OPTIONS = {
   capabilities: {
-    // https://github.com/anomalyco/opencode/issues/11948
+    // sampling, elicitation and tasks stay off: each needs client-side support
+    // that is not implemented yet, and advertising a capability we cannot serve
+    // makes servers take paths that then fail.
     // sampling: {},
-    // https://github.com/anomalyco/opencode/issues/23066
     // elicitation: {},
-    // https://github.com/anomalyco/opencode/issues/2308
     roots: {},
-    // https://github.com/anomalyco/opencode/issues/28567
     // tasks: {},
   },
 } satisfies ClientOptions

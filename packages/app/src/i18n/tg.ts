@@ -225,13 +225,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API калид",
   "provider.connect.apiKey.placeholder": "API калид",
   "provider.connect.apiKey.required": "API калид лозим аст",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ба шумо дастрасӣ ба маҷмӯи мураттабшудаи моделҳои боэътимоди оптимизатсияшуда барои агентҳои рамзгузориро медиҳад.",
-  "provider.connect.queryaiZen.line2":
-    "Бо як калиди API шумо метавонед ба моделҳое мисли Claude, GPT, Gemini, GLM ва ғайра дастрасӣ пайдо кунед.",
-  "provider.connect.queryaiZen.visit.prefix": "Ташриф",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "барои гирифтани калиди API худ.",
   "provider.connect.oauth.code.visit.prefix": "Ташриф",
   "provider.connect.oauth.code.visit.link": "ин пайванд",
   "provider.connect.oauth.code.visit.suffix":
@@ -1160,5 +1153,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 сессия архив карда мешавад.",
   "workspace.reset.archived.many": "{{count}} сессия архив карда мешаванд.",
   "workspace.reset.note": "Ин фазои кориро барои мувофиқ кардани филиали пешфарз барқарор мекунад.",
-  "dialog.usageExceeded.dontShowAgain": "Дигар нишон надиҳед",
 }

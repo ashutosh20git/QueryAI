@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "សោ API {{provider}}",
   "provider.connect.apiKey.placeholder": "សោ API",
   "provider.connect.apiKey.required": "ត្រូវការសោ API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ផ្តល់ឱ្យអ្នកនូវម៉ូដែលដែលបានជ្រើសរើស និងកែលម្អសម្រាប់ភ្នាក់ងារសរសេរកូដ។",
-  "provider.connect.queryaiZen.line2":
-    "ជាមួយនឹងសោ API តែមួយ អ្នកនឹងទទួលបានការចូលប្រើម៉ូដែលដូចជា Claude, GPT, Gemini, GLM និងច្រើនទៀត។",
-  "provider.connect.queryaiZen.visit.prefix": "ទស្សនា",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "ដើម្បីប្រមូលសោ API របស់អ្នក។",
   "provider.connect.oauth.code.visit.prefix": "ទស្សនា",
   "provider.connect.oauth.code.visit.link": "តំណនេះ។",
   "provider.connect.oauth.code.visit.suffix":
@@ -1147,5 +1140,4 @@ export const dict = {
   "workspace.reset.archived.one": "សម័យ 1 នឹងត្រូវបានទុកក្នុងប័ណ្ណសារ។",
   "workspace.reset.archived.many": "សម័យ {{count}} នឹងត្រូវបានទុកក្នុងប័ណ្ណសារ។",
   "workspace.reset.note": "វានឹងកំណត់កន្លែងធ្វើការឡើងវិញដើម្បីផ្គូផ្គងសាខាលំនាំដើម។",
-  "dialog.usageExceeded.dontShowAgain": "កុំបង្ហាញម្តងទៀត",
 }

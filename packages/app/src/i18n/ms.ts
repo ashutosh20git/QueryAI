@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Kunci API {{provider}}",
   "provider.connect.apiKey.placeholder": "Kunci API",
   "provider.connect.apiKey.required": "Kunci API diperlukan",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen memberi anda akses kepada set model terpilih yang boleh dipercayai dan dioptimumkan untuk ejen pengekodan.",
-  "provider.connect.queryaiZen.line2":
-    "Dengan satu kunci API, anda akan mendapat akses kepada model seperti Claude, GPT, Gemini, GLM dan banyak lagi.",
-  "provider.connect.queryaiZen.visit.prefix": "Layari",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "untuk mendapatkan kunci API anda.",
   "provider.connect.oauth.code.visit.prefix": "Layari",
   "provider.connect.oauth.code.visit.link": "pautan ini",
   "provider.connect.oauth.code.visit.suffix":
@@ -1153,5 +1146,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 sesi akan diarkibkan.",
   "workspace.reset.archived.many": "{{count}} sesi akan diarkibkan.",
   "workspace.reset.note": "Ini akan menetap semula ruang kerja agar sepadan dengan cawangan lalai.",
-  "dialog.usageExceeded.dontShowAgain": "Jangan tunjukkan lagi",
 }

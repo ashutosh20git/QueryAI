@@ -231,13 +231,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API کلید",
   "provider.connect.apiKey.placeholder": "API کلید",
   "provider.connect.apiKey.required": "API کلید دی لوڑ اے",
-  "provider.connect.queryaiZen.line1":
-    "زین تہانوں کوڈنگ ایجنٹاں لئی قابل اعتماد مرضی دے ماڈلاں دے اک کیوریٹڈ سیٹ تک رسائی فراہم کردا اے۔",
-  "provider.connect.queryaiZen.line2":
-    "اک API کلید دے نال تہانوں Claude، GPT، Gemini، GLM تے ہور ماڈلاں تک رسائی ملے گی۔",
-  "provider.connect.queryaiZen.visit.prefix": "ویکھو ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " اپنی API کلید حاصل کرن لئی۔",
   "provider.connect.oauth.code.visit.prefix": "ویکھو ",
   "provider.connect.oauth.code.visit.link": "ایہہ لنک",
   "provider.connect.oauth.code.visit.suffix":
@@ -547,7 +540,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "اگلا",
   "dialog.releaseNotes.action.hideFuture": "ایہہ اگوں نہ وکھاؤ",
   "dialog.releaseNotes.media.alt": "ریلیز پیش نظارہ",
-  "dialog.usageExceeded.dontShowAgain": "دوبارہ نہ وکھاؤ",
 
   "context.breakdown.title": "کانٹیکسٹ دی ونڈ",
   "context.breakdown.note": 'ان پٹ ٹوکناں دی لگ بھگ ونڈ۔ "ہور" وچ ٹول دیاں تعریفاں تے وادھو خرچ شامل نیں۔',

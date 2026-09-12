@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API lykil",
   "provider.connect.apiKey.placeholder": "API lykil",
   "provider.connect.apiKey.required": "API lykilin er kravdur",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen gevur tær atgongd til eitt kuraterað sett av álítandi optimeraðum modellum til kodingaragentar.",
-  "provider.connect.queryaiZen.line2":
-    "Við einum API lykli fært tú atgongd til modellir sum Claude, GPT, Gemini, GLM og fleiri.",
-  "provider.connect.queryaiZen.visit.prefix": "Vitja ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " fyri at savna tín API lykil.",
   "provider.connect.oauth.code.visit.prefix": "Vitja ",
   "provider.connect.oauth.code.visit.link": "hesa leinkjuna",
   "provider.connect.oauth.code.visit.suffix":
@@ -1150,5 +1143,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 setan verður arkiverað.",
   "workspace.reset.archived.many": "{{count}} setur verða arkiveraðar.",
   "workspace.reset.note": "Hetta nullstillar workspace til at passa til forsettu greinina.",
-  "dialog.usageExceeded.dontShowAgain": "Vís ikki aftur",
 }

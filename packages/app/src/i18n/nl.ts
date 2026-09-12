@@ -225,13 +225,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}}-API-sleutel",
   "provider.connect.apiKey.placeholder": "API-sleutel",
   "provider.connect.apiKey.required": "API-sleutel is vereist",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen geeft je toegang tot een samengestelde set betrouwbare, geoptimaliseerde modellen voor codeeragenten.",
-  "provider.connect.queryaiZen.line2":
-    "Met één API-sleutel krijg je toegang tot modellen zoals Claude, GPT, Gemini, GLM en meer.",
-  "provider.connect.queryaiZen.visit.prefix": "Ga naar ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " om je API-sleutel op te halen.",
   "provider.connect.oauth.code.visit.prefix": "Ga naar ",
   "provider.connect.oauth.code.visit.link": "deze link",
   "provider.connect.oauth.code.visit.suffix":
@@ -542,7 +535,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Volgende",
   "dialog.releaseNotes.action.hideFuture": "Laat deze in de toekomst niet zien",
   "dialog.releaseNotes.media.alt": "Releasevoorbeeld",
-  "dialog.usageExceeded.dontShowAgain": "Niet meer weergeven",
 
   "context.breakdown.title": "Contextanalyse",
   "context.breakdown.note":

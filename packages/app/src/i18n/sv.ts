@@ -226,13 +226,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}}-API-nyckel",
   "provider.connect.apiKey.placeholder": "API-nyckel",
   "provider.connect.apiKey.required": "API-nyckel krävs",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ger dig tillgång till en utvald uppsättning pålitliga optimerade modeller för kodningsagenter.",
-  "provider.connect.queryaiZen.line2":
-    "Med en enda API-nyckel får du tillgång till modeller som Claude, GPT, Gemini, GLM och mer.",
-  "provider.connect.queryaiZen.visit.prefix": "Besök ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " för att hämta din API-nyckel.",
   "provider.connect.oauth.code.visit.prefix": "Besök ",
   "provider.connect.oauth.code.visit.link": "denna länk",
   "provider.connect.oauth.code.visit.suffix":
@@ -541,7 +534,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Nästa",
   "dialog.releaseNotes.action.hideFuture": "Visa inte dessa i framtiden",
   "dialog.releaseNotes.media.alt": "Förhandsvisning av version",
-  "dialog.usageExceeded.dontShowAgain": "Visa inte igen",
 
   "context.breakdown.title": "Kontextfördelning",
   "context.breakdown.note":

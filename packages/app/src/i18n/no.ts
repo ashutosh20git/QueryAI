@@ -243,13 +243,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}}-API-nøkkel",
   "provider.connect.apiKey.placeholder": "API-nøkkel",
   "provider.connect.apiKey.required": "API-nøkkel er påkrevd",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen gir deg tilgang til et utvalg av pålitelige optimaliserte modeller for kodeagenter.",
-  "provider.connect.queryaiZen.line2":
-    "Med én enkelt API-nøkkel får du tilgang til modeller som Claude, GPT, Gemini, GLM og flere.",
-  "provider.connect.queryaiZen.visit.prefix": "Besøk ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " for å hente API-nøkkelen din.",
   "provider.connect.oauth.code.visit.prefix": "Besøk ",
   "provider.connect.oauth.code.visit.link": "denne lenken",
   "provider.connect.oauth.code.visit.suffix":
@@ -473,7 +466,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description": "Kjører etter at et nytt arbeidsområde (worktree) er opprettet.",
   "dialog.project.edit.worktree.startup.placeholder": "f.eks. bun install",
 
-  "dialog.usageExceeded.dontShowAgain": "Ikke vis igjen",
 
   "context.breakdown.title": "Kontekstfordeling",
   "context.breakdown.note":

@@ -19,7 +19,8 @@ import { InstallationEvent } from "@queryai/schema/installation-event"
  * Where this build looks for its own updates. Every package name, tap and
  * release feed lives here rather than being spelled out at each call site,
  * because getting one of them wrong means upgrading a user onto somebody else's
- * program - which is exactly what happened while these still said "opencode".
+ * program - which is exactly what happened while these still named the project
+ * this was forked from.
  *
  * A fork must change all of these together, and `QUERYAI_RELEASE_REPO` /
  * `QUERYAI_NPM_PACKAGE` let a private build point elsewhere without a patch.

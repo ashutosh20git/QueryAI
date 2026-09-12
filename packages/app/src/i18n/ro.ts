@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Cheie API {{provider}}",
   "provider.connect.apiKey.placeholder": "Cheie API",
   "provider.connect.apiKey.required": "Cheia API este obligatorie",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen îți oferă acces la un set selectat de modele optimizate și fiabile pentru agenți de programare.",
-  "provider.connect.queryaiZen.line2":
-    "Cu o singură cheie API ai acces la modele precum Claude, GPT, Gemini, GLM și altele.",
-  "provider.connect.queryaiZen.visit.prefix": "Vizitează",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "pentru a obține cheia ta API.",
   "provider.connect.oauth.code.visit.prefix": "Vizitează",
   "provider.connect.oauth.code.visit.link": "acest link",
   "provider.connect.oauth.code.visit.suffix":
@@ -1158,5 +1151,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 sesiune va fi arhivată.",
   "workspace.reset.archived.many": "{{count}} sesiuni vor fi arhivate.",
   "workspace.reset.note": "Aceasta va reseta spațiul de lucru la ramura implicită.",
-  "dialog.usageExceeded.dontShowAgain": "Nu mai afișa",
 }

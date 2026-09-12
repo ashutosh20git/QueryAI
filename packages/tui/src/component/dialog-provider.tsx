@@ -360,37 +360,11 @@ function ApiMethod(props: ApiMethodProps) {
   const sdk = useSDK()
   const sync = useSync()
   const toast = useToast()
-  const { theme } = useTheme()
 
   return (
     <DialogPrompt
       title={props.title}
       placeholder="API key"
-      description={() =>
-        ({
-          queryai: (
-            <box gap={1}>
-              <text fg={theme.textMuted}>
-                QueryAI Zen gives you access to all the best coding models at the cheapest prices with a single API key.
-              </text>
-              <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/zen</span> to get a key
-              </text>
-            </box>
-          ),
-          "queryai-go": (
-            <box gap={1}>
-              <text fg={theme.textMuted}>
-                QueryAI Go is a $10 per month subscription that provides reliable access to popular open coding models
-                with generous usage limits.
-              </text>
-              <text fg={theme.text}>
-                Go to <span style={{ fg: theme.primary }}>https://opencode.ai/go</span> and enable QueryAI Go
-              </text>
-            </box>
-          ),
-        })[props.providerID] ?? undefined
-      }
       onConfirm={async (value) => {
         if (!value) return
         await sdk.client.auth.set({

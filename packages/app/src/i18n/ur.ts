@@ -233,13 +233,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API کلید",
   "provider.connect.apiKey.placeholder": "API کلید",
   "provider.connect.apiKey.required": "API کلید درکار ہے۔",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen آپ کو کوڈنگ ایجنٹوں کے لیے قابل اعتماد اصلاح شدہ ماڈلز کے کیوریٹڈ سیٹ تک رسائی فراہم کرتا ہے۔",
-  "provider.connect.queryaiZen.line2":
-    "ایک واحد API کلید کے ساتھ آپ Claude، GPT، Gemini، GLM اور مزید ماڈلز تک رسائی حاصل کریں گے۔",
-  "provider.connect.queryaiZen.visit.prefix": "ملاحظہ کریں ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " اور اپنی API کلید حاصل کریں۔",
   "provider.connect.oauth.code.visit.prefix": "ملاحظہ کریں ",
   "provider.connect.oauth.code.visit.link": "یہ لنک",
   "provider.connect.oauth.code.visit.suffix":
@@ -549,7 +542,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "اگلا",
   "dialog.releaseNotes.action.hideFuture": "مستقبل میں یہ نہ دکھائیں۔",
   "dialog.releaseNotes.media.alt": "ریلیز کا پیش منظر",
-  "dialog.usageExceeded.dontShowAgain": "دوبارہ نہ دکھائیں",
 
   "context.breakdown.title": "سیاق و سباق کی تفصیل",
   "context.breakdown.note": 'ان پٹ ٹوکنز کی تخمینی تقسیم۔ "دیگر" میں ٹول کی تعریفیں اور اضافی بوجھ شامل ہیں۔',

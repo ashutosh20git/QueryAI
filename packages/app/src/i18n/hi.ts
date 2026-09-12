@@ -232,12 +232,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API कुंजी",
   "provider.connect.apiKey.placeholder": "API कुंजी",
   "provider.connect.apiKey.required": "API कुंजी आवश्यक है",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen आपको कोडिंग एजेंटों के लिए चुने गए विश्वसनीय, अनुकूलित मॉडलों तक पहुँच देता है।",
-  "provider.connect.queryaiZen.line2": "एक API कुंजी से आपको Claude, GPT, Gemini, GLM जैसे कई मॉडलों तक पहुँच मिलेगी।",
-  "provider.connect.queryaiZen.visit.prefix": "यहाँ जाएँ: ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " अपनी API कुंजी प्राप्त करने के लिए।",
   "provider.connect.oauth.code.visit.prefix": "यहाँ जाएँ: ",
   "provider.connect.oauth.code.visit.link": "इस लिंक",
   "provider.connect.oauth.code.visit.suffix":
@@ -546,7 +540,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "अगला",
   "dialog.releaseNotes.action.hideFuture": "भविष्य में इन्हें न दिखाएँ",
   "dialog.releaseNotes.media.alt": "रिलीज़ पूर्वावलोकन",
-  "dialog.usageExceeded.dontShowAgain": "फिर से न दिखाएँ",
 
   "context.breakdown.title": "कॉन्टेक्स्ट ब्रेकडाउन",
   "context.breakdown.note": 'इनपुट टोकन का अनुमानित विभाजन। "अन्य" में टूल की परिभाषाएँ और अतिरिक्त खर्च शामिल हैं।',

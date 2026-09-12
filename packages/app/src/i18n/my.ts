@@ -226,13 +226,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API သော့",
   "provider.connect.apiKey.placeholder": "API သော့",
   "provider.connect.apiKey.required": "API ကီး လိုအပ်သည်။",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen သည် သင့်အား coding အေးဂျင့်များအတွက် ယုံကြည်စိတ်ချရသော အကောင်းဆုံးပုံစံများဖြင့် စုစည်းထားသော မော်ဒယ်များကို ဝင်ရောက်ခွင့်ပေးသည်။",
-  "provider.connect.queryaiZen.line2":
-    "API သော့တစ်ခုတည်းဖြင့် သင်သည် Claude၊ GPT၊ Gemini၊ GLM နှင့် အခြားအရာများကဲ့သို့သော မော်ဒယ်များသို့ ဝင်ရောက်ခွင့်ရရှိမည်ဖြစ်သည်။",
-  "provider.connect.queryaiZen.visit.prefix": "လည်ပတ်ပါ။ \nသင်၏ API သော့ကိုစုဆောင်းရန်",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " သို့သွား၍ သင်၏ API key ကို ရယူပါ။",
   "provider.connect.oauth.code.visit.prefix": "လည်ပတ်ပါ။",
   "provider.connect.oauth.code.visit.link": "ဤလင့်ခ်",
   "provider.connect.oauth.code.visit.suffix":
@@ -1172,5 +1165,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 ဆက်ရှင်ကို သိမ်းဆည်းပါမည်။",
   "workspace.reset.archived.many": "{{count}} ဆက်ရှင်များကို သိမ်းဆည်းထားပါမည်။",
   "workspace.reset.note": "၎င်းသည် မူရင်းဌာနခွဲနှင့် ကိုက်ညီစေရန် အလုပ်ခွင်ကို ပြန်လည်သတ်မှတ်ပါမည်။",
-  "dialog.usageExceeded.dontShowAgain": "ထပ်မပြပါနှင့်",
 }

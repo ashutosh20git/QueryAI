@@ -163,6 +163,6 @@ These are choices, not oversights — listed so they are not rediscovered as bug
 - **Windows code signing.** Needs a certificate. Until then Windows users get a
   SmartScreen warning, which the user README explains.
 - **`publish.yml`.** The upstream workflow. Every job is gated on
-  `github.repository == 'anomalyco/opencode'`. `release.yml` replaces the part
+  `github.repository == 'QueryAI-org/QueryAI'`. `release.yml` replaces the part
   that matters; the rest was left rather than half-migrated.
 - **Homebrew, AUR, Docker, Scoop, desktop app releases.** No taps or images.

@@ -232,13 +232,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Klucz API {{provider}}",
   "provider.connect.apiKey.placeholder": "Klucz API",
   "provider.connect.apiKey.required": "Klucz API jest wymagany",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen daje dostęp do wybranego zestawu niezawodnych, zoptymalizowanych modeli dla agentów programistycznych.",
-  "provider.connect.queryaiZen.line2":
-    "Za pomocą jednego klucza API uzyskasz dostęp do modeli takich jak Claude, GPT, Gemini i GLM, a także wielu innych.",
-  "provider.connect.queryaiZen.visit.prefix": "Odwiedź ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": ", aby odebrać swój klucz API.",
   "provider.connect.oauth.code.visit.prefix": "Odwiedź ",
   "provider.connect.oauth.code.visit.link": "ten link",
   "provider.connect.oauth.code.visit.suffix":
@@ -538,7 +531,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description":
     "Uruchamiany po utworzeniu nowej przestrzeni roboczej (worktree).",
   "dialog.project.edit.worktree.startup.placeholder": "np. bun install",
-  "dialog.usageExceeded.dontShowAgain": "Nie pokazuj ponownie",
 
   "context.breakdown.title": "Podział kontekstu",
   "context.breakdown.note": 'Przybliżony podział tokenów wejściowych. "Inne" obejmuje definicje narzędzi i narzut.',

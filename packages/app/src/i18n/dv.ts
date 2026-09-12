@@ -228,13 +228,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API ކީ އެވެ",
   "provider.connect.apiKey.placeholder": "API ކީ އެވެ",
   "provider.connect.apiKey.required": "API ކީ ބޭނުންވެއެވެ",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen އިން ކޯޑިންގ އޭޖެންޓުންނަށް އިތުބާރު ހުރި އޮޕްޓިމައިޒްޑް މޮޑެލްތަކުގެ ކިއުރެޓެޑް ސެޓަކަށް އެކްސެސް ލިބިގެންދެއެވެ.",
-  "provider.connect.queryaiZen.line2":
-    "އެއް API ކީ އާއެކު Claude، GPT، Gemini، GLM އަދި އެހެނިހެން މޮޑެލްތަކަށް އެކްސެސް ލިބިގެންދާނެއެވެ.",
-  "provider.connect.queryaiZen.visit.prefix": "ޒިޔާރަތްކުރުން ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen އެވެ",
-  "provider.connect.queryaiZen.visit.suffix": " ތިބާގެ API ކީ އެއްކުރުމަށްޓަކައެވެ.",
   "provider.connect.oauth.code.visit.prefix": "ޒިޔާރަތްކުރުން ",
   "provider.connect.oauth.code.visit.link": "މި ލިންކެވެ",
   "provider.connect.oauth.code.visit.suffix":
@@ -1173,5 +1166,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 ސެޝަން އަރުޝީފް ކުރެވޭނެއެވެ.",
   "workspace.reset.archived.many": "{{count}} ސެޝަންތައް އަރުޝީފް ކުރެވޭނެއެވެ.",
   "workspace.reset.note": "މިއީ ޑިފޯލްޓް ބްރާންޗާ އެއްގޮތްވާ ގޮތަށް ވޯކްސްޕޭސް ރީސެޓް ކުރާނެ ކަމެކެވެ.",
-  "dialog.usageExceeded.dontShowAgain": "އަލުން ނުދައްކާ",
 }

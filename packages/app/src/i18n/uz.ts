@@ -226,13 +226,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API kaliti",
   "provider.connect.apiKey.placeholder": "API kaliti",
   "provider.connect.apiKey.required": "API kaliti talab qilinadi",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen sizga kodlash agentlari uchun ishonchli optimallashtirilgan modellar to'plamiga kirish imkonini beradi.",
-  "provider.connect.queryaiZen.line2":
-    "Bitta API kaliti bilan siz Claude, GPT, Gemini, GLM va boshqalar kabi modellarga kirishingiz mumkin.",
-  "provider.connect.queryaiZen.visit.prefix": "Tashrif buyuring ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " API kalitingizni olish uchun.",
   "provider.connect.oauth.code.visit.prefix": "Tashrif buyuring ",
   "provider.connect.oauth.code.visit.link": "bu havola",
   "provider.connect.oauth.code.visit.suffix":
@@ -1167,5 +1160,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 seans arxivlanadi.",
   "workspace.reset.archived.many": "{{count}} seanslari arxivlanadi.",
   "workspace.reset.note": "Bu standart filialga mos keladigan ish maydonini tiklaydi.",
-  "dialog.usageExceeded.dontShowAgain": "Boshqa ko‘rsatma",
 }

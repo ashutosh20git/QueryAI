@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "API kľúč {{provider}}",
   "provider.connect.apiKey.placeholder": "API kľúč",
   "provider.connect.apiKey.required": "API kľúč je povinný",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen vám poskytuje prístup k vybraným spoľahlivým optimalizovaným modelom pre kódovacích agentov.",
-  "provider.connect.queryaiZen.line2":
-    "S jediným API kľúčom získate prístup k modelom ako Claude, GPT, Gemini, GLM a ďalším.",
-  "provider.connect.queryaiZen.visit.prefix": "Navštívte",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "a získajte svoj API kľúč.",
   "provider.connect.oauth.code.visit.prefix": "Navštívte",
   "provider.connect.oauth.code.visit.link": "tento odkaz",
   "provider.connect.oauth.code.visit.suffix":
@@ -1155,5 +1148,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 relácia bude archivovaná.",
   "workspace.reset.archived.many": "{{count}} relácií bude archivovaných.",
   "workspace.reset.note": "Týmto sa pracovný priestor obnoví podľa predvolenej vetvy.",
-  "dialog.usageExceeded.dontShowAgain": "Znova nezobrazovať",
 }

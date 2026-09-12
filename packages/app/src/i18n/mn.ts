@@ -227,13 +227,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API түлхүүр",
   "provider.connect.apiKey.placeholder": "API түлхүүр",
   "provider.connect.apiKey.required": "API түлхүүр шаардлагатай",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen нь танд кодлох агентуудад зориулсан найдвартай оновчтой загваруудын цуглуулгад хандах боломжийг олгоно.",
-  "provider.connect.queryaiZen.line2":
-    "Ганц API товчлуураар та Claude, GPT, Gemini, GLM болон бусад загваруудад хандах боломжтой болно.",
-  "provider.connect.queryaiZen.visit.prefix": "зочилно уу",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "API түлхүүрээ авахын тулд.",
   "provider.connect.oauth.code.visit.prefix": "зочилно уу",
   "provider.connect.oauth.code.visit.link": "энэ холбоос",
   "provider.connect.oauth.code.visit.suffix":
@@ -1164,5 +1157,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 сессийг архивлах болно.",
   "workspace.reset.archived.many": "{{count}} сессийг архивлах болно.",
   "workspace.reset.note": "Энэ нь ажлын талбарыг анхдагч салбартай тааруулахын тулд дахин тохируулах болно.",
-  "dialog.usageExceeded.dontShowAgain": "Дахин бүү харуул",
 }

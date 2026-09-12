@@ -734,7 +734,7 @@ async function runInteractiveRuntime(input: RunRuntimeInput, deps: RunRuntimeDep
 // the in-process server, so no external HTTP server is needed.
 export async function runInteractiveLocalMode(input: RunLocalInput): Promise<void> {
   const sdk = createQueryAIClient({
-    baseUrl: "http://opencode.internal",
+    baseUrl: "http://queryai.internal",
     fetch: input.fetch,
     directory: input.directory,
   })

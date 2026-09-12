@@ -245,13 +245,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Clave API de {{provider}}",
   "provider.connect.apiKey.placeholder": "Clave API",
   "provider.connect.apiKey.required": "La clave API es obligatoria",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen te da acceso a un conjunto curado de modelos fiables optimizados para agentes de programación.",
-  "provider.connect.queryaiZen.line2":
-    "Con una sola clave API obtendrás acceso a modelos como Claude, GPT, Gemini, GLM y más.",
-  "provider.connect.queryaiZen.visit.prefix": "Visita ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " para obtener tu clave API.",
   "provider.connect.oauth.code.visit.prefix": "Visita ",
   "provider.connect.oauth.code.visit.link": "este enlace",
   "provider.connect.oauth.code.visit.suffix":
@@ -570,7 +563,6 @@ export const dict = {
     "Se ejecuta después de crear un nuevo espacio de trabajo (árbol de trabajo).",
   "dialog.project.edit.worktree.startup.placeholder": "p. ej. bun install",
 
-  "dialog.usageExceeded.dontShowAgain": "No volver a mostrar",
 
   "context.breakdown.title": "Desglose del contexto",
   "context.breakdown.note":

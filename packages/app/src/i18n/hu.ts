@@ -228,13 +228,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API kulcs",
   "provider.connect.apiKey.placeholder": "API kulcs",
   "provider.connect.apiKey.required": "API kulcs szükséges",
-  "provider.connect.queryaiZen.line1":
-    "A QueryAI Zen hozzáférést biztosít a kódoló ügynökök számára megbízható, optimalizált modellek válogatott készletéhez.",
-  "provider.connect.queryaiZen.line2":
-    "Egyetlen API kulccsal hozzáférhet olyan modellekhez, mint a Claude, GPT, Gemini, GLM és még sok más.",
-  "provider.connect.queryaiZen.visit.prefix": "Látogatás",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "hogy átvegye a API kulcsát.",
   "provider.connect.oauth.code.visit.prefix": "Látogatás",
   "provider.connect.oauth.code.visit.link": "ezt a linket",
   "provider.connect.oauth.code.visit.suffix":
@@ -1166,5 +1159,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 munkamenet archiválva lesz.",
   "workspace.reset.archived.many": "A {{count}} munkamenetek archiválva lesznek.",
   "workspace.reset.note": "Ezzel visszaállítja a munkaterületet, hogy megfeleljen az alapértelmezett ágnak.",
-  "dialog.usageExceeded.dontShowAgain": "Ne jelenjen meg újra",
 }

@@ -231,13 +231,6 @@ export const dict = {
   "provider.connect.apiKey.label": "مفتاح API لـ {{provider}}",
   "provider.connect.apiKey.placeholder": "مفتاح API",
   "provider.connect.apiKey.required": "مفتاح API مطلوب",
-  "provider.connect.queryaiZen.line1":
-    "يمنحك QueryAI Zen الوصول إلى مجموعة مختارة من النماذج الموثوقة والمحسنة لوكلاء البرمجة.",
-  "provider.connect.queryaiZen.line2":
-    "باستخدام مفتاح API واحد، ستحصل على إمكانية الوصول إلى نماذج مثل Claude و GPT و Gemini و GLM والمزيد.",
-  "provider.connect.queryaiZen.visit.prefix": "قم بزيارة ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " للحصول على مفتاح API الخاص بك.",
   "provider.connect.oauth.code.visit.prefix": "قم بزيارة ",
   "provider.connect.oauth.code.visit.link": "هذا الرابط",
   "provider.connect.oauth.code.visit.suffix":
@@ -533,7 +526,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup": "برنامج نصي لبدء تشغيل مساحة العمل",
   "dialog.project.edit.worktree.startup.description": "يتم تشغيله بعد إنشاء مساحة عمل جديدة (شجرة عمل).",
   "dialog.project.edit.worktree.startup.placeholder": "مثال: bun install",
-  "dialog.usageExceeded.dontShowAgain": "عدم الإظهار مرة أخرى",
 
   "context.breakdown.title": "تفصيل السياق",
   "context.breakdown.note": 'تفصيل تقريبي لرموز الإدخال المميزة. يشمل "أخرى" تعريفات الأدوات والأعباء الإضافية.',

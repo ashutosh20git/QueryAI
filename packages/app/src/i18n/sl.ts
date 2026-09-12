@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Ključ {{provider}} API",
   "provider.connect.apiKey.placeholder": "Ključ API",
   "provider.connect.apiKey.required": "Potreben je ključ API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen vam omogoča dostop do izbranega nabora zanesljivih optimiziranih modelov za agente za kodiranje.",
-  "provider.connect.queryaiZen.line2":
-    "Z enim samim ključem API boste dobili dostop do modelov, kot so Claude, GPT, Gemini, GLM in več.",
-  "provider.connect.queryaiZen.visit.prefix": "Obisk ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " za prevzem ključa API.",
   "provider.connect.oauth.code.visit.prefix": "Obisk ",
   "provider.connect.oauth.code.visit.link": "ta povezava",
   "provider.connect.oauth.code.visit.suffix":
@@ -1159,5 +1152,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 seja bo arhivirana.",
   "workspace.reset.archived.many": "{{count}} seje bodo arhivirane.",
   "workspace.reset.note": "To bo ponastavilo delovni prostor, da bo ustrezal privzeti veji.",
-  "dialog.usageExceeded.dontShowAgain": "Ne prikaži več",
 }

@@ -189,45 +189,6 @@ function describesProvider(provider: ConfigProviderV1.Info): boolean {
  * account. A stored credential is moved onto the current id as we go; an env var
  * is not ours to rewrite, so that one is handed over as an option every run.
  */
-const LEGACY_ZEN_ENV = "OPENCODE_API_KEY"
-const LEGACY_ZEN_ID: Record<string, string> = {
-  queryai: "opencode",
-  "queryai-go": "opencode-go",
-}
-
-function zen(dep: CustomDep): CustomLoader {
-  return Effect.fnUntraced(function* (input: Info) {
-    const env = yield* dep.env()
-    const cfg = yield* dep.config()
-    const legacyID = LEGACY_ZEN_ID[input.id]
-    // Credentialed like every other provider. Upstream also accepted an
-    // anonymous sentinel key that unlocked the zero-cost models without an
-    // account; that path is gone, so the provider only loads against a real
-    // credential and an unauthenticated install simply does not see it.
-    const current =
-      input.env.some((item) => env[item]) ||
-      Boolean(yield* dep.auth(input.id)) ||
-      Boolean(cfg.provider?.[input.id]?.options?.apiKey) ||
-      Boolean(legacyID && cfg.provider?.[legacyID]?.options?.apiKey)
-
-    let legacy: string | undefined
-    if (!current && legacyID) {
-      const stored = yield* dep.auth(legacyID)
-      legacy = env[LEGACY_ZEN_ENV] ?? (stored?.type === "api" ? stored.key : undefined)
-      // The env and auth passes have already run by now, so this run still needs
-      // the key in hand; from the next one on it is an ordinary credential.
-      yield* dep.migrateAuth(legacyID, input.id)
-    }
-
-    if (!current && !legacy) return { autoload: false }
-
-    return {
-      autoload: Object.keys(input.models).length > 0,
-      options: legacy ? { apiKey: legacy } : {},
-    }
-  })
-}
-
 function custom(dep: CustomDep): Record<string, CustomLoader> {
   return {
     anthropic: () =>
@@ -239,8 +200,6 @@ function custom(dep: CustomDep): Record<string, CustomLoader> {
           },
         },
       }),
-    queryai: zen(dep),
-    "queryai-go": zen(dep),
     openai: () =>
       Effect.succeed({
         autoload: false,

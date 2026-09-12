@@ -225,13 +225,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} Tasti API",
   "provider.connect.apiKey.placeholder": "Tasti API",
   "provider.connect.apiKey.required": "Kërkohet çelësi API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ju jep akses në një grup të kuruar modelesh të optimizuara të besueshme për agjentët e kodimit.",
-  "provider.connect.queryaiZen.line2":
-    "Me një çelës të vetëm API do të keni akses në modele të tilla si Claude, GPT, Gemini, GLM dhe më shumë.",
-  "provider.connect.queryaiZen.visit.prefix": "Vizitoni ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " për të mbledhur çelësin tuaj API.",
   "provider.connect.oauth.code.visit.prefix": "Vizitoni ",
   "provider.connect.oauth.code.visit.link": "kjo lidhje",
   "provider.connect.oauth.code.visit.suffix":
@@ -1158,5 +1151,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 sesion do të arkivohet.",
   "workspace.reset.archived.many": "Seancat {{count}} do të arkivohen.",
   "workspace.reset.note": "Kjo do të rivendosë hapësirën e punës që të përputhet me degën e paracaktuar.",
-  "dialog.usageExceeded.dontShowAgain": "Mos e shfaq përsëri",
 }

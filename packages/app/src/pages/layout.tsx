@@ -2238,7 +2238,7 @@ export default function LegacyLayout(props: ParentProps) {
       settingsKeybind={() => command.keybind("settings.open")}
       onOpenSettings={openSettings}
       helpLabel={() => language.t("sidebar.help")}
-      onOpenHelp={() => platform.openExternal("https://opencode.ai/desktop-feedback")}
+      onOpenHelp={() => platform.openExternal("https://github.com/QueryAI-org/QueryAI/issues")}
       renderPanel={() =>
         mobile ? <SidebarPanel project={currentProject} mobile /> : <SidebarPanel project={currentProject} merged />
       }

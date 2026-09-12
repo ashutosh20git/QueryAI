@@ -244,13 +244,6 @@ export const dict = {
   "provider.connect.apiKey.label": "Ключ API {{provider}}",
   "provider.connect.apiKey.placeholder": "Ключ API",
   "provider.connect.apiKey.required": "Требуется ключ API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen даёт вам доступ к отобранным надёжным оптимизированным моделям для агентов программирования.",
-  "provider.connect.queryaiZen.line2":
-    "С одним ключом API вы получите доступ к таким моделям, как Claude, GPT, Gemini, GLM и другие.",
-  "provider.connect.queryaiZen.visit.prefix": "Посетите ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": ", чтобы получить ключ API.",
   "provider.connect.oauth.code.visit.prefix": "Посетите ",
   "provider.connect.oauth.code.visit.link": "эту ссылку",
   "provider.connect.oauth.code.visit.suffix":
@@ -567,7 +560,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description":
     "Запускается после создания нового рабочего пространства (worktree).",
   "dialog.project.edit.worktree.startup.placeholder": "например, bun install",
-  "dialog.usageExceeded.dontShowAgain": "Больше не показывать",
 
   "context.breakdown.title": "Разбивка контекста",
   "context.breakdown.note":

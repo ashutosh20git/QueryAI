@@ -224,11 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API ቁልፍ",
   "provider.connect.apiKey.placeholder": "API ቁልፍ",
   "provider.connect.apiKey.required": "API ቁልፍ ያስፈልጋል",
-  "provider.connect.queryaiZen.line1": "QueryAI ዜን ለኮድ ወኪሎች የተመቻቹ አስተማማኝ ሞዴሎች ስብስብ መዳረሻ ይሰጥዎታል።",
-  "provider.connect.queryaiZen.line2": "በአንድ የAPI ቁልፍ እንደ Claude፣ GPT፣ Gemini፣ GLM እና ሌሎችም ያሉ ሞዴሎችን መድረስ ይችላሉ።",
-  "provider.connect.queryaiZen.visit.prefix": "ጎብኝ ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " የእርስዎን API ቁልፍ ለመሰብሰብ።",
   "provider.connect.oauth.code.visit.prefix": "ጎብኝ ",
   "provider.connect.oauth.code.visit.link": "ይህ ሊንክ",
   "provider.connect.oauth.code.visit.suffix": " መለያዎን ለማገናኘት የፈቀዳ ኮድዎን ለመሰብሰብ እና {{provider}} ሞዴሎችን በQueryAI ውስጥ ይጠቀሙ።",
@@ -1125,5 +1120,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 ክፍለ ጊዜ በማህደር ይቀመጣል።",
   "workspace.reset.archived.many": "{{count}} ክፍለ-ጊዜዎች በማህደር ይቀመጣሉ።",
   "workspace.reset.note": "ይህ workspaceን ከነባሪው ቅርንጫፍ ጋር እንዲመሳሰል ዳግም ያስጀምረዋል።",
-  "dialog.usageExceeded.dontShowAgain": "እንደገና አታሳይ",
 }

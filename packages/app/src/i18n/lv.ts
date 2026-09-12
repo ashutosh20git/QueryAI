@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API atslēga",
   "provider.connect.apiKey.placeholder": "API atslēga",
   "provider.connect.apiKey.required": "Nepieciešama API atslēga",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen nodrošina piekļuvi atlasītiem uzticamiem optimizētiem modeļiem kodēšanas aģentiem.",
-  "provider.connect.queryaiZen.line2":
-    "Ar vienu API atslēgu iegūsiet piekļuvi tādiem modeļiem kā Claude, GPT, Gemini, GLM un citiem.",
-  "provider.connect.queryaiZen.visit.prefix": "Apmeklējiet",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": ", lai saņemtu savu API atslēgu.",
   "provider.connect.oauth.code.visit.prefix": "Apmeklējiet",
   "provider.connect.oauth.code.visit.link": "šo saiti",
   "provider.connect.oauth.code.visit.suffix":
@@ -1158,5 +1151,4 @@ export const dict = {
   "workspace.reset.archived.one": "Tiks arhivēta 1 sesija.",
   "workspace.reset.archived.many": "Tiks arhivētas {{count}} sesijas.",
   "workspace.reset.note": "Darbvieta tiks atiestatīta uz noklusējuma zara stāvokli.",
-  "dialog.usageExceeded.dontShowAgain": "Vairs nerādīt",
 }

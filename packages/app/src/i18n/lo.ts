@@ -224,13 +224,6 @@ export const dict = {
   "provider.connect.apiKey.label": "ລະຫັດ API {{provider}}",
   "provider.connect.apiKey.placeholder": "ລະຫັດ API",
   "provider.connect.apiKey.required": "ຕ້ອງການລະຫັດ API",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen ໃຫ້ທ່ານເຂົ້າເຖິງຊຸດຮູບແບບການປັບແຕ່ງທີ່ໜ້າເຊື່ອຖືໄດ້ສຳລັບຕົວແທນການເຂົ້າລະຫັດ.",
-  "provider.connect.queryaiZen.line2":
-    "ດ້ວຍລະຫັດ API ດຽວເຈົ້າຈະໄດ້ຮັບການເຂົ້າເຖິງຕົວແບບເຊັ່ນ: Claude, GPT, Gemini, GLM ແລະອື່ນໆ.",
-  "provider.connect.queryaiZen.visit.prefix": "ຢ້ຽມຢາມ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "ເພື່ອເກັບກຳລະຫັດ API ຂອງທ່ານ.",
   "provider.connect.oauth.code.visit.prefix": "ຢ້ຽມຢາມ",
   "provider.connect.oauth.code.visit.link": "ລິ້ງນີ້",
   "provider.connect.oauth.code.visit.suffix":
@@ -1144,5 +1137,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 ເຊດຊັນຈະຖືກເກັບໄວ້.",
   "workspace.reset.archived.many": "ເຊດຊັນ {{count}} ຈະຖືກເກັບໄວ້.",
   "workspace.reset.note": "ນີ້ຈະຣີເຊັດພື້ນທີ່ເຮັດວຽກໃຫ້ກົງກັບສາຂາເລີ່ມຕົ້ນ.",
-  "dialog.usageExceeded.dontShowAgain": "ຢ່າສະແດງອີກ",
 }

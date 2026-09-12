@@ -228,13 +228,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API raktas",
   "provider.connect.apiKey.placeholder": "API raktas",
   "provider.connect.apiKey.required": "Reikalingas API raktas",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen suteikia prieigą prie kuruojamo patikimų optimizuotų kodavimo agentų modelių rinkinio.",
-  "provider.connect.queryaiZen.line2":
-    "Su vienu API raktu galėsite pasiekti tokius modelius kaip Claude, GPT, Gemini, GLM ir kt.",
-  "provider.connect.queryaiZen.visit.prefix": "Aplankykite",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": "norėdami pasiimti savo API raktą.",
   "provider.connect.oauth.code.visit.prefix": "Aplankykite",
   "provider.connect.oauth.code.visit.link": "šią nuorodą",
   "provider.connect.oauth.code.visit.suffix":
@@ -1169,5 +1162,4 @@ export const dict = {
   "workspace.reset.archived.one": "1 sesija bus suarchyvuota.",
   "workspace.reset.archived.many": "{{count}} sesijos bus archyvuojamos.",
   "workspace.reset.note": "Tai iš naujo nustatys darbo sritį, kad ji atitiktų numatytąją šaką.",
-  "dialog.usageExceeded.dontShowAgain": "Daugiau nerodyti",
 }

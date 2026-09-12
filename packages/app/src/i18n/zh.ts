@@ -269,11 +269,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}} API 密钥",
   "provider.connect.apiKey.placeholder": "API 密钥",
   "provider.connect.apiKey.required": "API 密钥为必填项",
-  "provider.connect.queryaiZen.line1": "QueryAI Zen 为你提供一组精选的可靠优化模型，用于代码智能体。",
-  "provider.connect.queryaiZen.line2": "只需一个 API 密钥，你就能使用 Claude、GPT、Gemini、GLM 等模型。",
-  "provider.connect.queryaiZen.visit.prefix": "访问 ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " 获取你的 API 密钥。",
   "provider.connect.oauth.code.visit.prefix": "访问 ",
   "provider.connect.oauth.code.visit.link": "此链接",
   "provider.connect.oauth.code.visit.suffix": " 获取授权码，以连接你的账户并在 QueryAI 中使用 {{provider}} 模型。",
@@ -580,7 +575,6 @@ export const dict = {
   "dialog.project.edit.worktree.startup.description": "创建新工作区 (worktree) 后运行。",
   "dialog.project.edit.worktree.startup.placeholder": "例如 bun install",
 
-  "dialog.usageExceeded.dontShowAgain": "不再显示",
 
   "context.breakdown.title": "上下文细分",
   "context.breakdown.note": "输入 token 的大致细分。“其他”包含工具定义和开销。",

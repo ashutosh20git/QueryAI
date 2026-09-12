@@ -132,13 +132,6 @@ export const dict = {
   "provider.connect.apiKey.label": "{{provider}}-API-avain",
   "provider.connect.apiKey.placeholder": "API-avain",
   "provider.connect.apiKey.required": "API-avain vaaditaan",
-  "provider.connect.queryaiZen.line1":
-    "QueryAI Zen antaa sinulle pääsyn kuratoituun joukkoon luotettavia optimoituja malleja koodausagenteille.",
-  "provider.connect.queryaiZen.line2":
-    "Yhdellä API-avaimella pääset käyttämään malleja, kuten Claude, GPT, Gemini, GLM ja paljon muuta.",
-  "provider.connect.queryaiZen.visit.prefix": "Avaa ",
-  "provider.connect.queryaiZen.visit.link": "opencode.ai/zen",
-  "provider.connect.queryaiZen.visit.suffix": " ja hae API-avaimesi.",
   "provider.connect.oauth.code.visit.prefix": "Avaa ",
   "provider.connect.oauth.code.visit.link": "tämä linkki",
   "provider.connect.oauth.code.visit.suffix":
@@ -432,7 +425,6 @@ export const dict = {
   "dialog.releaseNotes.action.next": "Seuraava",
   "dialog.releaseNotes.action.hideFuture": "Älä näytä näitä jatkossa",
   "dialog.releaseNotes.media.alt": "Julkaisun esikatselu",
-  "dialog.usageExceeded.dontShowAgain": "Älä näytä uudelleen",
 
   "context.breakdown.title": "Kontekstin erittely",
   "context.breakdown.note":
